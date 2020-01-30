@@ -1,0 +1,6 @@
+{
+    "mongoURI": "mongodb+srv://jfelty:simplepassword@cluster0-wzspy.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret": "youcansetthistowhateveryouwant"
+}
+// simplepassword
+// pw for project0 mZN7@2*OpmPX
