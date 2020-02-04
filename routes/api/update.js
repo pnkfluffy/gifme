@@ -5,6 +5,9 @@ const config = require('config');
 const auth = require('../../middleware/auth');
 const User = require('../../models/Users');
 
+// @route   PUT api/update
+// @desc    Updates username
+// @access  Private
 router.put('/', auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id);
