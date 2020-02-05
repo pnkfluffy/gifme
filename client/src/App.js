@@ -20,7 +20,6 @@ const deleteToken = () => {
 
 const Check = () => {
   const myToken = localStorage.getItem('myToken');
-  console.log(myToken);
   return <input value={myToken} type="button" onClick={deleteToken}></input>
 };
 
