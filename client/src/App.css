@@ -1,0 +1,112 @@
+body {
+  background-color: lightblue;
+  font-family: 'Comfortaa', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 99vh;
+  margin: 0;
+}
+#header {
+  top: 0;
+  height: 40px;
+  background-color: rgba(0, 0, 0, .1);
+  display: flex;
+  justify-content: space-between;
+  vertical-align: middle;
+}
+#header > div {
+width: 125px;
+  text-align: center;
+}
+#left_logo {
+  background-color: rgba(256, 256, 256);
+}
+#login, #logout {
+  width: 150px;
+  display: flex;
+  background-color: rgba(256, 256, 256);
+  align-items: center;
+  justify-content: center;
+}
+#login > a {
+  background-color: rgba(256, 256, 256, .3);
+  font-size: 15px;
+  margin: 5px;
+  padding: 4px 2px 4px 2px;
+  border-radius: 4px;
+}
+#main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex: 1;
+  margin: 2vw 5vw 2vw 5vw;
+  border-radius: 1vw;
+  background-color: rgba(256, 256, 256, .2);
+}
+.card {
+  background-color: white;
+  border-radius: 5px;
+  margin: 10px;
+  max-width: 500px;
+}
+img {
+  border-radius: 5px 5px 0 0;
+  width: 100%;
+}
+a {
+  text-decoration: none;
+}
+.comments {
+  margin: 5px;
+}
+#footer {
+  background-color: rgba(256, 256, 256, .5);
+  padding: 5px 5px 5px 5px;
+  width: 100%;
+  height: 20px;
+}
+#signin {
+  display: flex;
+  flex: 0 1 500px;
+  height: 300px;
+  border-radius: 10px;
+  flex-direction: column;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(256, 256, 256, 1.0);
+}
+.signin_box {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.username, .password , .email, .password_verify{
+  margin: 5px;
+  height: 30px;
+  width: 100%;
+  border-radius: 5px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 18px;
+  text-align: left;
+  padding: 5px;
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;
+}
+.submit {
+  margin: 5px;
+  height: 40px;
+  width: 100%;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 18px;
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;
+}
+.forgot_pw {
+  text-decoration: none;
+  font-size: 10px;
+}

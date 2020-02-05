@@ -20,6 +20,9 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
+// @route   POST api/auth
+// @desc    Login route
+// @access  Public
 router.post('/', [
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'Password is required').exists()
