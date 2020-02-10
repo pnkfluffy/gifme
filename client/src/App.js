@@ -4,7 +4,7 @@ import Navbar from './components/public/Navbar';
 import Home from './components/public/Home';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
-import Dashboard from './components/private/Dashboard';
+import Dashboard from './components/private/account/Dashboard';
 // import setAuthToken from './utils/setAuthToken';
 
 import Test from './Test';

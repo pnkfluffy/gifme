@@ -53,7 +53,7 @@ const Login = () => {
                         value={email}
                         required/>
                     <input
-                        type="text"
+                        type="password"
                         name="password"
                         maxLength="255"
                         className="password"
