@@ -31,9 +31,15 @@ const Register = () => {
                     }
                 }
                 const body = JSON.stringify(newUser);
-                const res = await axios.post('/api/users', body, config);
-                const myToken = res.data.token;
-                localStorage.setItem('myToken', myToken);
+                axios.post('/api/users', body, config)
+                .then(res=>{
+                    const myToken = res.data.token;
+                    localStorage.setItem('myToken', myToken);
+                    window.location.href = '/';
+                })
+                .catch(err=>{
+                    console.log("error: ", err.response.data);
+                })
             } catch(err) {
                 //  MAKE LEGIBLE
                 console.error(err.response.data);

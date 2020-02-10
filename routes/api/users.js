@@ -7,13 +7,23 @@ const { check, validationResult } = require('express-validator');
 //  imports default.json
 const config = require('config');
 const User = require('../../models/Users');
+const auth = require('../../middleware/auth');
 
 // @route   GET api/users
-// @desc    Ensure token valid
-// @access  Public
-// router.get('/', auth, async (req, res) => {
-
-// });
+// @desc    Returns user information
+// @access  Private
+router.get('/', auth, async (req, res) => {
+    try {
+        const profile = await User.findOne({ user: req.id });
+        if (!profile) {
+            return res.status(400).json({ msg: 'There is no profile for this user' });
+        }
+        res.json(profile);
+    } catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
 
 // @route   POST api/users
 // @desc    Register user

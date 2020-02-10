@@ -13,7 +13,6 @@ const Login = () => {
 
     const onSubmit = async e => {
         e.preventDefault();
-        console.log(formData);
         const loginInfo = {
             email,
             password
@@ -25,10 +24,15 @@ const Login = () => {
                 }
             }
             const body = JSON.stringify(loginInfo);
-            const res = await axios.post('/api/auth', body, config);
-            const myToken = res.data.token;
-            localStorage.setItem('myToken', myToken);
-            console.log(localStorage.myToken);
+            axios.post('/api/auth', body, config)
+            .then(res=>{
+                const myToken = res.data.token;
+                localStorage.setItem('myToken', myToken);
+                window.location.href = '/';
+            })
+            .catch(err=>{
+                console.log("error: ", err.response.data);
+            })
         } catch(err) {
             //  MAKE LEGIBLE
             console.error(err.response.data);

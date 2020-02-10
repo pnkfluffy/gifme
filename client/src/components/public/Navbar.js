@@ -22,7 +22,7 @@ const Navbarlogin = () => {
 			<Link to='/'>
 			<input value="Logout" type="button" className="Logout" onClick={deleteToken}/>
 			</Link>
-			<Link to='/register' className="Profile"> Profile </Link>
+			<Link to='/profile' className="Profile"> Profile </Link>
 		</div>
 		)
 	}
