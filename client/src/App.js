@@ -5,6 +5,7 @@ import Home from './components/public/Home';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Dashboard from './components/private/account/Dashboard';
+import PhotoBooth from './components/private/Capture';
 // import setAuthToken from './utils/setAuthToken';
 
 import Test from './Test';
@@ -21,6 +22,7 @@ const App = () =>
         <Route exact path="/register" component={Register}/>
         <Route exact path="/profile" component={Dashboard}/>
         <Route exact path="/test" component={Test}/>
+        <Route exact path="/photobooth" component={PhotoBooth}/>
       </Switch>
     </section>
   </Router>

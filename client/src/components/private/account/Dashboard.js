@@ -6,14 +6,16 @@ import EditUsername from './EditUsername';
 import EditEmail from './EditEmail';
 
 const Dashboard = () => {
-  const [username, setusername ] = useState('');
+  const [ username, setusername ] = useState('');
   const [ useremail, setuseremail ] = useState('');
+  const [ authError, setAuthError ] = useState(false);
+
   const authtoken = localStorage.getItem('myToken');
   const config = {
     headers: {
         'x-auth-token': authtoken
     }}
-  useEffect(() => {
+
     axios.get('api/auth', config)
     .then(res=>{
       setusername(res.data.name);
@@ -21,10 +23,15 @@ const Dashboard = () => {
       console.log("response: ", res.data);
     })
     .catch(err=>{
+      setAuthError(true);
       console.error("myerror: ", err.response);
     })
-  })
-  return (
+
+  return authError === true ? (
+    <div>
+      auth error
+    </div>
+  ) : (
     <body>
       <h1>Dashboard</h1>
       <div id="main">
