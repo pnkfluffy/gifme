@@ -5,7 +5,7 @@ import Home from './components/public/Home';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Dashboard from './components/private/account/Dashboard';
-import PhotoBooth from './components/private/Capture';
+import PhotoBooth from './components/private/photobooth/Capture';
 // import setAuthToken from './utils/setAuthToken';
 
 import Test from './Test';

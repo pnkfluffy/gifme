@@ -6,6 +6,12 @@ body {
   min-height: 99vh;
   margin: 0;
 }
+
+.webcam_box, #upload_img {
+  display: flex;
+  flex-direction: column;
+}
+
 #header {
   top: 0;
   height: 40px;

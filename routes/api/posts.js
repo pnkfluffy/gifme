@@ -5,13 +5,12 @@ const auth = require('../../middleware/auth');
 
 const User = require('../../models/Users');
 const Post = require('../../models/Post');
-const Profile = require('../../models/Profile');
 
 // @route   POST api/posts
 // @desc    Create a post
 // @access  Private
 router.post('/', [ auth, [
-    check('text', 'Text is required').not().isEmpty()
+    // check('title', 'Title is required').not().isEmpty()
 ]], async (req, res) => {
     const errors = validationResult(req);
     console.log(req.body);
@@ -90,6 +89,8 @@ router.delete('/:id', auth, async (req, res) => {
     }
 });
 
+
+
 // @route   PUT api/posts/like/:id
 // @desc    Like a post
 // @access  Private
@@ -128,10 +129,6 @@ router.put('/unlike/:id', auth, async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
-
-
-
-
 
 // @route   POST api/posts/comment/:id
 // @desc    Comment a post
