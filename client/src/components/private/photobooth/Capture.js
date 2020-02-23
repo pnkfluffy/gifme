@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Webcam from 'react-webcam';
 import Axios from 'axios';
+import FormData from 'form-data';
 
 const videoConstraints = {
     width: 500,
@@ -16,6 +17,7 @@ const PhotoDisplay = () => {
   const capture = React.useCallback(
     () => {
       setImageSrc(webcamRef.current.getScreenshot());
+
     },
     [webcamRef]
   );
@@ -24,26 +26,34 @@ const PhotoDisplay = () => {
   }
   const onSubmit = async e => {
     e.preventDefault();
-    const body = {
-      image: imageSrc
-    }
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'x-auth-token': authtoken
-        }
-      }
-      Axios.post('/api/posts', body, config)
+    // let formData = new FormData;
+    // formData.append('photo', imageSrc);
+    // try {
+    //   const config = {
+    //     headers: {
+    //       'accept': 'application/json',
+    //       'Accept-Language': 'en-US,en;q=0.8',
+    //       'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+    //       // 'x-auth-token': authtoken
+    //     }
+    //   }
+    //   Axios.post('/api/posts', formData, config)
+
+    const body = new FormData();
+
+//  need the right image data type
+
+    body.append('photo', imageSrc);
+    const response = await fetch(`api/posts`, {
+      method: 'POST',
+      body,
+    })
       .then(res=>{
-        console.log("OMG SUCCESS");
+        console.log(res);
       })
       .catch(err=> {
         console.log("error: ", err.response.data);
       })
-    } catch (err) {
-      console.error(err.response.data);
-    }
   }
 
   if (!imageSrc) {
@@ -64,7 +74,11 @@ const PhotoDisplay = () => {
   } else {
     return (
       <div className="photo_box">
-        <form id="upload_img" method="post" onSubmit={e => onSubmit(e)}>
+        <form
+          id="upload_img"
+          method="POST"
+          enctype="multipart/form-data"
+          onSubmit={e => onSubmit(e)}>
           <input
             type="image"
             name="image"
