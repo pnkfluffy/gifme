@@ -7,7 +7,7 @@ const User = require('../../models/Users');
 const Post = require('../../models/Post');
 const uploadPhotos = require('../../middleware/uploadPhotos');
 
-router.post('/', uploadPhotos, (req, res) => {
+router.post('/', auth, uploadPhotos, (req, res) => {
     if (req.file) {
         console.log("WOOHOO!");
         return res.json({
