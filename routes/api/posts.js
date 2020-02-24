@@ -7,13 +7,27 @@ const User = require('../../models/Users');
 const Post = require('../../models/Post');
 const uploadPhotos = require('../../middleware/uploadPhotos');
 
-router.post('/', auth, uploadPhotos, (req, res) => {
+router.post('/', auth, uploadPhotos, async (req, res) => {
     if (req.file) {
-        console.log("WOOHOO!");
+		try {
+		let post = await Post.findOne({ image: req.file.id });
+		if (post) {
+			return res.error({'error': "file duplication"})
+		}
+		post = new Post({
+			user: req.user.id,
+			image: req.file.id
+		});
+		await post.save();
         return res.json({
             success: true,
-            file: req.file
-        });
+			file: req.file,
+			post: post
+		});
+		} catch(err) {
+			console.error(err.message);
+        res.status(500).send('Server error');
+		}
     }
     res.send({ success: false });
 });

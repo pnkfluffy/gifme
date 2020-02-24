@@ -2,7 +2,7 @@ const util = require("util");
 const multer = require("multer");
 const GridFsStorage = require("multer-gridfs-storage");
 const config = require('config');
-const db = 'mongodb+srv://jfelty:simplepassword@cluster0-wzspy.mongodb.net/files';
+const db = config.get('mongoURI')
 
 const storage = new GridFsStorage({
   url: db,

@@ -7,8 +7,8 @@ const PostSchema = new Schema({
         ref: 'users'
     },
     image: {
-        type: String,
-        required: true
+		type: Schema.Types.ObjectId,
+		ref: 'photos'
     },
     likes: [
         {
