@@ -17,5 +17,5 @@ const storage = new GridFsStorage({
 });
 
 const uploadFile = multer({ storage }).single('photo');
-const uploadPhotos = util.promisify(uploadFile);
-module.exports = uploadPhotos;
+const postphotos = util.promisify(uploadFile);
+module.exports = postphotos;

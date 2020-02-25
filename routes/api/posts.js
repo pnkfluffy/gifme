@@ -3,71 +3,42 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 
 const auth = require('../../middleware/auth');
+const postphotos = require('../../middleware/postphotos');
+// const searchphotos = require('../../middleware/searchphotos');
 const User = require('../../models/Users');
 const Post = require('../../models/Post');
-const uploadPhotos = require('../../middleware/uploadPhotos');
 
-router.post('/', auth, uploadPhotos, async (req, res) => {
-    if (req.file) {
-		try {
-		let post = await Post.findOne({ image: req.file.id });
-		if (post) {
-			return res.error({'error': "file duplication"})
-		}
-		post = new Post({
-			user: req.user.id,
-			image: req.file.id
-		});
-		await post.save();
-        return res.json({
-            success: true,
-			file: req.file,
-			post: post
-		});
-		} catch(err) {
-			console.error(err.message);
-        res.status(500).send('Server error');
-		}
-    }
-    res.send({ success: false });
+// @route   POST api/posts/
+// @desc    Post a post
+// @access  Private
+router.post('/', auth, postphotos, async (req, res) => {
+	try {
+	let post = await Post.findOne({ image: req.file.id });
+	if (post) {
+		return res.error({'error': "file duplication"})
+	}
+	post = new Post({
+		user: req.user.id,
+		image: req.file.id
+	});
+	await post.save();
+    return res.json({
+    	success: true,
+		file: req.file,
+		post: post
+	});
+	} catch(err) {
+		console.error(err.message);
+		res.status(500).send('Server error');
+	}
 });
 
-// @route   POST api/posts
-// @desc    Create a post
-// @access  Private
-// router.post('/', [ auth, [
-//     // check('title', 'Title is required').not().isEmpty()
-// ]], upload.single("file") , async (req, res) => {
-//     const errors = validationResult(req);
-//     console.log(req.body);
-//     // if (!errors.isEmpty()) {
-//     //     return res.status(400).json({ errors: errors.array() });
-//     // }
-
-//     // try {
-//     //     const user = await User.findById(req.user.id).select('-password');
-
-//     //     const newPost = new Post({
-//     //         text: req.body.text,
-//     //         name: user.name,
-//     //         picture: "fillerurl.com",
-//     //         user: req.user.id
-//     //     });
-
-//     //     const post = await newPost.save();
-//     //     res.json(post);
-//     // } catch (err) {
-//     //     console.error(err.message);
-//     //     res.status(500).send('Server Error');
-//     // }
-// });
-
-// @route   GET api/posts
+// @route   GET api/posts/all
 // @desc    Get all post
 // @access  Public
-router.get('/', async (req, res) => {
+router.get('/all', async (req, res) => {
     try {
-        const posts = await Post.find().sort({ date: -1 });
+		const posts = await Post.find().sort({ date: -1 });
         res.json(posts);
     } catch (err) {
         console.error(err.message);
@@ -75,22 +46,56 @@ router.get('/', async (req, res) => {
     }
 });
 
+
+const mongoose = require('mongoose');
+const config = require('config');
+const db = config.get('mongoURI');
+let gfs;
+const conn = mongoose.createConnection(db);
+conn.once("open", () => {
+	gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+		bucketName: "photos"
+	});
+});
+
+
+// SPLIT INTO IMAGES API
+
 // @route   GET api/posts/:id
 // @desc    Get posts by ID
-// @access  Private
-router.get('/:id', auth, async (req, res) => {
+// @access  Public
+router.get('/:id', async (req, res) => {
     try {
-        const post = await Post.findById(req.params.id);
-        if (!post) {
-            return res.status(404).json({ msg: 'Post not found' });
-        }
-        res.json(post);
+		const obj_id = new mongoose.Types.ObjectId(req.params.id);
+		const file = gfs.find( obj_id )
+		.toArray((err, files) => {
+			if (!files || files.length === 0) {
+				return res.status(404).json({
+					err: "no file id: " + obj_id
+				});
+			}
+			gfs.openDownloadStream(obj_id).pipe(res);
+		});
+        
     } catch (err) {
         console.error(err.message);
-        //  returns error message if '/:id' doesn't match any post ids
         if (err.kind === 'ObjectId') {
-            return res.status(404).json({ msg: 'Post not found' });
+            return res.status(404).json({ msg: 'Files not found' });
         }
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route   GET api/posts/mine
+// @desc    Get all post
+// @access  Private
+router.get('/mine', auth, async (req, res) => {
+    try {
+		const posts = await Post.find().sort({ date: -1 });
+		const images = gfs.find().sort({ date: -1 });
+        res.json(posts);
+    } catch (err) {
+        console.error(err.message);
         res.status(500).send('Server Error');
     }
 });

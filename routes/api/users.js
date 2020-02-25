@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 //  imports default.json
 const config = require('config');
+const connectDB = require('../../config/db');
 const User = require('../../models/Users');
 const auth = require('../../middleware/auth');
 
