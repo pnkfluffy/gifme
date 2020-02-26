@@ -58,14 +58,15 @@ conn.once("open", () => {
 	});
 });
 
-
 // SPLIT INTO IMAGES API
 
 // @route   GET api/posts/:id
 // @desc    Get posts by ID
 // @access  Public
 router.get('/:id', async (req, res) => {
-    try {
+	console.log(req.params.id);
+	try {
+		res.contentType=('image/png');
 		const obj_id = new mongoose.Types.ObjectId(req.params.id);
 		const file = gfs.find( obj_id )
 		.toArray((err, files) => {
