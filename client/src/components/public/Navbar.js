@@ -1,44 +1,45 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import {Link} from 'react-router-dom';
 
-const Navbarlogin = () => {
-	const hasValidToken = localStorage.getItem('myToken');
-
-	console.log("token: ", hasValidToken);
-	const deleteToken = () => {
-		localStorage.removeItem('myToken');
-		window.location.href = '/';
-	}
-
-	if (!hasValidToken) {
-	return (
-	<div id="login" >
-		<Link to='/login' className="Login"> Log In </Link>
-		<Link to='/register' className="Signup"> Sign Up </Link>
-	</div>
-	)} else {
-		return (
-		<div id="logout" >
-			<Link to='/'>
-			<input value="Logout" type="button" className="Logout" onClick={deleteToken}/>
-			</Link>
-			<Link to='/profile' className="Profile"> Profile </Link>
-		</div>
-		)
-	}
-};
-
-const Navbar = () => {
-return (
-    <div id="header">
-        <div id="left_logo">
-			C
+const Navbar = () =>{
+    return(
+        <div id="header">
+                	<div className="container-l">
+                    	<Link className="navbar_logo" to="/">logo</Link>
+                	</div>
+                	<div className="container-m">
+                	</div>
+                	<div className="container-r">
+                    	<NavbarLogin/>
+                </div>
         </div>
-        <div id="center_logo">
-			<Link to='/'>Camagru</Link>
-		</div>
-		<Navbarlogin/>
-    </div>
-)};
+    );
+}
+
+const NavbarLogin = () => {
+    const V_Token = localStorage.getItem('myToken');
+    
+    const deleteToken = () =>{
+        localStorage.removeItem('myToken');
+        window.location.href = '/';
+    }
+    if(!V_Token) {
+    return (
+        <div>
+            <Link to="/Signup" className="login">Sign up</Link>
+            <Link to="/Login" className="login">Log In</Link>
+           </div>
+    )} else {
+        return (
+            <div>
+                <Link to="/"
+                className="login"
+                onClick={deleteToken}>Log out</Link>
+                <Link to="/Profile"
+                className="login">Profile</Link>
+            </div>
+            )
+        }
+}
 
 export default Navbar;

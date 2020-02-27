@@ -79,5 +79,38 @@ async (req, res) => {
     }
 });
 
+// @route   POST api/users
+// @desc    Update user
+// @access  Private
+router.put('/', auth, async (req, res) => {
+    try {
+      let user = await User.findById(req.user.id);
+    
+      const {name, email, password} = req.body;
+    
+      if (password) {
+      const salt = await bcrypt.genSalt(10);
+      newpwd = await bcrypt.hash(password, salt);
+      } else {newpwd = '';}
+    
+    if (name) {
+      user.name = name;
+    } else if(email) {
+      user.email = email;
+    } else if (password) {
+      user.password = newpwd;
+    }
+    
+      await user.save();
+      res.json(user);
+    
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+    });
+    
+    module.exports = router;
+
 
 module.exports = router;

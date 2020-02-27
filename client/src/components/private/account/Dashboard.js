@@ -1,59 +1,45 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import EditPass from './EditPass';
-import EditUsername from './EditUsername';
-import EditEmail from './EditEmail';
+import React, {useState} from 'react';
+import Error400 from '../../error/NotValidUser(400)';
+import Account from './Account.js';
+import Uploads from './Uploads.js';
 
-const Dashboard = () => {
-  const [ username, setUsername ] = useState('');
-  const [ useremail, setUserEmail ] = useState('');
-  const [ authError, setAuthError ] = useState(false);
+const TabBar = () => {
+    const [ displayName, setDisplay ] = useState('');
+    const V_Token = localStorage.getItem('myToken');
 
-  const authtoken = localStorage.getItem('myToken');
-  const config = {
-    headers: {
-        'x-auth-token': authtoken
-    }}
+    //IMPROVE THIS!!! 
+    const displayAccount = e => {
+        e.preventDefault();
+        setDisplay('Account');
+    }
 
-    axios.get('api/auth', config)
-    .then(res=>{
-      setUsername(res.data.name);
-      setUserEmail(res.data.email);
-      console.log("response: ", res.data);
-    })
-    .catch(err=>{
-      setAuthError(true);
-      console.error("myerror: ", err.response);
-    })
+    const displayUploads = e => {
+        e.preventDefault();
+        setDisplay('Uploads');
+    }
 
-  return authError === true ? (
+    const Display = () => {
+        switch (displayName) {
+            case 'Profile':
+                return <Account/>;
+            case 'Account':
+                return <Account/>;
+            case 'Uploads':
+                return <Uploads/>;
+            default:
+                return <Account/>;
+        }
+    }
+    if(V_Token){
+    return(
     <div>
-      auth error
+        <div className="box_TabBar">
+        <button className="Tabs" onClick={displayAccount}>Account</button>
+        <button className="Tabs" onClick={displayUploads}>Uploads</button>
+        </div>
+        <Display/>
     </div>
-  ) : (
-    <body>
-      <h1>Dashboard</h1>
-      <div id="main">
-          <div className="user_profile">
-            <h2>
-              Username:
-            </h2>
-            <p>{username}</p>
-            <EditUsername/>
-            <h2>
-              Email:
-            </h2>
-            <p>{useremail}</p>
-            <EditEmail/>
-            <br/>
-            <EditPass/>
-          </div>
-      </div>
-      <footer id="footer">
-      </footer>
-    </body>
-    )
+    )} else {return(<Error400/>)}
 }
 
-export default Dashboard;
+export default TabBar;

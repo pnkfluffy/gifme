@@ -47,26 +47,16 @@ const Home = () => {
 	return (
 <body>
 	<div id="main">
-		<article className="card">
-            <img src="http://www.abbeyjfitzgerald.com/wp-content/uploads/2017/02/image-example-01.jpg"/>
-            <div className="comments">
-				<p>user: comment 1</p>
-				<p>user: comment 2</p>
-            </div>
-		</article>
-		<article className="card">
-			<img src="https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"/>
-			<div className="comments">
-				<p>user: comment 1</p>
-				<p>user: comment 2</p>
-			</div>
-		</article>
-		<div>
+		<div className="structure">
+		<div className="pic-container">
 			{images.map(image => (
-				<img src={`${image}`}/>
+				<div className="pic-frame">
+					<img src={`${image}`}/>
+				</div>
 			))}
 		</div>
 		<button onClick={() => setS("hi")}>butt</button>
+		</div>
 	</div>
 	<footer id="footer">
         <wr/>

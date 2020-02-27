@@ -1,0 +1,109 @@
+
+/*                 DASHBOARD                    */
+
+.box_TabBar{
+    height: 50px;
+}
+.Tabs{
+    float: left;
+    height: 50px;
+    width: 50%;
+    font-size: 30px;
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+    text-align: center;
+    background-color: hsl(0, 0%, 83%);
+    border: solid 1px rgb(255, 255, 255, 30%);
+}
+.Tabs:hover{
+    background-color: hsl(0, 0%, 30%);
+}
+
+.Container{
+    float: left;
+    margin-top: 20px;
+    width:49%;
+    border-left: solid 1px grey;    
+}
+
+
+/*                 ACCOUNT                    */
+
+
+.Title{
+    margin-top: 30px;
+    padding-left: 10%;
+    width: 100%;
+    background-color: rgb(255, 255, 255, 70%);
+    border: solid 1px lightgrey;
+    font-size: 70px;
+}
+
+.Content{
+    margin: 30px;
+    margin-left: 25%;
+    padding: 0;
+    font-size: 20px;
+}
+
+h5{
+    margin: 12px;
+    margin-left: -10px;
+    font-size: 17px;
+    }
+
+
+.Change{
+    margin: 30px;
+    margin-left: 25%;
+    padding: 10px;
+    width: 50%;
+    background-color: purple;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 20px;
+    border: solid 0.5px white;
+}
+.Change:hover{
+    background-color: rgb(128, 0, 128, 40%);
+}
+
+.Cont_edit{
+    margin: 350px 0 0 25%;
+    width: 50%;
+}
+
+.edit_form{
+    float: left;
+    width: 100%;
+}
+.edit_button{
+    margin: 4px 0 4px 0;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.edit_sign_button{
+    margin: 10px 20px 20px 20px;
+    margin-left: 25%;
+    padding: 10px;
+    width: 50%;
+    background-color: purple;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 20px;
+    border: solid 0.5px white;
+}
+.edit_sign_button:hover{
+    background-color: rgb(128, 0, 128, 40%);
+}
+.error_message{
+    padding: 3px;
+    color: red;
+    text-align: center;
+    font-size: 12px;
+}

@@ -1,0 +1,102 @@
+/*                 HOME PAGE                     */
+
+body {
+    background-color: rgba(137, 77, 155, 0.5);
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+  }
+  
+  
+  /*                 NAVIGATION BAR (NavBar)                     */
+  
+  .header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 10vw;
+    max-height: 60px;
+    background-color: rgb(255, 255, 255, 80%);
+  }
+
+  .box{height: 10vw; max-height: 60px;}
+  
+  .container-l{
+      float: left;
+      margin: auto;
+      width: 20%;
+  }
+  .navbar_logo{
+    float: left;
+    padding: 6px;
+    font-size: 12px;
+    border-radius: 3px;
+    text-decoration: none;
+    background-color: rgba(0, 0, 0, .3);
+  }
+  .container-r{
+    margin: auto;
+    float: left;
+    width: 60%;
+    text-align: center;
+  }
+  
+  .main{
+    font-size: 20px;
+    text-decoration: none;
+  }
+  
+  .login {
+    float: right;
+    margin: 0px 2.3px 0px 2.3px;
+    padding: 4px;
+    font-size: 12px;
+    border-radius: 3px;
+    text-decoration: none;
+    background-color: rgba(256, 256, 256, .3);
+  }
+  
+  /*                 ERROR                    */
+  
+  
+  @import url('https://fonts.googleapis.com/css?family=Open+Sans:300&display=swap');
+  
+  .errorBox {
+      width: 100%;
+      height: 100vh;
+      background-color: white;
+      text-align: center;
+  }
+  .bigTitle {
+      padding-top:100px;
+      font-size: 140px;
+      font-family:'Open+Sans',;
+      font-weight: 100;
+  }
+  .smallTitle{
+      font-weight: 400;
+      background-color: white;
+      font-size: 17px;
+  }
+  .errorButton{
+      font-size: 20px;
+      font-weight: 300;
+      color: white;
+      background-color: rgb(238, 96, 48);
+      padding: 12px;
+      border-radius: 5px;
+      text-decoration: none;
+  }
+  
+  
+  
+  /*                 FOOTER                    */
+  
+  .footer
+  {
+    position: fixed;
+    bottom: 0;
+    padding-bottom: 4px;
+  }
+  .icon{height: 20px;}
+  .icon:hover{opacity: 0.5;}
