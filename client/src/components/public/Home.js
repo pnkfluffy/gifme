@@ -51,11 +51,11 @@ const Home = () => {
 		<div className="pic-container">
 			{images.map(image => (
 				<div className="pic-frame">
-					<img src={`${image}`}/>
+					<img src={`${image}`} alt="database_image"/>
 				</div>
 			))}
 		</div>
-		<button onClick={() => setS("hi")}>butt</button>
+		<button onClick={() => setS("hi")}>{s}</button>
 		</div>
 	</div>
 	<footer id="footer">

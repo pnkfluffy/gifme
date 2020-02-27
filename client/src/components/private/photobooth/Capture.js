@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Webcam from 'react-webcam';
-import Axios from 'axios';
 import FormData from 'form-data';
 
 const videoConstraints = {
@@ -72,7 +71,7 @@ const PhotoDisplay = () => {
             name="image"
             value={imageSrc}
             src={imageSrc}
-            name="FILLER, REPLACE ME"
+            alt="upload_image"
             required/>
           <button className="btn_badimg" onClick={delete_img}>X</button>
           <input type="submit" className="btn_upload" value="Upload"/>
