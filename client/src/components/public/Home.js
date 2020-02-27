@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// const newImageCards = ({images}) => (
-// 	<div>
-// 		{images.map(image => (
-// 			<img className='image' src={image.data}/>
-// 		))}
-// 	</div>
-// )
-
-
 const Home = () => {
 	const [ s, setS ] = useState();
 
@@ -32,10 +23,18 @@ const Home = () => {
 	useEffect(() => {
 		if (allPosts) {
 		allPosts.map(({ image }) => {
-			axios.get(`/api/posts/${image}`)
+			axios.get(`/api/posts/${image}`, { responseType: 'arraybuffer' })
 			.then(res=>{
+				let newImage = btoa(
+					new Uint8Array(res.data)
+					.reduce((data, byte) => data + String.fromCharCode(byte), '')
+				);
+				const finalImage = `data:image/jpeg;base64,${newImage}`;
 				const oldImages = images;
-				oldImages.push(res.data);
+				// const newImage = Buffer.from(res.data, 'binary').toString('base64');
+				// console.log(newImage);
+				console.log(finalImage);
+				oldImages.push(finalImage);
 				setImages(oldImages);
 				console.log("we right here: ", images);
 			})
@@ -64,11 +63,10 @@ const Home = () => {
 		</article>
 		<div>
 			{images.map(image => (
-				<img src={image}/>
+				<img src={`${image}`}/>
 			))}
 		</div>
 		<button onClick={() => setS("hi")}>butt</button>
-		{/* <newImageCards images={images}/> */}
 	</div>
 	<footer id="footer">
         <wr/>

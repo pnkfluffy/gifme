@@ -74,7 +74,7 @@ router.get('/:id', async (req, res) => {
 				return res.status(404).json({
 					err: "no file id: " + obj_id
 				});
-			}
+            }
 			gfs.openDownloadStream(obj_id).pipe(res);
 		});
         
