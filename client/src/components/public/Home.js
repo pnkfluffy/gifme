@@ -46,24 +46,21 @@ const Home = () => {
 	
 	return (
 <body>
-	<div id="main">
-		<div className="structure">
+	<div className="structure">
 		<div className="pic-container">
 			{images.map(image => (
 				<div className="pic-frame">
-					<img src={`${image}`} alt="database_image"/>
+					<img className="home_images" src={`${image}`} alt="database_image"/>
+					<p>Text goes here</p>
 				</div>
 			))}
 		</div>
 		<button onClick={() => setS("hi")}>{s}</button>
 		</div>
-	</div>
-	<footer id="footer">
-        <wr/>
-        &copy Jack&Jon all rights reserved.
-    </footer>
 </body>
 	)
 }
-
+//	<footer>
+// &copy Jack&Jon all rights reserved.
+// </footer>
 export default Home;

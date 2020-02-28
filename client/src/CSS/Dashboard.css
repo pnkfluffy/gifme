@@ -12,8 +12,8 @@
     font-family: 'Times New Roman', Times, serif;
     color: white;
     text-align: center;
-    background-color: hsl(0, 0%, 83%);
-    border: solid 1px rgb(255, 255, 255, 30%);
+    background-color: hsl(0, 0%, 70%);
+    border: solid 1px rgb(255, 255, 255, 10%);
 }
 .Tabs:hover{
     background-color: hsl(0, 0%, 30%);
@@ -37,6 +37,7 @@
     background-color: rgb(255, 255, 255, 70%);
     border: solid 1px lightgrey;
     font-size: 70px;
+    color: rgb(70, 69, 69);
 }
 
 .Content{
@@ -44,6 +45,7 @@
     margin-left: 25%;
     padding: 0;
     font-size: 20px;
+    color: rgba(255, 255, 255);
 }
 
 h5{

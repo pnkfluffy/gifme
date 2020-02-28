@@ -3,18 +3,21 @@ import {Link} from 'react-router-dom';
 
 const Navbar = () =>{
     return(
-        <div id="header">
-                	<div className="container-l">
-                    	<Link className="navbar_logo" to="/">logo</Link>
-                	</div>
-                	<div className="container-m">
-                	</div>
-                	<div className="container-r">
-                    	<NavbarLogin/>
+        <div>
+            <div className="box"></div>
+            <div className="header">
+                <div className="container">
+                    <Link className="logo" to="/">logo</Link>
                 </div>
+                <div className="container-m"></div>
+                <div className="container">
+                    <NavbarLogin/>
+                </div>
+            </div>
         </div>
     );
 }
+
 
 const NavbarLogin = () => {
     const V_Token = localStorage.getItem('myToken');
