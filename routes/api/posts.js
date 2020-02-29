@@ -46,6 +46,19 @@ router.get('/all', async (req, res) => {
     }
 });
 
+// @route   GET api/posts/mine
+// @desc    Get all post
+// @access  Private
+router.get('/mine', auth, async (req, res) => {
+    try {
+        const posts = await Post.find({ user: req.user.id }).sort({ date: -1 });
+        res.json(posts);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 
 const mongoose = require('mongoose');
 const config = require('config');
@@ -122,19 +135,9 @@ router.get('/meta/:id', async (req, res) => {
     }
 });
 
-// @route   GET api/posts/mine
-// @desc    Get all post
-// @access  Private
-router.get('/mine', auth, async (req, res) => {
-    try {
-		const posts = await Post.find().sort({ date: -1 });
-		const images = gfs.find().sort({ date: -1 });
-        res.json(posts);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
-});
+
+
+
 
 // @route   DELETE api/posts
 // @desc    Delete a post
