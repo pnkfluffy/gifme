@@ -20,8 +20,6 @@ const TabBar = () => {
 
     const Display = () => {
         switch (displayName) {
-            case 'Profile':
-                return <Account/>;
             case 'Account':
                 return <Account/>;
             case 'Uploads':
@@ -34,8 +32,10 @@ const TabBar = () => {
     return(
     <div>
         <div className="box_TabBar">
-        <button className="Tabs" onClick={displayAccount}>Account</button>
-        <button className="Tabs" onClick={displayUploads}>Uploads</button>
+            <div>
+                <button className="Tabs" onClick={displayAccount}>Account</button>
+                <button className="Tabs" onClick={displayUploads}>Uploads</button>
+            </div>
         </div>
         <Display/>
     </div>

@@ -11,7 +11,9 @@ const Signup = () => {
 
    const [formData, setFormData] = useState({
        name:'', email: '', password: '', password2: ''});
-	   const [error, setError] = useState('');
+       const [error, setError] = useState('');
+       const [link, setLink] = useState('');
+
     
        //here we destructure the props of formData,
     //instead of accessing them as formData.name, we just say name
@@ -27,6 +29,9 @@ const Signup = () => {
    const onChange = e => setFormData({...formData, [e.target.name]: e.target.value})
     //onSubmit is called in the form and just checks if passwords match
     //preventDefault() method protects infinit loops
+
+    const onLinkRegistration = e => {setLink([e.target.name])}
+
 
     const onSubmit = async e => {
         e.preventDefault();
@@ -103,14 +108,22 @@ const Signup = () => {
                 Have an account? <Link to='/Login'>Log In</Link>
             </p>
             <div className="links">
-                <img className="google" src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png" alt="Google link" />
+                <img className="google" name="google API" onClick={e => onLinkRegistration(e)} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png" alt="Google link" />
                 <p className="google_text">Sign in with Google account</p>
+                <LinkRegistration name={link}/>
             </div>
         </div>
         </div>
     </div>
     </div>;
 };
+
+const LinkRegistration = ({name}) => {
+    if (name) {
+    return (
+    <div>Event links to {name}</div>
+    )} else {return <div></div>}
+}
 
 const ErrorMessage = ({text}) =>{
 	return (

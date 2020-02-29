@@ -22,6 +22,7 @@ const Account = () => {
       })
     return(
         <div>
+            <div className="account_body">
             <div className="Title">Profile</div>
             <div className="Container">
                 <div className="Content"><h5>Name:</h5> {userName}</div>
@@ -41,6 +42,7 @@ const Account = () => {
                     className="Change">Change Password</button>
             </div>
             <ToSwitch data={trace}/>
+            </div>
         </div>
     )}
  

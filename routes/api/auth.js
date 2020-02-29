@@ -30,30 +30,28 @@ router.post('/', [
 async (req, res) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json(errors.array());
     }
 
     const { email, password } = req.body;
-    
     try {
         //  See if user exists
         let user = await User.findOne({ email });
         if (!user) {
-            res.status(400).json({ errors: [{ msg: 'Could not find an account with that email' }]});
+            res.status(404).send('Invalid credentials');
+            // stop further execution in this callback
+            return;     
         }
 
         //  Compares user password with encrypted server password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            res.status(400).json({ errors: [{ msg: 'Invalid password' }]});
+            res.status(400).send('Invalid credentials');
+            return;
         }
 
         //  Return jsonwebtoken
-        const payload = {
-            user: {
-                id: user.id
-            }
-        };
+        const payload = { user: { id: user.id}};
         jwt.sign(
             payload,
             config.get('jwtSecret'),

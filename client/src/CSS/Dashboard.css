@@ -4,6 +4,7 @@
 .box_TabBar{
     height: 50px;
 }
+
 .Tabs{
     float: left;
     height: 50px;
@@ -15,20 +16,16 @@
     background-color: hsl(0, 0%, 70%);
     border: solid 1px rgb(255, 255, 255, 10%);
 }
+
 .Tabs:hover{
     background-color: hsl(0, 0%, 30%);
 }
 
-.Container{
-    float: left;
-    margin-top: 20px;
-    width:49%;
-    border-left: solid 1px grey;    
-}
-
-
 /*                 ACCOUNT                    */
 
+.account_body{
+    height: 100vh;
+}
 
 .Title{
     margin-top: 30px;
@@ -38,6 +35,13 @@
     border: solid 1px lightgrey;
     font-size: 70px;
     color: rgb(70, 69, 69);
+}
+    
+.Container{
+    float: left;
+    margin-top: 20px;
+    width:49%;
+    border-left: solid 1px grey;    
 }
 
 .Content{
@@ -102,10 +106,4 @@ h5{
 }
 .edit_sign_button:hover{
     background-color: rgb(128, 0, 128, 40%);
-}
-.error_message{
-    padding: 3px;
-    color: red;
-    text-align: center;
-    font-size: 12px;
 }
