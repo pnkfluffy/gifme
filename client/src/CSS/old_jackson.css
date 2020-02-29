@@ -12,17 +12,8 @@ body {
   flex-direction: column;
 }
 
-#header {
-  top: 0;
-  height: 40px;
-  background-color: rgba(0, 0, 0, .1);
-  display: flex;
-  vertical-align: middle;
-}
-#header > div {
-width: 125px;
-  text-align: center;
-}
+
+
 #left_logo {
   background-color: rgba(256, 256, 256);
 }

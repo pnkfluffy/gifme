@@ -4,48 +4,95 @@ body {
     background-color: rgba(137, 77, 155, 0.5);
     padding: 0;
     margin: 0;
-    height: 100vh;
+    height: 100%;
   }
   
   
   /*                 NAVIGATION BAR (NavBar)                     */
   
-  .header {
+  .header_absolute {
     position: fixed;
     top: 0;
     width: 100%;
-    height: 10vw;
     max-height: 60px;
-    background-color: rgb(255, 255, 255, 80%);
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(0, 0, 0, 0, 0);
+  }
+
+  .header_relative {
+    height: 60px;
+    background-color: rgb(112, 93, 128);
+    display: flex;
+    justify-content: flex-end;
   }
 
   .box{height: 10vw; max-height: 60px;}
   
   .container-l{
-      float: left;
-      margin: auto;
-      width: 20%;
+      width: 10vh;
+      max-width: 140px;
   }
+
+  .gifme_logo{
+    transition: transform .2s;
+  }
+  .gifme_logo:hover {
+    transform: scale(1.1);
+  }
+
   .navbar_logo{
     float: left;
     padding: 6px;
     font-size: 12px;
     border-radius: 3px;
     text-decoration: none;
-    background-color: rgba(0, 0, 0, .3);
   }
   .container-r{
-    margin: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 150px;
+    display:flex;
+    justify-content: space-between;
+    text-align: center;
+    margin-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    background-color: rgb(112, 93, 128);
+  }
+  .container-r-relative{
+    margin-top: auto;
+    margin-bottom: auto;
     float: left;
-    width: 60%;
+    width: 150px;
+    display:flex;
+    justify-content: space-between;
     text-align: center;
   }
-  
+  .logout_button {
+    color: rgb(228,142,138);
+  }
+  .signup_button {
+    color: rgb(99, 150, 187);
+  }
+  .login_box{
+    display:flex;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+  .login_button, .profile_button{
+    color: rgb(124,186,231);
+  }
+  .login_button:hover, .profile_button:hover, .logout_button:hover, .signup_button:hover{
+    filter:brightness(110%);
+  }
   .main{
     font-size: 20px;
     text-decoration: none;
   }
   
+
   .login {
     float: right;
     margin: 0px 2.3px 0px 2.3px;

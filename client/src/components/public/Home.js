@@ -19,7 +19,6 @@ const Home = () => {
 	}, [])
 
 	return (
-		<body>
 			<div id="main">
 				<div className="structure">
 					<div className="pic-container">
@@ -35,7 +34,6 @@ const Home = () => {
 				<wr />
 				&copy Jack&Jon all rights reserved.
     </footer>
-		</body>
 	)
 }
 
