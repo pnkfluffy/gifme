@@ -16,7 +16,7 @@ const Home = () => {
 
 	useEffect(() => {
 		getPosts();
-	}, [])
+	}, imageGallery)
 
 	return (
 		<body>
