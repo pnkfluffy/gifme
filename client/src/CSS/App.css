@@ -48,10 +48,6 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-<<<<<<< HEAD
-    height: 50px;
-    background-color: rgba(255, 255, 255, 0.3);
-=======
     max-height: 60px;
     display: flex;
     justify-content: space-between;
@@ -63,19 +59,9 @@ body {
     background-color: rgb(112, 93, 128);
     display: flex;
     justify-content: flex-end;
->>>>>>> bc2203e2eb93846d84508f1aa8a2a09cb23ccfc1
   }
   .box{height: 50px;}
   
-<<<<<<< HEAD
-  .container{
-      float: left;
-      margin-top:15px;
-      width: 20%;
-  }
-  .container-m{
-    margin-top:15px;
-=======
   .container-l{
       width: 10vh;
       max-width: 110px;
@@ -89,7 +75,6 @@ body {
   }
 
   .navbar_logo{
->>>>>>> bc2203e2eb93846d84508f1aa8a2a09cb23ccfc1
     float: left;
     width: 60%;
     text-align: center;
@@ -100,12 +85,6 @@ body {
     font-size: 12px;
     border-radius: 3px;
     text-decoration: none;
-<<<<<<< HEAD
-    color: white;
-    background-color: rgba(0, 0, 0, .3);
-  }
-  
-=======
   }
   .container-r{
     margin-top: auto;
@@ -149,7 +128,6 @@ body {
   .login_button:hover, .profile_button:hover, .logout_button:hover, .signup_button:hover{
     filter:brightness(110%);
   }
->>>>>>> bc2203e2eb93846d84508f1aa8a2a09cb23ccfc1
   .main{
     font-size: 20px;
     text-decoration: none;
