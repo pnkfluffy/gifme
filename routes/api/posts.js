@@ -46,6 +46,19 @@ router.get('/all', async (req, res) => {
     }
 });
 
+// @route   GET api/posts/mine
+// @desc    Get all post
+// @access  Private
+router.get('/mine', auth, async (req, res) => {
+    try {
+        const posts = await Post.find({ user: req.user.id }).sort({ date: -1 });
+        res.json(posts);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
 
 const mongoose = require('mongoose');
 const config = require('config');
@@ -58,15 +71,14 @@ conn.once("open", () => {
 	});
 });
 
-// SPLIT INTO IMAGES API
-
-// @route   GET api/posts/:id
-// @desc    Get posts by ID
+// @route   GET api/posts/image/:id
+// @desc    Get image binary by image ID
 // @access  Public
-router.get('/:id', async (req, res) => {
+router.get('/image/:id', async (req, res) => {
 	console.log(req.params.id);
 	try {
-		res.contentType=('image/png');
+        res.contentType=('image/png');
+        
 		const obj_id = new mongoose.Types.ObjectId(req.params.id);
 		const file = gfs.find( obj_id )
 		.toArray((err, files) => {
@@ -75,8 +87,19 @@ router.get('/:id', async (req, res) => {
 					err: "no file id: " + obj_id
 				});
             }
-			gfs.openDownloadStream(obj_id).pipe(res);
-		});
+            if (err) {
+                throw err;
+                // somehow exit, program crashes here
+            };
+        });
+        
+        gfs.openDownloadStream(obj_id).pipe(res)
+        .on('error', function(error) {
+            console.error(err.message);
+        })
+        .on('finish', function() {
+            console.log('done!')
+        })
         
     } catch (err) {
         console.error(err.message);
@@ -87,19 +110,34 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// @route   GET api/posts/mine
-// @desc    Get all post
-// @access  Private
-router.get('/mine', auth, async (req, res) => {
-    try {
-		const posts = await Post.find().sort({ date: -1 });
-		const images = gfs.find().sort({ date: -1 });
-        res.json(posts);
+// @route   GET api/posts/meta/:id
+// @desc    Get post metadata by image ID
+// @access  Public
+router.get('/meta/:id', async (req, res) => {
+	console.log(req.params.id);
+	try {
+        const post = await Post.findOne({ image: req.params.id });
+        const user = await User.findById(post.user);
+        const postReturn = {
+            user: user.name,
+            likes: post.likes,
+            comments: post.comments
+        }
+        
+        res.json(postReturn);
+        
     } catch (err) {
         console.error(err.message);
+        if (err.kind === 'ObjectId') {
+            return res.status(404).json({ msg: 'Files not found' });
+        }
         res.status(500).send('Server Error');
     }
 });
+
+
+
+
 
 // @route   DELETE api/posts
 // @desc    Delete a post

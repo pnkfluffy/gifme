@@ -1,66 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { fetchAllPosts } from '../../utils/FetchPosts';
 
 const Home = () => {
-	const [ s, setS ] = useState();
+	const [imageGallery, setImageGallery] = useState([]);
 
-
-	const [ images, setImages ] = useState([]);
-	const [ allPosts, setAllPosts ] = useState(() => {
-		axios.get('api/posts/all')
-		.then(res=>{
-			if (!allPosts) {
-				setAllPosts(res.data);
-			}
-			return (res.data);
+	const getPosts = async => {
+		const finalPosts = axios.get('api/posts/all')
+		finalPosts.then(res => {
+			return fetchAllPosts(res.data);
+		}).then(res => {
+			setImageGallery(res);
 		})
-    	.catch(err=>{
-    		console.error("myerror: ", err.response);
-		})
-	});
-
+	}
 
 	useEffect(() => {
-		if (allPosts) {
-		allPosts.map(({ image }) => {
-			axios.get(`/api/posts/${image}`, { responseType: 'arraybuffer' })
-			.then(res=>{
-				let newImage = btoa(
-					new Uint8Array(res.data)
-					.reduce((data, byte) => data + String.fromCharCode(byte), '')
-				);
-				const finalImage = `data:image/jpeg;base64,${newImage}`;
-				const oldImages = images;
-				// const newImage = Buffer.from(res.data, 'binary').toString('base64');
-				// console.log(newImage);
-				console.log(finalImage);
-				oldImages.push(finalImage);
-				setImages(oldImages);
-				console.log("we right here: ", images);
-			})
-			.catch(err=>{
-				console.error("myerror: ", err.response);
-			})
-		})
-	}});
-	
+		getPosts();
+	}, imageGallery)
+
 	return (
-<body>
-	<div className="structure">
-		<div className="pic-container">
-			{images.map(image => (
-				<div className="pic-frame">
-					<img className="home_images" src={`${image}`} alt="database_image"/>
-					<p>Text goes here</p>
+		<body>
+			<div id="main">
+				<div className="structure">
+					<div className="pic-container">
+						{imageGallery.map(singleImg => (
+							<div className="pic-frame">
+								<img src={`${singleImg.image}`} alt="database_image" />
+							</div>
+						))}
+					</div>
 				</div>
-			))}
-		</div>
-		<button onClick={() => setS("hi")}>{s}</button>
-		</div>
-</body>
+			</div>
+		</body>
 	)
 }
-//	<footer>
-// &copy Jack&Jon all rights reserved.
-// </footer>
+
 export default Home;

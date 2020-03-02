@@ -4,6 +4,34 @@
   flex-direction: column;
 }
 
+
+
+#left_logo {
+  background-color: rgba(256, 256, 256);
+}
+#login, #logout {
+  width: 150px;
+  display: flex;
+  background-color: rgba(256, 256, 256);
+  align-items: center;
+  justify-content: center;
+}
+#login > a {
+  background-color: rgba(256, 256, 256, .3);
+  font-size: 15px;
+  margin: 5px;
+  padding: 4px 2px 4px 2px;
+  border-radius: 4px;
+}
+#main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex: 1;
+  margin: 2vw 5vw 2vw 5vw;
+  border-radius: 1vw;
+  background-color: rgba(256, 256, 256, .2);
+}
 .card {
   background-color: white;
   border-radius: 5px;

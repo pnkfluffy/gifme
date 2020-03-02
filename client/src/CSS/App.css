@@ -4,7 +4,7 @@ body {
   background-color: rgba(137, 77, 155, 90%);
   padding: 0;
     margin: 0;
-    height: 100vh;
+    height: 100%;
   }
 
 /*                 HOME PAGE                     */
@@ -44,15 +44,30 @@ body {
   
   /*                 NAVIGATION BAR (NavBar)                     */
   
-  .header {
+  .header_absolute {
     position: fixed;
     top: 0;
     width: 100%;
+<<<<<<< HEAD
     height: 50px;
     background-color: rgba(255, 255, 255, 0.3);
+=======
+    max-height: 60px;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(0, 0, 0, 0, 0);
+  }
+
+  .header_relative {
+    height: 60px;
+    background-color: rgb(112, 93, 128);
+    display: flex;
+    justify-content: flex-end;
+>>>>>>> bc2203e2eb93846d84508f1aa8a2a09cb23ccfc1
   }
   .box{height: 50px;}
   
+<<<<<<< HEAD
   .container{
       float: left;
       margin-top:15px;
@@ -60,6 +75,21 @@ body {
   }
   .container-m{
     margin-top:15px;
+=======
+  .container-l{
+      width: 10vh;
+      max-width: 110px;
+  }
+
+  .gifme_logo{
+    transition: transform .2s;
+  }
+  .gifme_logo:hover {
+    transform: scale(1.1);
+  }
+
+  .navbar_logo{
+>>>>>>> bc2203e2eb93846d84508f1aa8a2a09cb23ccfc1
     float: left;
     width: 60%;
     text-align: center;
@@ -70,15 +100,62 @@ body {
     font-size: 12px;
     border-radius: 3px;
     text-decoration: none;
+<<<<<<< HEAD
     color: white;
     background-color: rgba(0, 0, 0, .3);
   }
   
+=======
+  }
+  .container-r{
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 150px;
+    display:flex;
+    justify-content: space-between;
+    text-align: center;
+    margin-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    background-color: rgb(112, 93, 128);
+  }
+  .container-r-relative{
+    margin-top: auto;
+    margin-bottom: auto;
+    float: left;
+    width: 150px;
+    display:flex;
+    justify-content: space-between;
+    text-align: center;
+  }
+  .logout_button {
+    color: rgb(228,142,138);
+    font-weight: bold;
+  }
+  .signup_button {
+    color: rgb(99, 150, 187);
+    font-weight: bold;
+  }
+  .login_box{
+    display:flex;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+  .login_button, .profile_button{
+    color: rgb(124,186,231);
+    font-weight: bold;
+  }
+  .login_button:hover, .profile_button:hover, .logout_button:hover, .signup_button:hover{
+    filter:brightness(110%);
+  }
+>>>>>>> bc2203e2eb93846d84508f1aa8a2a09cb23ccfc1
   .main{
     font-size: 20px;
     text-decoration: none;
   }
   
+
   .login {
     float: right;
     margin: 0px 2.3px 0px 2.3px;
