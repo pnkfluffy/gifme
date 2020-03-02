@@ -17,7 +17,7 @@ router.get('/', auth, async (req, res) => {
     try {
         const profile = await User.findOne({ user: req.id });
         if (!profile) {
-            return res.status(400).json({ msg: 'There is no profile for this user' });
+            return res.status(400).send('There is no profile for this user');
         }
         res.json(profile);
     } catch(err) {
@@ -45,24 +45,17 @@ async (req, res) => {
     try {
         //  See if user exists
         let user = await User.findOne({ email });
-        if (user) {
-            res.status(400).json({ errors: [{ msg: 'User already exists' }]});
-        }
-        user = new User({
-            name,
-            email,
-            password
-        });
+        if (user) {res.status(400).send('User already exists');}
+
+        user = new User({name, email, password});
+
         //  Encrypt password using bcrypt
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
         await user.save();
         //  Return jsonwebtoken
-        const payload = {
-            user: {
-                id: user.id
-            }
-        };
+
+        const payload = {user: { id: user.id } };
         jwt.sign(
             payload,
             config.get('jwtSecret'),
@@ -85,6 +78,7 @@ async (req, res) => {
 router.put('/', auth, async (req, res) => {
     try {
       let user = await User.findById(req.user.id);
+      if (user) {res.status(400).send('email already in use');}
     
       const {name, email, password} = req.body;
     
@@ -104,13 +98,7 @@ router.put('/', auth, async (req, res) => {
       await user.save();
       res.json(user);
     
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
+    } catch (err) {res.status(500).send('Server Error');}
     });
-    
-    module.exports = router;
-
 
 module.exports = router;

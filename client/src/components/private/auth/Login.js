@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ErrorMessage from '../../../utils/errorMessage';
+import LinkRegistration from '../../../utils/linkRegistration';
+
 import '../../../CSS/Signup.css';
 
 const Login = () => {
@@ -33,7 +35,9 @@ const Login = () => {
                 window.location.href = '/';
             })
         } catch (err) {
-        //    const error = await err.response.data;
+    //    const error = await err.response.data;
+    //    const errormsg = await err.response.data;
+    //        console.log('array:', errormsg[0]);
             console.log(err.response.data);
 			setError(err.response.data.toString());
 		}
@@ -43,6 +47,9 @@ const Login = () => {
         <div className="container-form">
         <div className="form">
             <form onSubmit={e => onSubmit(e)} className="form-box">
+
+            <ErrorMessage text={error}/>
+
                 <input name="email"
                 type="text"
                 value={email}
@@ -58,8 +65,6 @@ const Login = () => {
                 placeholder="Your
                 password"
                 className="input"/>
-
-				<ErrorMessage text={error}/>
 
                 <input
                 type="submit"
@@ -79,12 +84,5 @@ const Login = () => {
     </div>
     </div>;
 };
-
-const LinkRegistration = ({name}) => {
-    if (name) {
-    return (
-    <div>Event links to {name}</div>
-    )} else {return <div></div>}
-}
 
 export default Login;

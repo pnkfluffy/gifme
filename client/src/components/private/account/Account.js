@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
+import ErrorMessage from '../../../utils/errorMessage';
 
 const Account = () => {
     const [userName, setUserName] = useState('');
@@ -18,8 +19,8 @@ const Account = () => {
         setUserEmail(res.data.email);
     })
     .catch(err=>{
-        console.error("myerror: ", err.response);
-      })
+        window.location.href = '/profile';
+    })
     return(
         <div>
             <div className="account_body">
@@ -55,7 +56,7 @@ const ToSwitch = ({data}) =>{
     
     const V_Token = localStorage.getItem('myToken');
 
-    const onChange = e => setNewData({...newData, [e.target.name]: e.target.value})
+    const onChange = e => {setNewData({...newData, [e.target.name]: e.target.value})}
     
     const onSubmit = async e => {
     e.preventDefault();
@@ -73,7 +74,7 @@ const ToSwitch = ({data}) =>{
        await axios.put('/api/users', body, config)
        window.location.href = '/Profile';
 
-   } catch (err) {console.error('my error:', err.response);}
+   } catch (err) {setError(err.response.data.toString());}
    }
 }
 
@@ -82,6 +83,8 @@ switch(data.toString()){
         return (
         <div>
             <div className="Cont_edit">
+            <ErrorMessage text={error}/>
+
             <form
             onSubmit={e => onSubmit(e)}
             className="edit_form">
@@ -101,19 +104,19 @@ switch(data.toString()){
             required="required"
             className="edit_button"/>
 
-            <ErrorMessage text={error}/>
-
             <button type="submit"
             className="edit_sign_button">Change password</button>
             </form>
 
             </div>
-
         </div>);
     case 'name':
         return (
             <div>
+
                 <div className="Cont_edit">
+                <ErrorMessage text={error}/>
+
                 <form
                 onSubmit={e => onSubmit(e)} 
                 className="edit_form">
@@ -125,6 +128,7 @@ switch(data.toString()){
                 required="required"
                 className="edit_button"/>
 
+
                 <button type="submit"
                 className="edit_sign_button">Edit name</button>
                 </form>
@@ -134,6 +138,8 @@ switch(data.toString()){
         return (
             <div>
                 <div className="Cont_edit">
+                <ErrorMessage text={error}/>
+
                 <form 
                 onSubmit={e => onSubmit(e)}
                 className="edit_form">
@@ -144,25 +150,15 @@ switch(data.toString()){
                 placeholder="New email"
                 required="required"
                 className="edit_button"/>
-
+                
                 <button type="submit"
                 className="edit_sign_button">Change email</button>
                 </form>
                 </div>
-                <ErrorMessage text={error}/>
-
             </div>);
     default:
         return <div></div>;
     }
 }
-
-const ErrorMessage = ({text}) =>{
-        return (
-            <div>
-                <div className="error_message">{text}</div>
-            </div>
-            );
-    }
 
  export default Account;
