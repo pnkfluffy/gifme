@@ -2,20 +2,43 @@
 /*                 HOME PAGE                     */
 
 .structure{
-    padding: 0 10% 0 10%;
+	padding: 0 5% 0 5%;
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: center;
 }
-.pic-container{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+.image_card{
+	background-color: rgba(0, 0, 0, 0.1);
+	display: flex;
+	border-radius: 10px;
+	width: 200px;
+    height: 250px;
+	flex-direction: column;
+	justify-content: center;
+	margin: 2vh;
+}
   
-  .pict-frame{
-    width: 35vw;
-    height: 25vw;
-    max-width: 350px;
-    max-height: 280px;
-    margin: 3px;
-    font-size: 1.5vw;
-    text-align: center;
-  }
+.pic_frame{
+	width: 200px;
+	height: 200px;
+}
+
+.image_card_name{
+	height: 30px;
+	margin-left: 10px;
+}
+
+/* PARAGRAPHS HAVE BAD MARGINS USE ANOTHER FORM OF TEXT */
+
+.image_card_comments{
+	margin-left: 5px;
+}
+
+.image_card_comment_text{
+	margin: 0, 0, 0, 0;
+}
+
+.image_card_name_text{
+	font-size: 12px;
+}
