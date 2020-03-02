@@ -11,13 +11,16 @@ const Home = () => {
 		finalPosts.then(res => {
 			return fetchAllPosts(res.data);
 		}).then(res => {
+			console.log(res);
 			setImageGallery(res);
+		}).catch(err => {
+			console.error(err);
 		})
 	}
 
 	useEffect(() => {
 		getPosts();
-	}, imageGallery)
+	}, [])
 
 	return (
 		<body>

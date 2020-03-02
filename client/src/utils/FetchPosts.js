@@ -16,6 +16,7 @@ const fetchPost = async (imageID) => {
 	return Promise.all([arrayBuffer, metaData])
 		.then(function ([arrayBuffer, metaData]) {
 			return ({
+				imageID: metaData.data.imageID,
 				image: binaryToB64(arrayBuffer.data),
 				user: metaData.data.user,
 				likes: metaData.data.likes,

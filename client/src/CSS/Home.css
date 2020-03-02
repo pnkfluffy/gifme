@@ -25,17 +25,16 @@
 }
 
 .image_card_name{
-	height: 30px;
+	height: 18px;
 	margin-left: 10px;
 }
-
-/* PARAGRAPHS HAVE BAD MARGINS USE ANOTHER FORM OF TEXT */
 
 .image_card_comments{
 	margin-left: 5px;
 }
 
 .image_card_comment_text{
+	font-size: 12px;
 	margin: 0, 0, 0, 0;
 }
 

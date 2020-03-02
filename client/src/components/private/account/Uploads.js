@@ -17,12 +17,14 @@ const Uploads = () => {
 			return fetchAllPosts(res.data);
 		}).then(res => {
 			setImageGallery(res);
+		}).catch(err => {
+			console.error(err);
 		})
 	}
 
 	useEffect(() => {
 		getPosts();
-    }, [])
+	}, [])
     
     return (
 		<body>
