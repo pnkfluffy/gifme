@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
+import ErrorMessage from '../../../utils/errorMessage';
+import LinkRegistration from '../../../utils/linkRegistration';
 import axios from 'axios';
 
 const Signup = () => {
@@ -58,9 +60,7 @@ const Signup = () => {
 					window.location.href = '/';
 				})
                 //this shows the returned value either token or error message
-            } catch (err) {
-                console.error('myerror:', err.response);
-            }
+            } catch (err) {setError(err.response.data.toString());}
         }
     }
 
@@ -69,6 +69,9 @@ const Signup = () => {
         <div className="container-form">
         <div className="form">
             <form onSubmit={e => onSubmit(e)} className="form-box">
+
+            <ErrorMessage text={error}/>
+
                 <input name="name"
                 type="text"
                 value={name}
@@ -103,7 +106,6 @@ const Signup = () => {
                 value="Sign up"
                 className="sign-bottom"/>
             </form>
-            <ErrorMessage text={error}/>
             <p>
                 Have an account? <Link to='/Login'>Log In</Link>
             </p>
@@ -117,20 +119,5 @@ const Signup = () => {
     </div>
     </div>;
 };
-
-const LinkRegistration = ({name}) => {
-    if (name) {
-    return (
-    <div>Event links to {name}</div>
-    )} else {return <div></div>}
-}
-
-const ErrorMessage = ({text}) =>{
-	return (
-		<div>
-			<div className="error_message">{text}</div>
-		</div>
-		);
-}
 
 export default Signup;

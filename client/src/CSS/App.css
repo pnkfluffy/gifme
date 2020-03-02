@@ -177,10 +177,11 @@ body {
   }
 
   .error_message{
+    background-color: rgb(231, 31, 24);
     padding: 3px;
     color: white;
     text-align: center;
-    font-size: 12px;
+    font-size: 13px;
 }
 
   /*                 FOOTER                    */
