@@ -23,16 +23,13 @@ const Navbar = () =>{
                             <img src={logo3} className="gifme_logo" alt="logo"/>
                         </Link>
                 	</div>
-                	<div className="container-m">
-                	</div>
+                	<div className="container-m"></div>
                 	<div className="container-r">
                     	<NavbarLogin/>
-                </div>
+                    </div>
             </div>
-        </div>
         <div className="header_relative">
             <div className="container-r-relative">
-
             </div>
         </div>
         </div>
