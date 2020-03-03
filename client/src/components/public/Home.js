@@ -6,6 +6,8 @@ import ImageCard from './ImageCard';
 const Home = () => {
 	const [imageGallery, setImageGallery] = useState([]);
 
+//	IF LOGGED IN fetchAllPostsAuth();
+
 	const getPosts = async => {
 		const finalPosts = axios.get('api/posts/all')
 		finalPosts.then(res => {
