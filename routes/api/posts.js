@@ -117,16 +117,11 @@ router.get("/meta/:id", async (req, res) => {
   try {
     const post = await Post.findOne({ image: req.params.id });
     const user = await User.findById(post.user);
-    // let liked = false;
-    // if (post.likes.filter(like => like.user.toString() === req.user.id).length > 0) {
-    //     liked = true;
-    //   }
     const postReturn = {
       imageID: req.params.id,
       user: user.name,
       likes: post.likes,
       comments: post.comments,
-    //   liked
     };
 
     res.json(postReturn);
@@ -165,6 +160,7 @@ router.delete("/:id", auth, async (req, res) => {
 // @desc    Like a post
 // @access  Private
 router.put("/like/:id", auth, async (req, res) => {
+  console.log(req);
   try {
     const post = await Post.findOne({ image: req.params.id });
     if (

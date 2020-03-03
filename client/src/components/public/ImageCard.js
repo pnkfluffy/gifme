@@ -1,13 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const Likes = (likeInfo) => {
-  const likePost = e => {
+  const [ hasLiked, setHasLiked ] = useState(null);
+  
+  const myUserID = localStorage.getItem('myGifmeUserID');
+  const authToken = localStorage.getItem('myToken');
 
+//WORKING ON LIKEPOSTS, IN API REMOVE AUTH AND VIEW REQ
+//NOT READING AUTH OR ID FROM PUT REQUEST :( ???
+
+  const likePost = async e => {
+    const config = {
+      headers:{
+          'x-auth-token': authToken,
+      }}
+      console.log(likeInfo);
+    const imageID = likeInfo.imageID.toString();
+    axios.put(`api/posts/like/${imageID}`, config)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err.response);
+    })
+  }
+  const unLikePost = e => {
+
+  }
+
+  useEffect(() => {
+    if (likeInfo.likes) {
+      setHasLiked(likeInfo.likes.find(like => like.user = myUserID));
+    }
+  }, [])
+  
+  if (hasLiked) {
+    return (
+      <div className="image_card_like" onClick={e => unLikePost(e)}>
+        &#9829;
+      </div>
+    )
   }
   return (
     <div className="image_card_like" onClick={e => likePost(e)}>
-      {likeInfo.liked ? '\u2665' : '\u2661'}
+      &#9825;
     </div>
   )
 }
@@ -16,7 +53,6 @@ const CommentsBox = (imageInfo) => {
   const [isCommenting, setIsCommenting] = useState(null);
   const [comment, setComment] = useState("");
 
-  console.log("imageinfo", imageInfo);
   const seeCommentBox = e => {
     setIsCommenting(true);
   };
@@ -43,7 +79,6 @@ const CommentsBox = (imageInfo) => {
         console.log("comment posted:", res.data);
         setIsCommenting(false);
         console.log(res.data);
-      //setComment(res.data[0]);
     })
     .catch(err => {
       console.error("myerror: ", err.response);
@@ -91,7 +126,7 @@ const ImageCard = image => {
         />
       </div>
       <div className="image_card_comment_like">
-        <Likes liked={image.liked} imageID={image.imageID}/>
+        <Likes likes={image.likes} imageID={image.imageID}/>
         <CommentsBox comments={image.comments} imageID={image.imageID}/>
       </div>
     </div>
