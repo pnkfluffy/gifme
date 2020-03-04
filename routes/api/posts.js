@@ -160,7 +160,6 @@ router.delete("/:id", auth, async (req, res) => {
 // @desc    Like a post
 // @access  Private
 router.put("/like/:id", auth, async (req, res) => {
-  console.log(req);
   try {
     const post = await Post.findOne({ image: req.params.id });
     if (
@@ -193,7 +192,6 @@ router.put("/unlike/:id", auth, async (req, res) => {
     const removeIndex = post.likes
       .map(like => like.user.toString())
       .indexOf(req.user.id);
-    console.log(removeIndex);
     post.likes.splice(removeIndex, 1);
     await post.save();
     res.json(post.likes);

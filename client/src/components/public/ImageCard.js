@@ -7,26 +7,42 @@ const Likes = (likeInfo) => {
   const myUserID = localStorage.getItem('myGifmeUserID');
   const authToken = localStorage.getItem('myToken');
 
-//WORKING ON LIKEPOSTS, IN API REMOVE AUTH AND VIEW REQ
-//NOT READING AUTH OR ID FROM PUT REQUEST :( ???
-
   const likePost = async e => {
-    const config = {
-      headers:{
-          'x-auth-token': authToken,
-      }}
-      console.log(likeInfo);
-    const imageID = likeInfo.imageID.toString();
-    axios.put(`api/posts/like/${imageID}`, config)
-    .then(res => {
-      console.log(res);
+    fetch(`api/posts/like/${likeInfo.imageID}`, {
+      method: 'PUT',
+      headers: {
+        'x-auth-token': authToken
+      }
     })
-    .catch(err => {
-      console.log(err.response);
+    .then( res => {
+      //  forward the user to signup if not authenticated
+      //  CHANGE TO POP UP SAYING ONLY LOGGED IN USERS CAN
+      //  LIKE OR COMMENT ON POSTS
+      if (res.status === 401) {
+        window.location.href = '/signup';
+      }
+      setHasLiked(true);
+    })
+    .catch( err => {
+      console.error("stat", err.status)
     })
   }
   const unLikePost = e => {
-
+    fetch(`api/posts/unlike/${likeInfo.imageID}`, {
+      method: 'PUT',
+      headers: {
+        'x-auth-token': authToken
+      }
+    })
+    .then( res => {
+      if (res.status === 401) {
+        window.location.href = '/login';
+      }
+      setHasLiked(false);
+    })
+    .catch( err => {
+      console.log(err.response)
+    })
   }
 
   useEffect(() => {
@@ -48,6 +64,8 @@ const Likes = (likeInfo) => {
     </div>
   )
 }
+
+
 
 const CommentsBox = (imageInfo) => {
   const [isCommenting, setIsCommenting] = useState(null);
@@ -112,7 +130,12 @@ const CommentsBox = (imageInfo) => {
   );
 };
 
-const ImageCard = image => {
+const ImageOverlay = (image) => {
+
+}
+
+const ImageCard = (image) => {
+
   return (
     <div className="image_card">
       <div className="image_card_name">

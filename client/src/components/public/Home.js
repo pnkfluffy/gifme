@@ -31,7 +31,7 @@ const Home = () => {
 			</div>
 			<footer id="footer">
 				<wr />
-				&copy Jack&Jon all rights reserved.
+				&#169; Jack&Jon all rights reserved.
     </footer>
 		</body>
 	)

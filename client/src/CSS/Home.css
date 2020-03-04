@@ -54,3 +54,13 @@
 .image_card_name_text{
 	font-size: 12px;
 }
+
+.overlay{
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: fixed;
+	z-index: 50;
+	background-color: rgba(0, 0, 0, 0.1);
+}
