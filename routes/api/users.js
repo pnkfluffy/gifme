@@ -6,9 +6,10 @@ const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 //  imports default.json
 const config = require('config');
-const connectDB = require('../../config/db');
 const User = require('../../models/Users');
 const auth = require('../../middleware/auth');
+const {sendEmail} = require('../../middleware/email');
+
 
 // @route   GET api/users
 // @desc    Returns user information
@@ -45,30 +46,38 @@ async (req, res) => {
     try {
         //  See if user exists
         let user = await User.findOne({ email });
-        if (user) {res.status(400).send('User already exists');}
+        if (user) {
+          res.status(400).send('Email already in use');
+          return;
+        }
 
-        user = new User({name, email, password});
+        user = new User({name, email, password, confirmed: false});
 
         //  Encrypt password using bcrypt
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
-        await user.save();
-        //  Return jsonwebtoken
 
         const payload = {user: { id: user.id } };
+
+        //sends email verification and stores emailToken
+
         jwt.sign(
-            payload,
-            config.get('jwtSecret'),
-            { expiresIn: 360000 },
-            (err, token) => {
-              if (err) throw err;
-              res.json({ token });
-            });
-        //  Sends response outward
+          payload,
+          config.get('emailSecret'),
+          { expiresIn: '7d' },
+          (err, etoken) => {
+          const url = `http://localhost:3000/confirmation`;
+          //sends email with confirmation link
+          sendEmail(email, url, "verify account");
+            if (err) throw err;
+            res.json({ etoken });
+          });
+
+        await user.save();
     
     } catch(err) {
         console.error(err.message);
-        res.status(500).send('Server error');
+        res.status(500).send(err.message);
     }
 });
 

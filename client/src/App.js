@@ -5,8 +5,10 @@ import Footer from './components/public/Footer';
 import Home from './components/public/Home';
 import Signup from './components/private/auth/Signup';
 import Login from './components/private/auth/Login';
+import Confirmation from './components/private/auth/Confirmation';
 import Account from './components/private/account/Dashboard';
 import PhotoBooth from './components/private/photobooth/Capture';
+
 
 import './CSS/old_jackson.css';
 import './CSS/App.css';
@@ -21,6 +23,7 @@ const App =() => (
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/profile" component={Account} />
+            <Route exact path="/confirmation" component={Confirmation} />
             <Route exact path="/photobooth" component={PhotoBooth}/>
           </Switch>
           <Footer/>

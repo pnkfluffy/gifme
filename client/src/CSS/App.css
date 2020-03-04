@@ -183,6 +183,17 @@ body {
     text-align: center;
     font-size: 13px;
 }
+  /*                 EMAIL CONFIRMATION PAGE                    */
+  .confirm_box{
+    height: 100px;
+    background-color: teal;
+    text-align: center;
+  }
+  .confirm_button{
+    text-decoration: none;
+    color: white;
+  }
+
 
   /*                 FOOTER                    */
   

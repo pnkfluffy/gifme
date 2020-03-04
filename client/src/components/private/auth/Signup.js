@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import ErrorMessage from '../../../utils/errorMessage';
+import PopUpMessage from '../../../utils/popUpMessage';
 import LinkRegistration from '../../../utils/linkRegistration';
 import axios from 'axios';
 
@@ -14,6 +15,7 @@ const Signup = () => {
    const [formData, setFormData] = useState({
        name:'', email: '', password: '', password2: ''});
        const [error, setError] = useState('');
+       const [popMessage, setPopMessage] = useState('');
        const [link, setLink] = useState('');
 
     
@@ -47,7 +49,6 @@ const Signup = () => {
                 const config = {
                     headers:{
 						'Content-Type': 'application/json',
-						
                     }
                 }
                 //this sets what to send as the 'body' of the request
@@ -55,11 +56,11 @@ const Signup = () => {
 				//here we set the type of request, where to send it and the data 
 				await axios.post('/api/users', body, config)
 				.then(res=>{
-					const myToken = res.data.token;
-					localStorage.setItem('myToken', myToken);
-					window.location.href = '/';
+                    const eToken = res.data.etoken;
+                    localStorage.setItem('eToken', eToken);
+                    setTimeout(() => { window.location.href = '/login';}, 3500)
+                    setPopMessage('We have sent you an email, please confirm your account');
 				})
-                //this shows the returned value either token or error message
             } catch (err) {setError(err.response.data.toString());}
         }
     }
@@ -68,8 +69,8 @@ const Signup = () => {
         <div className="outside-container">
         <div className="container-form">
         <div className="form">
+            <PopUpMessage text={popMessage}/>
             <form onSubmit={e => onSubmit(e)} className="form-box">
-
             <ErrorMessage text={error}/>
 
                 <input name="name"

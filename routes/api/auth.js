@@ -4,8 +4,11 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const auth = require('../../middleware/auth');
+const eauth = require('../../middleware/eauth');
 const User = require('../../models/Users');
 const { check, validationResult } = require('express-validator');
+const {sendEmail} = require('../../middleware/email');
+
 
 // @route   GET api/auth
 // @desc    Test rout
@@ -20,6 +23,18 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
+router.get('/confirmation', eauth, async (req, res) => {
+    try {
+    const user = await User.findById(req.user.id).select('-password');
+    await user.update({ confirmed: true });
+    sendEmail(user.email, user.name, "welcome");
+    } catch (err) {
+      res.status(401).send('your email token is invalid');
+      return;
+    }
+    });
+
+
 // @route   POST api/auth
 // @desc    Login route
 // @access  Public
@@ -32,6 +47,7 @@ async (req, res) => {
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
+    
 
     const { email, password } = req.body;
     try {
@@ -41,6 +57,10 @@ async (req, res) => {
             res.status(404).send('Invalid credentials');
             // stop further execution in this callback
             return;     
+        }
+        if (!user.confirmed){
+            res.status(404).send('Confirm your email to login');
+            return;
         }
 
         //  Compares user password with encrypted server password

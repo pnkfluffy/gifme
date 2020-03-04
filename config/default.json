@@ -1,6 +1,7 @@
 {
-    "mongoURI": "mongodb://jfelty:simplepassword@cluster0-shard-00-00-wzspy.mongodb.net:27017,cluster0-shard-00-01-wzspy.mongodb.net:27017,cluster0-shard-00-02-wzspy.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority",
-    "jwtSecret": "youcansetthistowhateveryouwant"
+    "mongoURI": "mongodb+srv://jsandler:Ayurveda17.@cluster0-qode2.azure.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret": "youcansetthistowhateveryouwant",
+    "emailSecret": "emailSecretPassword"
 }
 // simplepassword
 // pw for project0 mZN7@2*OpmPX

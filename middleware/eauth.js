@@ -6,15 +6,15 @@ const config = require('config');
 */
 
 module.exports = function(req, res, next) {
-    const token = req.header('x-auth-token');
-    if (!token) {
+    const etoken = req.header('x-auth-token');
+    if (!etoken) {
         return res.status(401).send('No token, authorization denied ');
     }
     try {
-        const decoded = jwt.verify(token, config.get('jwtSecret'));
+        const decoded = jwt.verify(etoken, config.get('emailSecret'));
         req.user = decoded.user;
         next();
     } catch(err) {
-        res.status(401).send('Token is not valid');
+        res.status(401).send('eToken is not valid');
     }
 }

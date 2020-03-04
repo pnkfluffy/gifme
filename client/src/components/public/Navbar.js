@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo1 from '../../resources/gifme_logo_1.png';
-import logo2 from '../../resources/gifme_logo_2.png';
 import logo3 from '../../resources/gifme_logo_3.png';
 
 
