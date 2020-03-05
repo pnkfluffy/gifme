@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { OverlayContext } from './Home';
 
 const Likes = (likeInfo) => {
   const [ hasLiked, setHasLiked ] = useState(null);
@@ -130,27 +131,27 @@ const CommentsBox = (imageInfo) => {
   );
 };
 
-const ImageOverlay = (image) => {
 
-}
 
-const ImageCard = (image) => {
+const ImageCard = ({imageData, onToggle}) => {
 
+  // const { imageOverlay, setImageOverlay } = useContext(OverlayContext);
   return (
     <div className="image_card">
       <div className="image_card_name">
-        <div className="image_card_name_text">{image.user}</div>
+        <div className="image_card_name_text">{imageData.user}</div>
       </div>
       <div className="pic_frame">
         <img
           className="image_card_image"
-          src={`${image.image}`}
+          src={`${imageData.image}`}
           alt="database_image"
+          onClick={e => onToggle(imageData)}
         />
       </div>
       <div className="image_card_comment_like">
-        <Likes likes={image.likes} imageID={image.imageID}/>
-        <CommentsBox comments={image.comments} imageID={image.imageID}/>
+        <Likes likes={imageData.likes} imageID={imageData.imageID}/>
+        <CommentsBox comments={imageData.comments} imageID={imageData.imageID}/>
       </div>
     </div>
   );

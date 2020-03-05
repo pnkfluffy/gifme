@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import axios from 'axios';
 import { fetchAllPosts } from '../../utils/FetchPosts';
 import ImageCard from './ImageCard';
 
 const Home = () => {
 	const [imageGallery, setImageGallery] = useState([]);
+	const [overlayData, setOverlayData] = useState(null);
 
 	const getPosts = async => {
 		const finalPosts = axios.get('api/posts/all')
@@ -22,11 +23,23 @@ const Home = () => {
 		getPosts();
 	}, [])
 
+	const toggleOverlay = (overlayData) => {
+		console.log("toggle", overlayData);
+	}
+
+	const ImageOverlay = (image) => {
+		return (<h1>hi</h1>)
+	}
+
 	return (
 		<body>
 			<div id="main">
+				<ImageOverlay/>
 				<div className="structure">
-					{imageGallery.map(image => ImageCard(image))}
+					{imageGallery.map(image =>
+					<ImageCard
+					imageData={image}
+					onToggle={x => toggleOverlay({x})}/>)}
 				</div>
 			</div>
 			<footer id="footer">
@@ -38,3 +51,4 @@ const Home = () => {
 }
 
 export default Home;
+// export { OverlayContext };
