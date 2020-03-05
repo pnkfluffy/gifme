@@ -1,6 +1,8 @@
 
 /*                 HOME PAGE                     */
-
+img{
+	width: 100%;
+}
 .structure{
 	padding: 0 5% 0 5%;
 	display: flex;
@@ -62,5 +64,74 @@
 	right: 0;
 	position: fixed;
 	z-index: 50;
-	background-color: rgba(0, 0, 0, 0.1);
+	display: flex;
+	align-content: center;
+	background-color: rgba(0, 0, 0, 0.15);
+}
+
+.overlay_card{
+	width: 80%;
+	height: 80%;
+	top: 50%;
+	left: 50%;
+	transform: translate( -50%, -50%);
+	border-radius: 50px;
+	position: fixed;
+	z-index: 51;
+	background-color: rgba(256, 256, 256, 0.9);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.overlay_pic_frame{
+	width: 250px;
+	height: 250px;
+	margin-top: 40px;
+}
+
+.overlay_export_box{
+	margin-top: 20px;
+	height: 50px;
+	width: 300px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.overlay_export_btn_fb{
+	width: 45px;
+}
+.overlay_export_box > div{
+	width: 50px;
+	display: flex;
+	align-content: center;
+	align-items: center;
+}
+.overlay_export_box > div:hover{
+	transform: scale(1.1);
+}
+.overlay_comment_box{
+	margin-top: 20px;
+	width: 200px;
+}
+.overlay_comment_form{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.overlay_comment_input{
+	width: 100%;
+}
+.overlay_all_comments{
+	width: 80%;
+}
+.overlay_comment_single{
+	margin-top: 5px;
+}
+.overlay_comment_topbar{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+	font-size: 12px;
 }

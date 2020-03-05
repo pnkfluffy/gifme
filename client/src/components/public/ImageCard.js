@@ -143,7 +143,7 @@ const ImageCard = ({imageData, onToggle}) => {
           className="image_card_image"
           src={`${imageData.image}`}
           alt="database_image"
-          onClick={e => onToggle(imageData)}
+          onClick={() => onToggle(imageData)}
         />
       </div>
       <div className="image_card_comment_like">
