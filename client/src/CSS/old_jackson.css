@@ -46,10 +46,6 @@ body {
   margin: 10px;
   max-width: 500px;
 }
-img {
-  border-radius: 5px 5px 0 0;
-  width: 100%;
-}
 a {
   text-decoration: none;
 }

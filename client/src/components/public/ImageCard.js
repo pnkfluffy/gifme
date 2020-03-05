@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { OverlayContext } from './Home';
 
 const Likes = (likeInfo) => {
   const [ hasLiked, setHasLiked ] = useState(null);
@@ -134,8 +133,6 @@ const CommentsBox = (imageInfo) => {
 
 
 const ImageCard = ({imageData, onToggle}) => {
-
-  // const { imageOverlay, setImageOverlay } = useContext(OverlayContext);
   return (
     <div className="image_card">
       <div className="image_card_name">
