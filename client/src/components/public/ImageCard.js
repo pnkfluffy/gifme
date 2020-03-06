@@ -1,106 +1,106 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const Likes = (likeInfo) => {
-  const [ hasLiked, setHasLiked ] = useState(null);
-  
-  const myUserID = localStorage.getItem('myGifmeUserID');
-  const authToken = localStorage.getItem('myToken');
+const Likes = likeInfo => {
+  const [hasLiked, setHasLiked] = useState(null);
+
+  const myUserID = localStorage.getItem("myGifmeUserID");
+  const authToken = localStorage.getItem("myToken");
 
   const likePost = async e => {
     fetch(`api/posts/like/${likeInfo.imageID}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'x-auth-token': authToken
+        "x-auth-token": authToken
       }
     })
-    .then( res => {
-      //  forward the user to signup if not authenticated
-      //  CHANGE TO POP UP SAYING ONLY LOGGED IN USERS CAN
-      //  LIKE OR COMMENT ON POSTS
-      if (res.status === 401) {
-        window.location.href = '/signup';
-      }
-      setHasLiked(true);
-    })
-    .catch( err => {
-      console.error("stat", err.status)
-    })
-  }
+      .then(res => {
+        //  forward the user to signup if not authenticated
+        //  CHANGE TO POP UP SAYING ONLY LOGGED IN USERS CAN
+        //  LIKE OR COMMENT ON POSTS
+        if (res.status === 401) {
+          window.location.href = "/signup";
+        }
+        setHasLiked(true);
+      })
+      .catch(err => {
+        console.error("stat", err.status);
+      });
+  };
   const unLikePost = e => {
     fetch(`api/posts/unlike/${likeInfo.imageID}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'x-auth-token': authToken
+        "x-auth-token": authToken
       }
     })
-    .then( res => {
-      if (res.status === 401) {
-        window.location.href = '/login';
-      }
-      setHasLiked(false);
-    })
-    .catch( err => {
-      console.log(err.response)
-    })
-  }
+      .then(res => {
+        if (res.status === 401) {
+          window.location.href = "/login";
+        }
+        setHasLiked(false);
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
+  };
 
   useEffect(() => {
     if (likeInfo.likes) {
-      setHasLiked(likeInfo.likes.find(like => like.user = myUserID));
+      setHasLiked(likeInfo.likes.find(like => (like.user = myUserID)));
     }
-  }, [])
-  
+  }, []);
+
   if (hasLiked) {
     return (
       <div className="image_card_like" onClick={e => unLikePost(e)}>
         &#9829;
       </div>
-    )
+    );
   }
   return (
     <div className="image_card_like" onClick={e => likePost(e)}>
       &#9825;
     </div>
-  )
-}
+  );
+};
 
-
-
-const CommentsBox = (imageInfo) => {
+const CommentsBox = imageInfo => {
   const [isCommenting, setIsCommenting] = useState(null);
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
 
   const seeCommentBox = e => {
     setIsCommenting(true);
   };
   const closeCommentBox = () => {
     setIsCommenting(false);
-  }
+  };
   const onChange = e => setComment(e.target.value);
   const onSubmit = async e => {
     e.preventDefault();
     const auth_token = localStorage.getItem("myToken");
-    
+
     const commentInfo = {
       text: comment
-    }
+    };
     // console.log(commentInfo);
     const body = JSON.stringify(commentInfo);
     const config = {
-      headers:{
-        'x-auth-token': auth_token,
-        'content-type': 'application/json'
-      }}
-      axios.post(`api/posts/comment/${imageInfo.imageID}`, body, config)
+      headers: {
+        "x-auth-token": auth_token,
+        "content-type": "application/json"
+      }
+    };
+    axios
+      .post(`api/posts/comment/${imageInfo.imageID}`, body, config)
       .then(res => {
         console.log("comment posted:", res.data);
         setIsCommenting(false);
         console.log(res.data);
-    })
-    .catch(err => {
-      console.error("myerror: ", err.response);
-    })
+      })
+      .catch(err => {
+        console.error("myerror: ", err.response);
+      });
   };
 
   if (isCommenting) {
@@ -116,9 +116,13 @@ const CommentsBox = (imageInfo) => {
             required="required"
             className="add_comment_box"
           />
-          <button type="submit" className="add_comment_submit">&#x2713;</button>
+          <button type="submit" className="add_comment_submit">
+            &#x2713;
+          </button>
         </form>
-        <button className="add_comment_exit" onClick={() => closeCommentBox()}>&#x2717;</button>
+        <button className="add_comment_exit" onClick={() => closeCommentBox()}>
+          &#x2717;
+        </button>
       </div>
     );
   }
@@ -130,9 +134,9 @@ const CommentsBox = (imageInfo) => {
   );
 };
 
+//  CHANGE COMMENTS TO TAGS, MAKE EACH ONE LINK TO SEARCH WHEN CLICKED
 
-
-const ImageCard = ({imageData, onToggle}) => {
+const ImageCard = ({ imageData, addOverlay }) => {
   return (
     <div className="image_card">
       <div className="image_card_name">
@@ -143,12 +147,15 @@ const ImageCard = ({imageData, onToggle}) => {
           className="image_card_image"
           src={`${imageData.image}`}
           alt="database_image"
-          onClick={() => onToggle(imageData)}
+          onClick={() => addOverlay(imageData)}
         />
       </div>
       <div className="image_card_comment_like">
-        <Likes likes={imageData.likes} imageID={imageData.imageID}/>
-        <CommentsBox comments={imageData.comments} imageID={imageData.imageID}/>
+        <Likes likes={imageData.likes} imageID={imageData.imageID} />
+        <CommentsBox
+          comments={imageData.comments}
+          imageID={imageData.imageID}
+        />
       </div>
     </div>
   );

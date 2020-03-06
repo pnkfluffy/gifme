@@ -7,6 +7,8 @@ body {
   height: 100%;
 }
 
+.noscroll {overflow: hidden;}
+
 /*                 NAVIGATION BAR (NavBar)                     */
 
 .header_absolute {
