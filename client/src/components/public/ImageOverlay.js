@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import format from 'date-fns/format';
 
 import downloadIcon from "../../resources/download_icon.png";
 import facebookIcon from "../../resources/facebook_icon.png";
@@ -11,30 +12,31 @@ const OverlayComment = ({ commentData, postData, imageID, setAllComments }) => {
   let myComment;
   if (postData) {
     myComment = postData._id === commentData.user;
-  } 
-  const authtoken = localStorage.getItem('myToken');
+  }
+  const authtoken = localStorage.getItem("myToken");
 
   const deleteComment = () => {
-    // make "are you sure? pop up"
-    console.log('commentID', commentData._id);
-  fetch(`/api/posts/comment/${imageID}/${commentData._id}`, {
-    method: "DELETE",
-    headers: {
-      "x-auth-token": authtoken
-    }
+    // MAKE ARE YOU SURE POPUP
 
-  })
-    .then(res=>{
-      console.log("comment deleted:", res);
-      
-
-      // setAllComments(res.data);
-    })
-    .catch(err => {
-      console.log(err.response);
-    })
-
+    const config = {
+      headers: {
+        "x-auth-token": authtoken
+      }
+    };
+    axios
+      .delete(`/api/posts/comment/${imageID}/${commentData._id}`, config)
+      .then(res => {
+        console.log("comment deleted:", res.data);
+        setAllComments(res.data);
+      })
+      .catch(err => {
+        console.error("myerror: ", err.response);
+      });
   };
+
+
+  //https://stackoverflow.com/questions/25159330/convert-an-iso-date-to-the-date-format-yyyy-mm-dd-in-javascript
+  const formattedDate = format(commentData.date.toString(), 'MM-DD-YYYY');
 
   return (
     <div className="overlay_comment_single">
@@ -47,7 +49,7 @@ const OverlayComment = ({ commentData, postData, imageID, setAllComments }) => {
         >
           {commentData.name}
         </div>
-        <div className="overlay_comment_date">{commentData.date}</div>
+        <div className="overlay_comment_date">formattedDate</div>
       </div>
       <div className="overlay_comment_content">{commentData.text}</div>
       {myComment ? (
@@ -137,12 +139,9 @@ const ImageOverlay = ({ data, removeOverlay, authInfo }) => {
   const [postData, setpostData] = useState();
   const [allComments, setAllComments] = useState([]);
 
-  console.log('data', data);
-
   useEffect(() => {
     authInfo.then(res => {
       if (res) {
-        console.log(res);
         setpostData(res);
         setLoggedIn(true);
       }
