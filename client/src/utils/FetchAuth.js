@@ -1,13 +1,18 @@
 import axios from 'axios';
 
-const fetchUserID = async () => {
+const fetchAuth = async () => {
     const auth_token = localStorage.getItem('myToken');
     const config = {
         headers:{
             'x-auth-token': auth_token
     }}
+    try {
     const userID = await axios.get('api/auth', config);
-    return (userID);
+    return (userID.data);
+} catch (err) {
+    console.log("error: ", err.response);
+    return (null);
+}
 }
 
-export default fetchUserID;
+export default fetchAuth;

@@ -3,10 +3,12 @@ import axios from "axios";
 import { fetchAllPosts } from "../../utils/FetchPosts";
 import ImageCard from "./ImageCard";
 import ImageOverlay from "./ImageOverlay";
+import fetchAuth from '../../utils/FetchAuth';
 
 const Home = () => {
   const [imageGallery, setImageGallery] = useState([]);
   const [overlayData, setOverlayData] = useState(null);
+  const [authInfo, setauthInfo] = useState(null);
 
   const getPosts = async => {
     const finalPosts = axios.get("api/posts/all");
@@ -24,6 +26,7 @@ const Home = () => {
   };
 
   useEffect(() => {
+    setauthInfo(fetchAuth());
     getPosts();
   }, []);
 
@@ -39,28 +42,30 @@ const Home = () => {
   };
 
   return (
-    <body>
+    <div>
       <div id="main">
-        {overlayData ? (
-          <ImageOverlay
-            data={overlayData}
-            removeOverlay={() => toggleOverlay(null)}
-          />
-        ) : null}
         <div className="structure">
           {imageGallery.map(image => (
             <ImageCard
+              authInfo={authInfo}
               imageData={image}
               addOverlay={imageData => toggleOverlay({ imageData })}
             />
-          ))}
+            ))}
         </div>
       </div>
       <footer id="footer">
         <wr />
         &#169; Jack&Jon all rights reserved.
       </footer>
-    </body>
+              {overlayData ? (
+                <ImageOverlay
+                  authInfo={authInfo}
+                  data={overlayData}
+                  removeOverlay={() => toggleOverlay(null)}
+                />
+              ) : null}
+    </div>
   );
 };
 

@@ -176,7 +176,7 @@ router.put("/like/:id", auth, async (req, res) => {
   }
 });
 
-// @route   PUT api/ posts/unlike/:id
+// @route   PUT api/posts/unlike/:id
 // @desc    Unlike a post
 // @access  Private
 router.put("/unlike/:id", auth, async (req, res) => {
@@ -235,9 +235,9 @@ router.post("/comment/:id", auth,
 // @route   DELETE api/posts/:id/:comment_id
 // @desc    Delete a comment
 // @access  Private
-router.delete("/:id/:comment_id", auth, async (req, res) => {
+router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const post = await Post.findOne({ image: req.params.id });
     const comment = post.comments.find(
       comment => comment.id === req.params.comment_id
     );
@@ -251,9 +251,9 @@ router.delete("/:id/:comment_id", auth, async (req, res) => {
     const removeIndex = post.comments
       .map(comment => comment.user.toString())
       .indexOf(req.user.id);
-    post.likes.splice(removeIndex, 1);
+    post.comments.splice(removeIndex, 1);
     await post.save();
-    res.json({ msg: "Comment removed" });
+    res.json(post.comments);
   } catch (err) {
     console.error(err.message);
     if (err.kind === "ObjectId") {

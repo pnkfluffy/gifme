@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const Likes = likeInfo => {
+const Likes = ({likes, imageID, authInfo}) => {
   const [hasLiked, setHasLiked] = useState(null);
-
-  const myUserID = localStorage.getItem("myGifmeUserID");
   const authToken = localStorage.getItem("myToken");
 
   const likePost = async e => {
-    fetch(`api/posts/like/${likeInfo.imageID}`, {
+    fetch(`api/posts/like/${imageID}`, {
       method: "PUT",
       headers: {
         "x-auth-token": authToken
@@ -28,7 +26,7 @@ const Likes = likeInfo => {
       });
   };
   const unLikePost = e => {
-    fetch(`api/posts/unlike/${likeInfo.imageID}`, {
+    fetch(`api/posts/unlike/${imageID}`, {
       method: "PUT",
       headers: {
         "x-auth-token": authToken
@@ -45,9 +43,17 @@ const Likes = likeInfo => {
       });
   };
 
+  
+  //  Searches the 
   useEffect(() => {
-    if (likeInfo.likes) {
-      setHasLiked(likeInfo.likes.find(like => (like.user = myUserID)));
+    if (likes.length) {
+      authInfo.then( res => {
+        if (res) {
+          const myLikes = likes.some(like => like.user.toString() === res._id);
+          setHasLiked(myLikes);
+        }
+        // ELSE USER IS NOT LOGGED IN
+      })
     }
   }, []);
 
@@ -136,7 +142,7 @@ const CommentsBox = imageInfo => {
 
 //  CHANGE COMMENTS TO TAGS, MAKE EACH ONE LINK TO SEARCH WHEN CLICKED
 
-const ImageCard = ({ imageData, addOverlay }) => {
+const ImageCard = ({ imageData, addOverlay, authInfo }) => {
   return (
     <div className="image_card">
       <div className="image_card_name">
@@ -151,7 +157,7 @@ const ImageCard = ({ imageData, addOverlay }) => {
         />
       </div>
       <div className="image_card_comment_like">
-        <Likes likes={imageData.likes} imageID={imageData.imageID} />
+        <Likes likes={imageData.likes} imageID={imageData.imageID} authInfo={authInfo}/>
         <CommentsBox
           comments={imageData.comments}
           imageID={imageData.imageID}

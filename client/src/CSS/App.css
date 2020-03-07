@@ -7,7 +7,10 @@ body {
   height: 100%;
 }
 
-.noscroll {overflow: hidden;}
+.noscroll {
+  overflow: hidden;
+  margin-right: 10px;
+}
 
 /*                 NAVIGATION BAR (NavBar)                     */
 
