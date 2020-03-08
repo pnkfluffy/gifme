@@ -39,10 +39,6 @@ const Uploads = () => {
 					</div>
 				</div>
 			</div>
-			<footer id="footer">
-				<wr />
-				&copy Jack&Jon all rights reserved.
-    </footer>
 		</body>
 	)
 

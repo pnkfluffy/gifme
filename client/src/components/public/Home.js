@@ -54,7 +54,6 @@ const Home = () => {
         </div>
       </div>
       <footer id="footer">
-        <wr />
         &#169; Jack&Jon all rights reserved.
       </footer>
               {overlayData ? (

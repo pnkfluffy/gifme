@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navbar from './components/public/Navbar';
-import Footer from './components/public/Footer';
 import Home from './components/public/Home';
 import Signup from './components/private/auth/Signup';
 import Login from './components/private/auth/Login';
@@ -24,7 +23,6 @@ const App =() => (
             <Route exact path="/profile" component={Account} />
             <Route exact path="/photobooth" component={PhotoBooth}/>
           </Switch>
-          <Footer/>
   </Router>
 );
 
