@@ -37,6 +37,9 @@
   max-width: 500px;
 }
 
+a {
+  text-decoration: none;
+}
 .comments {
   margin: 5px;
 }

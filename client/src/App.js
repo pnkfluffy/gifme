@@ -10,6 +10,7 @@ import PhotoBooth from './components/private/photobooth/Capture';
 
 import './CSS/old_jackson.css';
 import './CSS/App.css';
+import './CSS/Home.css';
 import './CSS/Dashboard.css';
 import './CSS/Signup.css';
 

@@ -42,6 +42,7 @@ const NavbarLogin = () => {
     
     const deleteToken = () =>{
         localStorage.removeItem('myToken');
+        localStorage.removeItem('myGifmeUserID');
         window.location.href = '/';
     }
     if(!V_Token) {

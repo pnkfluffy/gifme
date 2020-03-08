@@ -54,7 +54,9 @@ const Signup = () => {
 				await axios.post('/api/users', body, config)
 				.then(res=>{
 					const myToken = res.data.token;
-					localStorage.setItem('myToken', myToken);
+                    const myUserID = res.data.userID;
+                    localStorage.setItem('myToken', myToken);
+                    localStorage.setItem('myGifmeUserID', myUserID);
 					window.location.href = '/';
 				})
                 //this shows the returned value either token or error message
