@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { fetchAllPosts } from "../../utils/FetchPosts";
 import ImageCard from "./ImageCard";

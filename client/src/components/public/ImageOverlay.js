@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import format from 'date-fns/format';
+import moment from 'moment';
 
 import downloadIcon from "../../resources/download_icon.png";
 import facebookIcon from "../../resources/facebook_icon.png";
@@ -36,7 +36,8 @@ const OverlayComment = ({ commentData, postData, imageID, setAllComments }) => {
 
 
   //https://stackoverflow.com/questions/25159330/convert-an-iso-date-to-the-date-format-yyyy-mm-dd-in-javascript
-  const formattedDate = format(commentData.date.toString(), 'MM-DD-YYYY');
+  const myDate = new Date(commentData.date);
+  const formattedDate = moment(myDate).format(`MMM DD [']YY`);
 
   return (
     <div className="overlay_comment_single">
@@ -49,7 +50,7 @@ const OverlayComment = ({ commentData, postData, imageID, setAllComments }) => {
         >
           {commentData.name}
         </div>
-        <div className="overlay_comment_date">formattedDate</div>
+        <div className="overlay_comment_date">{formattedDate}</div>
       </div>
       <div className="overlay_comment_content">{commentData.text}</div>
       {myComment ? (
