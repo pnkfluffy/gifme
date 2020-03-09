@@ -17,12 +17,14 @@ const Uploads = () => {
 			return fetchAllPosts(res.data);
 		}).then(res => {
 			setImageGallery(res);
+		}).catch(err => {
+			console.error(err);
 		})
 	}
 
 	useEffect(() => {
 		getPosts();
-    }, [])
+	}, [])
     
     return (
 		<body>
@@ -37,10 +39,6 @@ const Uploads = () => {
 					</div>
 				</div>
 			</div>
-			<footer id="footer">
-				<wr />
-				&copy Jack&Jon all rights reserved.
-    </footer>
 		</body>
 	)
 

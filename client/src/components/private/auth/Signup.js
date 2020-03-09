@@ -57,7 +57,9 @@ const Signup = () => {
 				await axios.post('/api/users', body, config)
 				.then(res=>{
                     const eToken = res.data.etoken;
+                    const myUserID = res.data.userID;
                     localStorage.setItem('eToken', eToken);
+                    localStorage.setItem('myGifmeUserID', myUserID);
                     setPopMessage('We have sent you an email, please confirm your account');
                     setTimeout(() => { window.location.href = '/login';}, 3500);
 				})

@@ -73,6 +73,8 @@ async (req, res) => {
           });
 
         await user.save();
+
+        //  Sends response outward
     
     } catch(err) {
         console.error(err.message);

@@ -1,180 +1,124 @@
 /*                 GENERAL                     */
 
 body {
-  background-color: rgba(137, 77, 155, 90%);
+  background-color: rgba(137, 77, 155, 0.5);
   padding: 0;
-    margin: 0;
-    height: 100%;
-  }
-
-/*                 HOME PAGE                     */
-
-  .structure{
-    padding: 0 10% 0 10%;
-    height: 100vh;
-
-}
-.pic-container{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-.pict_frame{
-  border: solid 10px black;
-  background-color: lawngreen;
-  width: 200px;
-}
-.home_images{
-  margin: 10px 3px 0 3px;
-  width: 18vw;
-  height: 20vw;
-  max-width: 180px;
-  max-height: 200px;
-  border: solid 1px white;
-  border-radius: 5px;
-}
-.home_pic_comments{
-  text-align: center;
-  font-size: 15px;
   margin: 0;
-  padding: 0;
+  height: 100%;
+  font-family: 'Comfortaa', Arial, sans-serif;
 }
-  
-  
-  /*                 NAVIGATION BAR (NavBar)                     */
-  
-  .header_absolute {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    max-height: 60px;
-    display: flex;
-    justify-content: space-between;
-    background-color: rgb(0, 0, 0, 0, 0);
-  }
+a {
+  text-decoration: none;
+}
+#main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex: 1;
+  max-width: 1600px;
+  width: 80%;
+  margin: 20px auto 20px auto;
+  border-radius: 5px;
+  background-color: rgba(256, 256, 256, .2);
+}
 
-  .header_relative {
-    height: 60px;
-    background-color: rgb(112, 93, 128);
-    display: flex;
-    justify-content: flex-end;
-  }
-  .box{height: 50px;}
-  
-  .container-l{
-      width: 10vh;
-      max-width: 110px;
-  }
+.noscroll {
+  overflow: hidden;
+  margin-right: 10px;
+}
 
-  .gifme_logo{
-    transition: transform .2s;
-  }
-  .gifme_logo:hover {
-    transform: scale(1.1);
-  }
+/*                 NAVIGATION BAR (NavBar)                     */
 
-  .navbar_logo{
-    float: left;
-    width: 60%;
-    text-align: center;
-  }
-  .logo {
-    margin-left: 20px;
-    padding: 6px;
-    font-size: 12px;
-    border-radius: 3px;
-    text-decoration: none;
-  }
-  .container-r{
-    margin-top: auto;
-    margin-bottom: auto;
-    width: 150px;
-    display:flex;
-    justify-content: space-between;
-    text-align: center;
-    margin-right: 15px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-radius: 10px;
-    background-color: rgb(112, 93, 128);
-  }
-  .container-r-relative{
-    margin-top: auto;
-    margin-bottom: auto;
-    float: left;
-    width: 150px;
-    display:flex;
-    justify-content: space-between;
-    text-align: center;
-  }
-  .logout_button {
-    color: rgb(228,142,138);
-    font-weight: bold;
-  }
-  .signup_button {
-    color: rgb(99, 150, 187);
-    font-weight: bold;
-  }
-  .login_box{
-    display:flex;
-    width: 100%;
-    justify-content: space-evenly;
-  }
-  .login_button, .profile_button{
-    color: rgb(124,186,231);
-    font-weight: bold;
-  }
-  .login_button:hover, .profile_button:hover, .logout_button:hover, .signup_button:hover{
-    filter:brightness(110%);
-  }
-  .main{
-    font-size: 20px;
-    text-decoration: none;
-  }
-  
+.header_absolute {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(0, 0, 0, 0, 0);
+}
 
-  .login {
-    float: right;
-    margin: 0px 2.3px 0px 2.3px;
-    padding: 4px;
-    font-size: 12px;
-    border-radius: 3px;
-    text-decoration: none;
-    background-color: rgba(256, 256, 256, .3);
-  }
-  
-  /*                 ERROR                    */
-  
-  
-  @import url('https://fonts.googleapis.com/css?family=Open+Sans:300&display=swap');
-  
-  .errorBox {
-      width: 100%;
-      height: 100vh;
-      background-color: white;
-      text-align: center;
-  }
-  .bigTitle {
-      padding-top:100px;
-      font-size: 140px;
-      font-family:'Open+Sans',;
-      font-weight: 100;
-  }
-  .smallTitle{
-      font-weight: 400;
-      background-color: white;
-      font-size: 17px;
-  }
-  .errorButton{
-      font-size: 20px;
-      font-weight: 300;
-      color: white;
-      background-color: rgb(238, 96, 48);
-      padding: 12px;
-      border-radius: 5px;
-      text-decoration: none;
-  }
+.header_relative {
+  height: 60px;
+  background-color: rgb(112, 93, 128);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.box {
+  height: 10vw;
+  max-height: 60px;
+}
+
+.container-l {
+  width: 50px;
+}
+
+.navbar_logo {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.gifme_logo {
+  transition: transform 0.2s;
+}
+.gifme_logo:hover {
+  transform: scale(1.1);
+}
+.container-r {
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  margin-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 10px;
+  background-color: rgb(112, 93, 128);
+}
+.container-r-relative {
+  margin-top: auto;
+  margin-bottom: auto;
+  float: left;
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+.logout_button {
+  color: rgb(228, 142, 138);
+  font-weight: bold;
+}
+.signup_button {
+  color: rgb(99, 150, 187);
+  font-weight: bold;
+}
+.login_box {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+.login_button,
+.profile_button {
+  color: rgb(124, 186, 231);
+  font-weight: bold;
+}
+.login_button:hover,
+.profile_button:hover,
+.logout_button:hover,
+.signup_button:hover {
+  filter: brightness(110%);
+}
+.main {
+  font-size: 20px;
+  text-decoration: none;
+}
 
   .error_message{
     background-color: rgb(231, 31, 24);
@@ -182,6 +126,16 @@ body {
     color: white;
     text-align: center;
     font-size: 13px;
+  }
+
+.login {
+  float: right;
+  margin: 0px 2.3px 0px 2.3px;
+  padding: 4px;
+  font-size: 12px;
+  border-radius: 3px;
+  text-decoration: none;
+  background-color: rgba(256, 256, 256, 0.3);
 }
   /*                 EMAIL CONFIRMATION PAGE                    */
   .confirm_box{
@@ -195,21 +149,47 @@ body {
   }
 
 
-  /*                 FOOTER                    */
-  
-.footer_container 
-{
-  position: relative;
-  width: 100%;
-  height: 80px; 
-  }
-  .footer{
-    position: absolute;
-    bottom: 0;
-    padding-left: 10px;
-    padding: 10px;
-    width: 100%;
-    color: rgb(255, 255, 255, 40%);
-    background-color: rgb(255, 255, 255, 50%);
-  }
+/*                 ERROR                    */
 
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300&display=swap");
+
+.errorBox {
+  width: 100%;
+  height: 100vh;
+  background-color: white;
+  text-align: center;
+}
+.bigTitle {
+  padding-top: 100px;
+  font-size: 140px;
+  font-family: "Open+Sans";
+  font-weight: 100;
+}
+.smallTitle {
+  font-weight: 400;
+  background-color: white;
+  font-size: 17px;
+}
+.errorButton {
+  font-size: 20px;
+  font-weight: 300;
+  color: white;
+  background-color: rgb(238, 96, 48);
+  padding: 12px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+/*                 FOOTER                    */
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  padding-bottom: 4px;
+}
+.icon {
+  height: 20px;
+}
+.icon:hover {
+  opacity: 0.5;
+}

@@ -26,9 +26,9 @@ const Account = () => {
             <div className="account_body">
             <div className="Title">Profile</div>
             <div className="Container">
-                <div className="Content"><h5>Name:</h5> {userName}</div>
-                <div className="Content"><h5>Email:</h5> {userEmail}</div>
-                <div className="Content"><h5>Password:</h5> ********</div>
+                <div className="Content"><h5>Name:</h5> {userName} </div>
+                <div className="Content"><h5>Email:</h5> {userEmail} </div>
+                <div className="Content"><h5>Password:</h5> ******** </div>
             </div>
             <div className="Container">
             <button 

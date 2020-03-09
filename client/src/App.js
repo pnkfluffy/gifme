@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navbar from './components/public/Navbar';
-import Footer from './components/public/Footer';
 import Home from './components/public/Home';
 import Signup from './components/private/auth/Signup';
 import Login from './components/private/auth/Login';
@@ -14,6 +13,7 @@ import PhotoBooth from './components/private/photobooth/Capture';
 
 import './CSS/old_jackson.css';
 import './CSS/App.css';
+import './CSS/Home.css';
 import './CSS/Dashboard.css';
 import './CSS/Signup.css';
 
@@ -30,7 +30,6 @@ const App =() => (
             <Route exact path="/reset-password" component={ResetPassword} />
             <Route exact path="/photobooth" component={PhotoBooth}/>
           </Switch>
-          <Footer/>
   </Router>
 );
 

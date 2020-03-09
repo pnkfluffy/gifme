@@ -106,3 +106,17 @@ h5{
 .edit_sign_button:hover{
     background-color: rgb(128, 0, 128, 40%);
 }
+
+/*
+**  PHOTOBOOTH
+*/
+
+
+.webcam_box, #upload_img {
+    display: flex;
+    flex-direction: column;
+  }
+
+#webcam {
+    margin-top: 50px;
+  }

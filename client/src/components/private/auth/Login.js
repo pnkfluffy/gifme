@@ -31,7 +31,9 @@ const Login = () => {
             //this shows the returned value either token or error message
             .then(res=>{
                 const myToken = res.data.token;
+                const myUserID = res.data.userID;
                 localStorage.setItem('myToken', myToken);
+                localStorage.setItem('myGifmeUserID', myUserID);
                 window.location.href = '/';
             })
         } catch (err) {
