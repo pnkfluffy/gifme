@@ -58,8 +58,8 @@ const Signup = () => {
 				.then(res=>{
                     const eToken = res.data.etoken;
                     localStorage.setItem('eToken', eToken);
-                    setTimeout(() => { window.location.href = '/login';}, 3500)
                     setPopMessage('We have sent you an email, please confirm your account');
+                    setTimeout(() => { window.location.href = '/login';}, 3500);
 				})
             } catch (err) {setError(err.response.data.toString());}
         }

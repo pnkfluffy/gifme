@@ -64,11 +64,10 @@ async (req, res) => {
         jwt.sign(
           payload,
           config.get('emailSecret'),
-          { expiresIn: '7d' },
+          { expiresIn: 900 },
           (err, etoken) => {
-          const url = `http://localhost:3000/confirmation`;
           //sends email with confirmation link
-          sendEmail(email, url, "verify account");
+          sendEmail(email, name, "verify account");
             if (err) throw err;
             res.json({ etoken });
           });

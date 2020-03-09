@@ -22,7 +22,7 @@ const getEmailData = (to, name, template) =>{
                 from: "Gifme <jsandler.aol@gmail.com",
                 to,
                 subject: `Gifme - Please verify your account`,
-                html: `<a href="${name}">click here to validate your account</a>`
+                html: `<a href="http://localhost:3000/confirmation">click here to validate your account</a>`
             //    html: verify_account()
             }
             break;
@@ -32,6 +32,15 @@ const getEmailData = (to, name, template) =>{
                 to,
                 subject: `Gifme - Reset your password`,
                 html: reset_password()
+            }
+            break;
+        case "change confirmation":
+            data = {
+                from: "Gifme <jsandler.aol@gmail.com",
+                to,
+                subject: `Gifme - Your password has been updated`,
+                html: `Congrats! Your password has been updated successfully`
+            //    html: verify_account()
             }
             break;
         case "goodbye":

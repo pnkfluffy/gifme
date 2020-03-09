@@ -6,8 +6,9 @@ import PopUpMessage from '../../../utils/popUpMessage';
 
 
 const Confirmation = () => {
-    const E_Token = localStorage.getItem('eToken');
     const [popMessage, setPopMessage] = useState('');
+    const E_Token = localStorage.getItem('eToken');
+
     const deleteToken = () =>{
         try {
             const config = {

@@ -6,6 +6,8 @@ import Home from './components/public/Home';
 import Signup from './components/private/auth/Signup';
 import Login from './components/private/auth/Login';
 import Confirmation from './components/private/auth/Confirmation';
+import RecoveryEmail from './components/private/auth/RecoveryEmail';
+import ResetPassword from './components/private/auth/ResetPassword';
 import Account from './components/private/account/Dashboard';
 import PhotoBooth from './components/private/photobooth/Capture';
 
@@ -24,6 +26,8 @@ const App =() => (
             <Route exact path="/login" component={Login} />
             <Route exact path="/profile" component={Account} />
             <Route exact path="/confirmation" component={Confirmation} />
+            <Route exact path="/recovery-email" component={RecoveryEmail} />
+            <Route exact path="/reset-password" component={ResetPassword} />
             <Route exact path="/photobooth" component={PhotoBooth}/>
           </Switch>
           <Footer/>

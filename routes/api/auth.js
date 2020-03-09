@@ -25,14 +25,55 @@ router.get('/', auth, async (req, res) => {
 
 router.get('/confirmation', eauth, async (req, res) => {
     try {
-    const user = await User.findById(req.user.id).select('-password');
-    await user.update({ confirmed: true });
-    sendEmail(user.email, user.name, "welcome");
+        const user = await User.findById(req.user.id).select('-password');
+        await user.update({ confirmed: true });
+        sendEmail(user.email, user.name, "welcome");
     } catch (err) {
       res.status(401).send('your email token is invalid');
       return;
     }
-    });
+});
+
+router.post('/recoveryemail', async (req, res) => {
+    const {email} = req.body;
+    try {
+        let user = await User.findOne({ email });
+        if(!user){
+            res.status(404).send('The email you enter is invalid');
+            return;
+        }
+        const payload = {user: { id: user.id } };
+        jwt.sign(
+            payload,
+            config.get('emailSecret'),
+            { expiresIn: 900 },
+            (err, etoken) => {
+              if (err) throw err;
+              res.json({ etoken });
+            });
+        sendEmail(user.email, user.name, "reset password");
+    } catch (err) {
+      res.status(401).send('unexpected email error');
+      return;
+    }
+});
+
+router.put('/resetpass', eauth, async (req, res) => {
+    try {
+        let user = await User.findById(req.user.id);
+        const {password} = req.body;
+        if (user && password){
+            const salt = await bcrypt.genSalt(10);
+            hashedPassword = await bcrypt.hash(password, salt);
+            user.password = hashedPassword;
+        }
+        await user.save();
+        sendEmail(user.email, user.name, "change confirmation");
+    } catch (err) {
+      res.status(401).send('your email token is invalid');
+      return;
+    }
+});
 
 
 // @route   POST api/auth

@@ -1,7 +1,7 @@
 {
     "mongoURI": "mongodb+srv://jsandler:Ayurveda17.@cluster0-qode2.azure.mongodb.net/test?retryWrites=true&w=majority",
     "jwtSecret": "youcansetthistowhateveryouwant",
-    "emailSecret": "emailSecretPassword"
+    "emailSecret": "emailSecret"
 }
 // simplepassword
 // pw for project0 mZN7@2*OpmPX

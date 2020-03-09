@@ -11,6 +11,7 @@ const reset_password = data => {
             <br/>
             <br/>
             <div>Click in the following link to reset your password</div>
+            <a href="http://localhost:3000/reset-password">Reset Password</a>
             <br/>
             <br/>
         </body>

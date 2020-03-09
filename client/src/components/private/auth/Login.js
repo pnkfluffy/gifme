@@ -72,7 +72,8 @@ const Login = () => {
                 className="sign-bottom"/>
             </form>
             <p>
-                Don't have an account? <Link to='/Signup'>Sign Up</Link>
+                Don't have an account? <Link to='/Signup'>Sign Up</Link> <br/>
+                <Link to='/recovery-email'>Forgot password?</Link>
             </p>
             <div className="links">
                 <img className="google" name="google API" onClick={e => onLinkRegistration(e)} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png" alt="Google link" />
