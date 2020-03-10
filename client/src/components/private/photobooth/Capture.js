@@ -1,96 +1,177 @@
-import React, { useState } from 'react';
-import Webcam from 'react-webcam';
-import FormData from 'form-data';
+import React, { useState, useEffect } from "react";
+import Webcam from "react-webcam";
+import FormData from "form-data";
+import thumbsUp from "../../../resources/thumbs_up_icon.png";
+import dogImg from "../../../resources/superimposable_dog.png";
+import catImg from "../../../resources/superimposable_cat.png";
+import hatImg from "../../../resources/superimposable_hat.png";
+import fireImg from "../../../resources/superimposable_fire.png";
+import bananaImg from "../../../resources/superimposable_banana.png";
+import poopImg from "../../../resources/superimposable_poop.png";
+import mergeImages from "merge-images";
+import Draggable from "react-draggable";
+
+const imageArray = [dogImg, poopImg, hatImg, fireImg, bananaImg];
+
+const DraggableImage = ({image, handleStart, handleStop}) => {
+  const dragHandlers = { onStart: handleStart(), onStop: handleStop };
+  return (
+    <Draggable bounds="form" {...dragHandlers}>
+      <div className="draggable_image">
+        <img src={image}></img>
+      </div>
+    </Draggable>
+  );
+};
 
 const videoConstraints = {
-    width: 500,
-    height: 500,
-    facingMode: "user"
-  };
+  width: 500,
+  height: 500,
+  facingMode: "user"
+};
 
 const PhotoDisplay = () => {
-  const [ imageSrc, setImageSrc ] = useState(null);
+  const [timer, setTimer] = useState(null);
 
-  const authtoken = localStorage.getItem('myToken');
+  const [imageSrc, setImageSrc] = useState(null);
+  // const [deltaPosition, setDeltaPosition] = useState({x: 0, y: 0});
+
+  const handleStart = () => {
+    console.log('hi');
+  };
+  const handleStop = () => {
+    console.log('bye');
+  };
+
+  const authtoken = localStorage.getItem("myToken");
+
   const webcamRef = React.useRef(null);
-  const capture = React.useCallback(
-    () => {
-      setImageSrc(webcamRef.current.getScreenshot());
+  const capture = React.useCallback(() => {
+    setImageSrc(webcamRef.current.getScreenshot());
+  }, [webcamRef]);
 
-    },
-    [webcamRef]
-  );
+  useEffect(() => {
+    if (timer < 0) {
+      capture();
+      setTimer(null);
+    }
+    if (!timer) return;
+    const interval = setInterval(() => {
+      setTimer(timer => (timer - 0.01).toFixed(2));
+    }, 10);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [timer]);
+
   const delete_img = () => {
     setImageSrc(null);
-  }
+  };
   const onSubmit = async e => {
     e.preventDefault();
     fetch(imageSrc)
-    .then(res => res.blob())
-    .then(blob => {
-      const formData = new FormData();
-      const file = new File([blob], "testfile.jpeg");
-      formData.append('photo', file)
-      fetch('/api/posts', {
-        method: 'POST',
-        headers: {
-          'x-auth-token': authtoken
-        },
-        body: formData
-      })
-      .then( res => res.json() )
-      .then( res => console.log(res) )
-      .catch(err => console.log(err.response) )
-    })
-  }
+      .then(res => res.blob())
+      .then(blob => {
+        const formData = new FormData();
+        const file = new File([blob], "testfile.jpeg");
+        formData.append("photo", file);
+        fetch("/api/posts", {
+          method: "POST",
+          headers: {
+            "x-auth-token": authtoken
+          },
+          body: formData
+        })
+          .then(res => res.json())
+          .then(res => console.log(res))
+          .catch(err => console.log(err.response));
+      });
+  };
 
   if (!imageSrc) {
     return (
-      <div className="webcam_box">
+      <div className="photobooth_box">
+        <div className="webcam_box">
           <Webcam
             audio={false}
-            height={500}
+            height={400}
             ref={webcamRef}
             screenshotFormat="image/jpeg"
-            width={500}
+            width={400}
             videoConstraints={videoConstraints}
             id="webcam"
           />
-          <button className="btn_capture" onClick={capture}>Capture photo</button>
         </div>
-    )
+        <div className="photobooth_record_box">
+          {/* CHANGE TIMER TO 3 SECONDS */}
+          <div
+            className="photobooth_record_btn"
+            onClick={() => {
+              setTimer(1);
+            }}
+          >
+            {timer ? timer : null}
+          </div>
+        </div>
+        <div className="photobooth_length_form">{"1 2 3 4 5"}</div>
+      </div>
+    );
   } else {
     return (
       <div className="photo_box">
         <form
+          className="photobooth_box"
           id="upload_img"
           method="POST"
           enctype="multipart/form-data"
-          onSubmit={e => onSubmit(e)}>
+          onSubmit={e => onSubmit(e)}
+        >
           <input
+            className="photobooth_screenshot"
             type="image"
             name="image"
             value={imageSrc}
             src={imageSrc}
             alt="upload_image"
-            required/>
-          <button className="btn_badimg" onClick={delete_img}>X</button>
-          <input type="submit" className="btn_upload" value="Upload"/>
+            required
+          />
+          <div className="photobooth_dragndrop">
+            {imageArray.map(singleImg => (
+              <DraggableImage
+                image={singleImg}
+                handleStart={() => handleStart()}
+                handleStop={() => handleStop()}
+              />
+            ))}
+          </div>
+          <div className="photobooth_action_btns">
+            <input
+              type="image"
+              className="photobooth_accept_btn"
+              value="Upload"
+              src={thumbsUp}
+            />
+            <img
+              className="photobooth_reject_btn"
+              onClick={delete_img}
+              src={thumbsUp}
+            />
+          </div>
         </form>
       </div>
-    )
+    );
   }
-}
+};
 
 const PhotoBooth = () => {
   return (
-  <body>
-    <div id="main">
-      <div class="photobooth">
-        <PhotoDisplay/>
+    <div>
+      <div id="main">
+        <div class="photobooth">
+          <PhotoDisplay />
+        </div>
       </div>
     </div>
-  </body>
   );
 };
 

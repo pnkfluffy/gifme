@@ -3,8 +3,8 @@
 img{
 	width: 100%;
 }
-.structure{
-	padding: 20px 2% 0 2%;
+.home_imagegallery{
+	padding: 20px 2px 0 2px;
 	max-width: 1200px;
 	display: flex;
 	flex-wrap: wrap;
