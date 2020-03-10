@@ -41,6 +41,9 @@ const Account = () => {
             <button name="password" 
                     onClick={e => onChange(e)} 
                     className="Change">Change Password</button>
+            <button name="delete" 
+                    onClick={e => onChange(e)} 
+                    className="Change">Delete Account</button>
             </div>
             <ToSwitch data={trace}/>
             </div>
@@ -49,33 +52,43 @@ const Account = () => {
  
 const ToSwitch = ({data}) =>{
     const [newData, setNewData] = useState({
-        name:'', email: '', password: '', password2: ''});
+        name:'', email: '', password: '', password2: '', password_account:''});
     const [error, setError] = useState('');
-
-    const {name, email, password, password2} = newData;
-    
+    const {name, email, password, password2, password_account} = newData;
     const V_Token = localStorage.getItem('myToken');
 
     const onChange = e => {setNewData({...newData, [e.target.name]: e.target.value})}
     
     const onSubmit = async e => {
-    e.preventDefault();
+        e.preventDefault();
     if(password !== password2) {
         setError('Passwords do not match');
+    }else if(password_account){
+        try {
+            const config = {
+                headers:{
+                    'x-auth-token': V_Token,
+                    'Content-Type': 'application/json'
+                }}
+            const deleteAccount = {password_account};
+            const body = JSON.stringify(deleteAccount);
+            await axios.put('/api/users/delete', body, config)
+            .then(localStorage.removeItem('myToken'), window.location.href = '/')
+        } catch (err) {setError(err.response.data.toString());}
     } else { 
-   try {
-       const config = {
-           headers:{
-               'x-auth-token': V_Token,
-               'Content-Type': 'application/json'
-           }}
-       const newUser = {name, email, password};
-       const body = JSON.stringify(newUser);
-       await axios.put('/api/users', body, config)
-       window.location.href = '/Profile';
+    try {
+        const config = {
+            headers:{
+                'x-auth-token': V_Token,
+                'Content-Type': 'application/json'
+            }}
+        const newUser = {name, email, password};
+        const body = JSON.stringify(newUser);
+        await axios.put('/api/users', body, config)
+        window.location.href = '/Profile';
 
-   } catch (err) {setError(err.response.data.toString());}
-   }
+    } catch (err) {setError(err.response.data.toString());}
+    }
 }
 
 switch(data.toString()){
@@ -153,6 +166,28 @@ switch(data.toString()){
                 
                 <button type="submit"
                 className="edit_sign_button">Change email</button>
+                </form>
+                </div>
+            </div>);
+    case 'delete':
+        return (
+            <div>
+                <div className="Cont_edit">
+                <ErrorMessage text={error}/>
+
+                <form 
+                onSubmit={e => onSubmit(e)}
+                className="edit_form">
+                <input name="password_account"
+                type="password"
+                value={password_account}
+                onChange={e => onChange(e)}
+                placeholder="Confirm your password"
+                required="required"
+                className="edit_button"/>
+                
+                <button type="submit"
+                className="edit_sign_button">Delete Account</button>
                 </form>
                 </div>
             </div>);

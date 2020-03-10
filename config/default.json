@@ -3,9 +3,3 @@
     "jwtSecret": "youcansetthistowhateveryouwant",
     "emailSecret": "emailSecret"
 }
-// simplepassword
-// pw for project0 mZN7@2*OpmPX
-
-//default: mongodb+srv://jfelty:simplepassword@cluster0-wzspy.mongodb.net/test?retryWrites=true&w=majority
-
-//starbucks: mongodb://jfelty:<password>@cluster0-shard-00-00-wzspy.mongodb.net:27017,cluster0-shard-00-01-wzspy.mongodb.net:27017,cluster0-shard-00-02-wzspy.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority
