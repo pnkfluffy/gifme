@@ -16,7 +16,7 @@ const imageArray = [dogImg, poopImg, hatImg, fireImg, bananaImg];
 const DraggableImage = ({image, handleStart, handleStop}) => {
   const dragHandlers = { onStart: handleStart(), onStop: handleStop };
   return (
-    <Draggable bounds="form" {...dragHandlers}>
+    <Draggable bounds="form" offsetParent="form" {...dragHandlers}>
       <div className="draggable_image">
         <img src={image}></img>
       </div>
