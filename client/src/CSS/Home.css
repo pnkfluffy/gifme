@@ -121,9 +121,6 @@ img{
 	flex-direction: row;
 	justify-content: space-between;
 }
-.overlay_export_btn_fb{
-	width: 45px;
-}
 .overlay_export_box > div{
 	width: 50px;
 	display: flex;

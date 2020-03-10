@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import moment from 'moment';
+import {FacebookShareButton, TwitterShareButton, WhatsappShareButton, FacebookIcon, TwitterIcon, WhatsappIcon} from "react-share";
 
 import downloadIcon from "../../resources/download_icon.png";
-import facebookIcon from "../../resources/facebook_icon.png";
-import twitterIcon from "../../resources/twitter_icon.png";
-import discordIcon from "../../resources/discord_icon.png";
 
 const OverlayComment = ({ commentData, postData, imageID, setAllComments }) => {
   let myComment;
@@ -162,20 +160,26 @@ const ImageOverlay = ({ data, removeOverlay, authInfo }) => {
         </div>
         <div className="overlay_export_box">
           <div className="overlay_export_btn">
+			<a href={`${data.image}`} download="my_image.jpeg">
             <img src={downloadIcon} alt="download"></img>
+			</a>
           </div>
           <div className="overlay_export_btn">
-            <img
-              src={facebookIcon}
-              alt="download"
-              className="overlay_export_btn_fb"
-            ></img>
+			<FacebookShareButton>
+			{/* <FacebookShareButton url='INSERT IMAGE LINK URL HERE'> */}
+
+            <FacebookIcon size={50} round={true}/>
+			  </FacebookShareButton>
           </div>
           <div className="overlay_export_btn">
-            <img src={twitterIcon} alt="download"></img>
+            <TwitterShareButton>
+				<TwitterIcon size={50} round={true}/>
+			</TwitterShareButton>
           </div>
           <div className="overlay_export_btn">
-            <img src={discordIcon} alt="download"></img>
+            <WhatsappShareButton>
+				<WhatsappIcon size={50} round={true}/>
+			</WhatsappShareButton>
           </div>
         </div>
         {/* IF USER IS NOT LOGGED IN DISPLAY LOG IN BUTTON LIKE REDDIT! */}
