@@ -116,7 +116,12 @@ router.get("/meta/:id", async (req, res) => {
   console.log(req.params.id);
   try {
     const post = await Post.findOne({ image: req.params.id });
-    const user = await User.findById(post.user);
+    let user = await User.findById(post.user);
+    if (!user) {
+      user = {
+        name: '[deleted]'
+      }
+    }
     const postReturn = {
       imageID: req.params.id,
       user: user.name,
