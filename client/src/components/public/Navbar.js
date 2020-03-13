@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import {slide as Menu} from "react-burger-menu";
 import logo3 from '../../resources/gifme_logo_3.png';
-
 
 const Navbar = () =>{
 
@@ -36,30 +36,43 @@ const Navbar = () =>{
 
 
 const NavbarLogin = () => {
-    const V_Token = localStorage.getItem('myToken');
+    const [menuState, setMenuState] = useState(true)
     
+    const openMenu = () =>{setMenuState(false)}
+    return(
+        <div>
+            <Link to='/PhotoBooth' className="temporal_link">Take a Photo</Link>
+            <Menu noOverlay isOpen={menuState} onStateChange={openMenu}>
+                <Link to='/Account' onClick={openMenu}>Account</Link>
+                <Link to='/MyPosts' onClick={openMenu}>My posts</Link>
+                <Link to='/likes' onClick={openMenu}>Favorite posts</Link>
+                <Link to='/settings' onClick={openMenu}>Settings</Link>
+                <SwitchPrivacy/>       
+            </Menu>
+        </div>
+    )
+}
+
+const SwitchPrivacy= () =>{
+    const V_Token = localStorage.getItem('myToken');
+
     const deleteToken = () =>{
         localStorage.removeItem('myToken');
         localStorage.removeItem('myGifmeUserID');
         window.location.href = '/';
     }
-    if(!V_Token) {
-    return (
-        <div className="login_box">
-            <Link to="/Signup" className="signup_button">Sign up</Link>
-            <Link to="/Login" className="login_button">Log In</Link>
+    if (V_Token){ 
+        return(
+        <div>
+            <Link className="bm-item" onClick={deleteToken}>Log out</Link>
         </div>
-    )} else {
+    )} 
+    else {
         return (
-            <div className="login_box">
-                <Link to="/"
-                className="logout_button"
-                onClick={deleteToken}>Log out</Link>
-                <Link to="/Profile"
-                className="profile_button">Profile</Link>
-            </div>
-            )
-        }
+        <div>
+            <Link to='/Login' className="bm-item">Log in</Link>
+        </div>
+    )}
 }
 
 export default Navbar;

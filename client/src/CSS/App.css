@@ -47,10 +47,12 @@ a {
   justify-content: flex-end;
 }
 
+/*
 .box {
   height: 10vw;
   max-height: 60px;
 }
+*/
 
 .container-l {
   width: 50px;
@@ -70,39 +72,23 @@ a {
   transform: scale(1.1);
 }
 .container-r {
-  margin-top: auto;
-  margin-bottom: auto;
+  margin: auto 15px auto auto;
+  padding: 10px auto 10px auto;
   width: 150px;
   display: flex;
   justify-content: space-between;
   text-align: center;
-  margin-right: 15px;
-  padding-top: 10px;
-  padding-bottom: 10px;
   border-radius: 10px;
   background-color: rgb(112, 93, 128);
 }
-.container-r-relative {
-  margin-top: auto;
-  margin-bottom: auto;
-  float: left;
-  width: 150px;
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
-}
-.logout_button {
-  color: rgb(228, 142, 138);
-  font-weight: bold;
-}
-.signup_button {
-  color: rgb(99, 150, 187);
-  font-weight: bold;
-}
+
+
 .login_box {
   display: flex;
   width: 100%;
   justify-content: space-evenly;
+  color: rgb(99, 150, 187);
+  color: rgb(228, 142, 138);
 }
 .login_button,
 .profile_button {
@@ -115,6 +101,16 @@ a {
 .signup_button:hover {
   filter: brightness(110%);
 }
+
+.container-r-relative {
+  margin: auto;
+  float: left;
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
 .main {
   font-size: 20px;
   text-decoration: none;
@@ -137,6 +133,100 @@ a {
   text-decoration: none;
   background-color: rgba(256, 256, 256, 0.3);
 }
+
+
+
+
+
+
+/* Position and sizing of burger button */
+.bm-burger-button {
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  right: 30px;
+  top: 15px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+  background: white;
+  height: 15%;
+  width: 100%;
+}
+
+/* Position and sizing of clickable cross button 
+.bm-cross-button {
+  height: 40px;
+  width: 24px;
+}
+*/
+
+/* Color/shape of close button cross 
+.bm-cross {
+  background: #bdc3c7;
+}
+*/
+
+/* General sidebar styles */
+.bm-menu {
+  background: #373a47;
+  margin:0;
+  padding: 0.5em 1.5em;
+  font-size: 1.15em;
+  width: 200px;
+}
+.bm-menu-wrap{
+  position: fixed;
+  margin-top:20px;
+  left: 100vw;
+  height: 220px !important;
+  width: auto !important;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+  fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+  color: #b8b7ad;
+  height: 100px;
+}
+
+/* Individual item */
+.bm-item {
+  display: inline-block;
+
+  /* Our sidebar item styling */
+  text-decoration: none;
+  padding: 8px;
+  color: #d1d1d1;
+  transition: color 0.1s;
+  border-bottom: solid 0.1px white;
+  width: 90%;
+}
+
+/* Change color on hover */
+.bm-item:hover {
+  color: white;
+}
+
+
+/* Styling of overlay */
+.bm-overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+
+
+
+
+
+
+
+
   /*                 EMAIL CONFIRMATION PAGE                    */
   .confirm_box{
     height: 100px;
@@ -192,4 +282,10 @@ a {
 }
 .icon:hover {
   opacity: 0.5;
+}
+
+/*                 TEMPORAL CSS                    */
+.temporal_link{
+  text-decoration: none;
+  color: white;
 }

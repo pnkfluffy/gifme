@@ -63,7 +63,6 @@ const Login = () => {
                 type="password"
                 value={password}
                 onChange={e => onChange(e)}
-                maxLength="6"
                 placeholder="Your
                 password"
                 className="input"/>

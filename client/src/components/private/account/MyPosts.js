@@ -3,7 +3,7 @@ import axios from 'axios';
 import { fetchAllPosts } from '../../../utils/FetchPosts';
 
 
-const Uploads = () => {
+const MyPosts = () => {
     const [imageGallery, setImageGallery] = useState([]);
 
     const authToken = localStorage.getItem('myToken');
@@ -44,4 +44,4 @@ const Uploads = () => {
 
 }
 
-export default Uploads;
+export default MyPosts;

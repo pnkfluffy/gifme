@@ -93,14 +93,12 @@ const Signup = () => {
                 type="password"
                 value={password}
                 onChange={e => onChange(e)}
-                maxLength="6"
                 placeholder="Your password"
                 className="input"/>
 
                 <input name="password2"
                 value={password2}
                 onChange={e => onChange(e)}
-                maxLength="6"
                 type="password"
                 placeholder="Confirm your password"
                 className="input"/>
