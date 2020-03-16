@@ -43,8 +43,6 @@ const Likes = ({likes, imageID, authInfo}) => {
       });
   };
 
-  
-  //  Searches the 
   useEffect(() => {
     if (likes.length) {
       authInfo.then( res => {

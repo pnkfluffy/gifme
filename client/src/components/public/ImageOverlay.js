@@ -32,8 +32,6 @@ const OverlayComment = ({ commentData, postData, imageID, setAllComments }) => {
       });
   };
 
-
-  //https://stackoverflow.com/questions/25159330/convert-an-iso-date-to-the-date-format-yyyy-mm-dd-in-javascript
   const myDate = new Date(commentData.date);
   const formattedDate = moment(myDate).format(`MMM DD [']YY`);
 

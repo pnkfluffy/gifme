@@ -8,7 +8,7 @@ import fetchAuth from '../../utils/FetchAuth';
 const Home = () => {
   const [imageGallery, setImageGallery] = useState([]);
   const [overlayData, setOverlayData] = useState(null);
-  const [authInfo, setauthInfo] = useState(null);
+  const [authInfo, setAuthInfo] = useState(null);
 
   const getPosts = async => {
     const finalPosts = axios.get("api/posts/all");
@@ -26,7 +26,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    setauthInfo(fetchAuth());
+    setAuthInfo(fetchAuth());
     getPosts();
   }, []);
 
@@ -43,7 +43,7 @@ const Home = () => {
   return (
     <div>
       <div id="main">
-        <div className="structure">
+        <div className="home_imagegallery">
           {imageGallery.map(image => (
             <ImageCard
               authInfo={authInfo}

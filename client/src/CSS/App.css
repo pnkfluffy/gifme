@@ -16,7 +16,7 @@ a {
   justify-content: center;
   flex: 1;
   max-width: 1600px;
-  width: 80%;
+  width: 90%;
   margin: 20px auto 20px auto;
   border-radius: 5px;
   background-color: rgba(256, 256, 256, .2);
@@ -64,11 +64,14 @@ a {
   display: flex;
   align-items: center;
 }
-
-.gifme_logo {
-  transition: transform 0.2s;
+.photobooth_link{
+  z-index: 45;
 }
-.gifme_logo:hover {
+.gifme_logo, .camera_icon {
+  transition: transform 0.2s;
+  z-index: 40;
+}
+.gifme_logo:hover, .camera_icon:hover {
   transform: scale(1.1);
 }
 .container-r {
@@ -81,29 +84,15 @@ a {
   border-radius: 10px;
   background-color: rgb(112, 93, 128);
 }
-
-
-.login_box {
+.container_camera_icon{
+  width: 40px;
+  margin-right: 20px;
   display: flex;
-  width: 100%;
-  justify-content: space-evenly;
-  color: rgb(99, 150, 187);
-  color: rgb(228, 142, 138);
+  align-items: center;
 }
-.login_button,
-.profile_button {
-  color: rgb(124, 186, 231);
-  font-weight: bold;
-}
-.login_button:hover,
-.profile_button:hover,
-.logout_button:hover,
-.signup_button:hover {
-  filter: brightness(110%);
-}
-
 .container-r-relative {
-  margin: auto;
+  margin-top: auto;
+  margin-bottom: auto;
   float: left;
   width: 150px;
   display: flex;
