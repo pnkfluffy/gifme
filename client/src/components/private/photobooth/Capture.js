@@ -8,7 +8,7 @@ import hatImg from "../../../resources/superimposable_hat.png";
 import fireImg from "../../../resources/superimposable_fire.png";
 import bananaImg from "../../../resources/superimposable_banana.png";
 import poopImg from "../../../resources/superimposable_poop.png";
-import mergeImages from "merge-images";
+//import mergeImages from "merge-images";
 import Draggable from "react-draggable";
 
 const imageArray = [dogImg, poopImg, hatImg, fireImg, bananaImg];
