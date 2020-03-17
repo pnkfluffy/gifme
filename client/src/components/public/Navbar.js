@@ -36,24 +36,33 @@ const Navbar = () =>{
                 </Link>
                 <div className="feature_container">
                     <div className="container_camera_icon">
-                    {loggedIn ? 
+                    {!loggedIn ? <div>
+                    <Menu noOverlay isOpen={menuState} onStateChange={openMenu}>
+                        <Link to='/Profile' onClick={openMenu}>Profile</Link>
+                        <Link to='/Settings' onClick={openMenu}>Settings</Link>
+                        <Link to='/likes' onClick={openMenu}>Favorite posts</Link>
+                        <SwitchPrivacy/>       
+                    </Menu>
+                    </div>
+                    :
+                    <div>
                     <Link className="photobooth_link" to="/photobooth">
                         <img className="camera_icon" src={camera_icon} alt="photobooth"></img>
                     </Link>
-                    : null}
+                    <div className="login_box">
+                        <Link to="/Signup" className="signup_button">Sign up</Link>
+                        <Link to="/Login" className="login_button">Log In</Link>
+                    </div>
+                    </div>
+                    }
                     </div>
                 </div>
-
-                <Menu noOverlay isOpen={menuState} onStateChange={openMenu}>
-                    <Link to='/Profile' onClick={openMenu}>Profile</Link>
-                    <Link to='/Settings' onClick={openMenu}>Settings</Link>
-                    <Link to='/likes' onClick={openMenu}>Favorite posts</Link>
-                    <SwitchPrivacy/>       
-                </Menu>
             </div>
+            <div className="container-r-relative"></div>
         </div>
     );
 }
+
 
 const SwitchPrivacy= () =>{
     const V_Token = localStorage.getItem('myToken');
