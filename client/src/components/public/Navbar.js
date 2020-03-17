@@ -31,18 +31,19 @@ const Navbar = () =>{
     return(
         <div>
             <div className="header_absolute">
-                <div className="container-l">
-                    <Link className="navbar_logo" to="/" onClick={scrollToTop()}>
-                        <img src={logo3} className="gifme_logo" alt="logo"/>
-                    </Link>
-                </div>
-                <div className="container_camera_icon">
+                <Link className="navbar_logo" to="/" onClick={scrollToTop()}>
+                    <img src={logo3} className="gifme_logo" alt="logo"/>
+                </Link>
+                <div className="feature_container">
+                    <div className="container_camera_icon">
                     {loggedIn ? 
                     <Link className="photobooth_link" to="/photobooth">
                         <img className="camera_icon" src={camera_icon} alt="photobooth"></img>
                     </Link>
                     : null}
+                    </div>
                 </div>
+
                 <Menu noOverlay isOpen={menuState} onStateChange={openMenu}>
                     <Link to='/Account' onClick={openMenu}>Account</Link>
                     <Link to='/MyPosts' onClick={openMenu}>My posts</Link>

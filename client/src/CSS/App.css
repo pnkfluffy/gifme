@@ -47,24 +47,9 @@ a {
   justify-content: flex-end;
 }
 
-/*
-.box {
-  height: 10vw;
-  max-height: 60px;
-}
-*/
-
-.container-l {
-  width: 50px;
-}
-.container-r{
-  float: left;
-  background-color: white;
-}
-
 .navbar_logo {
   height: 100%;
-  width: 100%;
+  width: 50px;
   display: flex;
   align-items: center;
 }
@@ -79,13 +64,16 @@ a {
   transform: scale(1.1);
 }
 
+.feature_container{
+  width: 30%;
+  display: flex;
+  justify-content: right;
+}
+
 .container_camera_icon{
-  float: right;
   width: 40px;
-  margin-right: 0px;
-  padding: 0;
-  /*display: flex;
-  align-items: center;*/
+  display: flex;
+  align-items: center;
 }
 .container-r-relative {
   margin-top: auto;

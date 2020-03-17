@@ -3,7 +3,7 @@ import Webcam from "react-webcam";
 import FormData from "form-data";
 import thumbsUp from "../../../resources/thumbs_up_icon.png";
 import dogImg from "../../../resources/superimposable_dog.png";
-import catImg from "../../../resources/superimposable_cat.png";
+//import catImg from "../../../resources/superimposable_cat.png";
 import hatImg from "../../../resources/superimposable_hat.png";
 import fireImg from "../../../resources/superimposable_fire.png";
 import bananaImg from "../../../resources/superimposable_banana.png";
