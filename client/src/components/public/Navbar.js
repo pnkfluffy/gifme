@@ -30,13 +30,17 @@ const Navbar = () =>{
 
     return(
         <div>
+            <div className="header_relative"></div>
             <div className="header_absolute">
                 <Link className="navbar_logo" to="/" onClick={scrollToTop()}>
                     <img src={logo3} className="gifme_logo" alt="logo"/>
                 </Link>
-                <div className="feature_container">
-                    <div className="container_camera_icon">
-                    {loggedIn ? <div>
+                    {loggedIn ? 
+                    <div className="feature_container">
+                        <div className="container_camera_icon">
+                            <Link className="photobooth_link" to="/photobooth">
+                                <img className="camera_icon" src={camera_icon} alt="photobooth"></img>
+                            </Link>
                     <Menu noOverlay isOpen={menuState} onStateChange={openMenu}>
                         <Link to='/Profile' onClick={openMenu}>Profile</Link>
                         <Link to='/Settings' onClick={openMenu}>Settings</Link>
@@ -44,22 +48,16 @@ const Navbar = () =>{
                         <SwitchPrivacy/>       
                     </Menu>
                     </div>
+                    </div>
                     :
-                    <div>
-                    <Link className="photobooth_link" to="/photobooth">
-                        <img className="camera_icon" src={camera_icon} alt="photobooth"></img>
-                    </Link>
-                    <div className="login_box">
+                    <div className="feature_container">
                         <Link to="/Signup" className="signup_button">Sign up</Link>
                         <Link to="/Login" className="login_button">Log In</Link>
                     </div>
-                    </div>
                     }
-                    </div>
                 </div>
+                <div className="container-r-relative"></div>
             </div>
-            <div className="container-r-relative"></div>
-        </div>
     );
 }
 
