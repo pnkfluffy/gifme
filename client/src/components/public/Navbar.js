@@ -36,7 +36,7 @@ const Navbar = () =>{
                 </Link>
                 <div className="feature_container">
                     <div className="container_camera_icon">
-                    {!loggedIn ? <div>
+                    {loggedIn ? <div>
                     <Menu noOverlay isOpen={menuState} onStateChange={openMenu}>
                         <Link to='/Profile' onClick={openMenu}>Profile</Link>
                         <Link to='/Settings' onClick={openMenu}>Settings</Link>
