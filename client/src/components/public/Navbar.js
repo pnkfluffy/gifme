@@ -7,6 +7,9 @@ import fetchAuth from '../../utils/FetchAuth';
 
 const Navbar = () =>{
     const [loggedIn, setLoggedIn] = useState(false);
+    const [menuState, setMenuState] = useState(true);
+    
+    const openMenu = () =>{setMenuState(false)}
 
     useEffect(() => {
         fetchAuth().then(res => {
@@ -27,49 +30,29 @@ const Navbar = () =>{
 
     return(
         <div>
-        <div className="header_absolute">
-                	<div className="container-l">
-                    	<Link className="navbar_logo" to="/" onClick={scrollToTop()}>
-                            <img src={logo3} className="gifme_logo" alt="logo"/>
-                        </Link>
-                	</div>
-                	<div className="container-m"></div>
-                	<div className="container-r">
-                    	<NavbarLogin loggedIn={loggedIn}/>
-                    </div>
+            <div className="header_absolute">
+                <div className="container-l">
+                    <Link className="navbar_logo" to="/" onClick={scrollToTop()}>
+                        <img src={logo3} className="gifme_logo" alt="logo"/>
+                    </Link>
+                </div>
+                <div className="container_camera_icon">
+                    {loggedIn ? 
+                    <Link className="photobooth_link" to="/photobooth">
+                        <img className="camera_icon" src={camera_icon} alt="photobooth"></img>
+                    </Link>
+                    : null}
+                </div>
+                <Menu noOverlay isOpen={menuState} onStateChange={openMenu}>
+                    <Link to='/Account' onClick={openMenu}>Account</Link>
+                    <Link to='/MyPosts' onClick={openMenu}>My posts</Link>
+                    <Link to='/likes' onClick={openMenu}>Favorite posts</Link>
+                    <Link to='/settings' onClick={openMenu}>Settings</Link>
+                    <SwitchPrivacy/>       
+                </Menu>
             </div>
-        <div className="header_relative">
-            <div className="container_camera_icon">
-                {loggedIn ? 
-                <Link className="photobooth_link" to="/photobooth">
-                    <img className="camera_icon" src={camera_icon} alt="photobooth"></img>
-                </Link>
-                : null}
-            </div>
-            <div className="container-r-relative">
-            </div>
-        </div>
         </div>
     );
-}
-
-
-const NavbarLogin = () => {
-    const [menuState, setMenuState] = useState(true)
-    
-    const openMenu = () =>{setMenuState(false)}
-    return(
-        <div>
-            <Link to='/PhotoBooth' className="temporal_link">Take a Photo</Link>
-            <Menu noOverlay isOpen={menuState} onStateChange={openMenu}>
-                <Link to='/Account' onClick={openMenu}>Account</Link>
-                <Link to='/MyPosts' onClick={openMenu}>My posts</Link>
-                <Link to='/likes' onClick={openMenu}>Favorite posts</Link>
-                <Link to='/settings' onClick={openMenu}>Settings</Link>
-                <SwitchPrivacy/>       
-            </Menu>
-        </div>
-    )
 }
 
 const SwitchPrivacy= () =>{

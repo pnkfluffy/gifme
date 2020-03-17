@@ -37,7 +37,7 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgb(0, 0, 0, 0, 0);
+  background-color: rgb(112, 93, 128);
 }
 
 .header_relative {
@@ -57,6 +57,10 @@ a {
 .container-l {
   width: 50px;
 }
+.container-r{
+  float: left;
+  background-color: white;
+}
 
 .navbar_logo {
   height: 100%;
@@ -74,21 +78,14 @@ a {
 .gifme_logo:hover, .camera_icon:hover {
   transform: scale(1.1);
 }
-.container-r {
-  margin: auto 15px auto auto;
-  padding: 10px auto 10px auto;
-  width: 150px;
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
-  border-radius: 10px;
-  background-color: rgb(112, 93, 128);
-}
+
 .container_camera_icon{
+  float: right;
   width: 40px;
-  margin-right: 20px;
-  display: flex;
-  align-items: center;
+  margin-right: 0px;
+  padding: 0;
+  /*display: flex;
+  align-items: center;*/
 }
 .container-r-relative {
   margin-top: auto;
@@ -112,17 +109,6 @@ a {
     text-align: center;
     font-size: 13px;
   }
-
-.login {
-  float: right;
-  margin: 0px 2.3px 0px 2.3px;
-  padding: 4px;
-  font-size: 12px;
-  border-radius: 3px;
-  text-decoration: none;
-  background-color: rgba(256, 256, 256, 0.3);
-}
-
 
 
 
@@ -160,6 +146,7 @@ a {
 /* General sidebar styles */
 .bm-menu {
   background: #373a47;
+  text-align: center;
   margin:0;
   padding: 0.5em 1.5em;
   font-size: 1.15em;
@@ -167,7 +154,7 @@ a {
 }
 .bm-menu-wrap{
   position: fixed;
-  margin-top:20px;
+  margin-top:30px;
   left: 100vw;
   height: 220px !important;
   width: auto !important;
@@ -274,7 +261,3 @@ a {
 }
 
 /*                 TEMPORAL CSS                    */
-.temporal_link{
-  text-decoration: none;
-  color: white;
-}
