@@ -81,6 +81,41 @@ a {
   text-align: center;
 }
 
+.logout_button {
+  color: rgb(228, 142, 138);
+  font-weight: bold;
+}
+.signup_button {
+  color: rgb(99, 150, 187);
+  font-weight: bold;
+}
+.login_box {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+.login_button,
+.profile_button {
+  color: rgb(124, 186, 231);
+  font-weight: bold;
+}
+.login_button:hover,
+.profile_button:hover,
+.logout_button:hover,
+.signup_button:hover {
+  filter: brightness(110%);
+}
+
+.login {
+  float: right;
+  margin: 0px 2.3px 0px 2.3px;
+  padding: 4px;
+  font-size: 12px;
+  border-radius: 3px;
+  text-decoration: none;
+  background-color: rgba(256, 256, 256, 0.3);
+}
+
 .main {
   font-size: 20px;
   text-decoration: none;
