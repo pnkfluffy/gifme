@@ -25,11 +25,13 @@ const Home = () => {
       });
   };
 
+  // gets auth info and all posts and saves them to state
   useEffect(() => {
     setAuthInfo(fetchAuth());
     getPosts();
   }, []);
 
+  // toggles overlay by updating the overlayData state
   var body = document.body;
   const toggleOverlay = props => {
     body.classList.toggle('noscroll');
@@ -56,6 +58,8 @@ const Home = () => {
       <footer id="footer">
         &#169; Jack&Jon all rights reserved.
       </footer>
+			{/* if state has imageData, then display overlay. toggleOverlay function 
+			passed in to toggle the overlay off when user clicks out */}
               {overlayData ? (
                 <ImageOverlay
                   authInfo={authInfo}
