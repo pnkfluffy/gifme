@@ -3,7 +3,7 @@ import axios from 'axios';
 import ImageCard from "../../public/ImageCard";
 import ImageOverlay from "../../public/ImageOverlay";
 import { fetchAllPosts } from '../../../utils/FetchPosts';
-import fetchAuth from '../../../utils/FetchAuthclear';
+import fetchAuth from '../../../utils/FetchAuth';
 
 
 const Profile = () => {
