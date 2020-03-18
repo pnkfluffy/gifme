@@ -5,6 +5,7 @@ const Likes = ({likes, imageID, authInfo}) => {
   const [hasLiked, setHasLiked] = useState(null);
   const authToken = localStorage.getItem("myToken");
 
+  // puts like from currently logged in user
   const likePost = async e => {
     fetch(`api/posts/like/${imageID}`, {
       method: "PUT",
@@ -13,9 +14,8 @@ const Likes = ({likes, imageID, authInfo}) => {
       }
     })
       .then(res => {
-        //  forward the user to signup if not authenticated
-        //  CHANGE TO POP UP SAYING ONLY LOGGED IN USERS CAN
-        //  LIKE OR COMMENT ON POSTS
+		//  ADD A POP UP THAT SAYS 'user must be logged in to like posts'
+		//  'log in?' <--- link to log in page on click
         if (res.status === 401) {
           window.location.href = "/signup";
         }
@@ -43,6 +43,7 @@ const Likes = ({likes, imageID, authInfo}) => {
       });
   };
 
+  //  checks if user has liked posts, and updates ui
   useEffect(() => {
     if (likes.length) {
       authInfo.then( res => {
@@ -50,7 +51,7 @@ const Likes = ({likes, imageID, authInfo}) => {
           const myLikes = likes.some(like => like.user.toString() === res._id);
           setHasLiked(myLikes);
         }
-        // ELSE USER IS NOT LOGGED IN
+        // else, the user is not logged in
       })
     }
   }, []);
@@ -69,6 +70,10 @@ const Likes = ({likes, imageID, authInfo}) => {
   );
 };
 
+// REMOVE IS COMMENTING AND SETISCOMMENTS
+// REPLACE WITH TAGS --
+// IGNORE THIS ENTIRE FUNCTION AND DON'T
+// USE COPY IT TO THE USER POSTS PAGE
 const CommentsBox = imageInfo => {
   const [isCommenting, setIsCommenting] = useState(null);
   const [comment, setComment] = useState('');
@@ -87,7 +92,6 @@ const CommentsBox = imageInfo => {
     const commentInfo = {
       text: comment
     };
-    // console.log(commentInfo);
     const body = JSON.stringify(commentInfo);
     const config = {
       headers: {
@@ -137,8 +141,8 @@ const CommentsBox = imageInfo => {
     </div>
   );
 };
+//  ^^CHANGE COMMENTS TO TAGS, MAKE EACH ONE LINK TO SEARCH WHEN CLICKED^^
 
-//  CHANGE COMMENTS TO TAGS, MAKE EACH ONE LINK TO SEARCH WHEN CLICKED
 
 const ImageCard = ({ imageData, addOverlay, authInfo }) => {
   return (
@@ -147,6 +151,7 @@ const ImageCard = ({ imageData, addOverlay, authInfo }) => {
         <div className="image_card_name_text">{imageData.user}</div>
       </div>
       <div className="pic_frame">
+		  {/* calls function from home to open imageoverlay with imagedata */}
         <img
           className="image_card_image"
           src={`${imageData.image}`}
@@ -155,6 +160,7 @@ const ImageCard = ({ imageData, addOverlay, authInfo }) => {
         />
       </div>
       <div className="image_card_comment_like">
+		  {/* passes all info to likes */}
         <Likes likes={imageData.likes} imageID={imageData.imageID} authInfo={authInfo}/>
         <CommentsBox
           comments={imageData.comments}

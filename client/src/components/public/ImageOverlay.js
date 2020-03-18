@@ -1,21 +1,30 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import moment from 'moment';
-import {FacebookShareButton, TwitterShareButton, WhatsappShareButton, FacebookIcon, TwitterIcon, WhatsappIcon} from "react-share";
+import moment from "moment";
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  WhatsappIcon
+} from "react-share";
 
 import downloadIcon from "../../resources/download_icon.png";
 
-const OverlayComment = ({ commentData, postData, imageID, setAllComments }) => {
-  let myComment;
-  if (postData) {
-    myComment = postData._id === commentData.user;
-  }
+const OverlayComment = ({ commentData, userID, imageID, setAllComments }) => {
   const authtoken = localStorage.getItem("myToken");
 
-  const deleteComment = () => {
-    // MAKE ARE YOU SURE POPUP
+  // sees if comment is made by current logged in user
+  // if so, sets myComment to true
+  let myComment;
+  if (userID) {
+    myComment = userID === commentData.user;
+  }
 
+  // MAKE ARE YOU SURE POPUP FOR USER TO CONFIRM
+  const deleteComment = () => {
     const config = {
       headers: {
         "x-auth-token": authtoken
@@ -38,6 +47,7 @@ const OverlayComment = ({ commentData, postData, imageID, setAllComments }) => {
   return (
     <div className="overlay_comment_single">
       <div className="overlay_comment_topbar">
+		  {/* adds css to change color of username if comment left by logged in user */}
         <div
           className={
             "overlay_comment_name " +
@@ -49,6 +59,7 @@ const OverlayComment = ({ commentData, postData, imageID, setAllComments }) => {
         <div className="overlay_comment_date">{formattedDate}</div>
       </div>
       <div className="overlay_comment_content">{commentData.text}</div>
+	  {/* allows user to delete if comment left by logged in user */}
       {myComment ? (
         <div className="overlay_comment_mycomment">
           <div
@@ -57,6 +68,7 @@ const OverlayComment = ({ commentData, postData, imageID, setAllComments }) => {
           >
             delete
           </div>
+		  {/* ADD ABILITY AND ROUTE TO EDIT COMMENTS */}
           {/* <div className="overlay_comment_edit">
               edit
               </div> */}
@@ -68,6 +80,7 @@ const OverlayComment = ({ commentData, postData, imageID, setAllComments }) => {
   );
 };
 
+// makes it so that only clicking on the background removes the overlay
 const stopProp = e => {
   e.stopPropagation();
 };
@@ -79,7 +92,6 @@ const OverlayCommentBox = ({ data, setAllComments }) => {
   const onSubmit = async e => {
     e.preventDefault();
     const auth_token = localStorage.getItem("myToken");
-
     const commentInfo = {
       text: comment
     };
@@ -123,6 +135,7 @@ const OverlayCommentBox = ({ data, setAllComments }) => {
   );
 };
 
+// reroutes user to signup page if user not logged in
 const OverlayLoginBox = () => (
   <Link to="/Signup">
     <div className="overlay_login_box">
@@ -133,13 +146,14 @@ const OverlayLoginBox = () => (
 
 const ImageOverlay = ({ data, removeOverlay, authInfo }) => {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [postData, setpostData] = useState();
+  const [userID, setUserID] = useState();
   const [allComments, setAllComments] = useState([]);
 
+  // sets user ID to change username colors in comments if left by user
   useEffect(() => {
     authInfo.then(res => {
       if (res) {
-        setpostData(res);
+        setUserID(res._id);
         setLoggedIn(true);
       }
     });
@@ -147,7 +161,8 @@ const ImageOverlay = ({ data, removeOverlay, authInfo }) => {
   }, []);
 
   return (
-    <div className="overlay" onClick={e => removeOverlay(e)}>
+	  <div className="overlay" onClick={e => removeOverlay(e)}>
+	  {/* ^removes overlay if background is clicked^ */}
       <div className="overlay_card" onClick={e => stopProp(e)}>
         <div className="overlay_pic_frame">
           <img
@@ -158,29 +173,31 @@ const ImageOverlay = ({ data, removeOverlay, authInfo }) => {
         </div>
         <div className="overlay_export_box">
           <div className="overlay_export_btn">
-			<a href={`${data.image}`} download="my_image.jpeg">
-            <img src={downloadIcon} alt="download"></img>
-			</a>
+            <a href={`${data.image}`} download="my_image.jpeg">
+              <img src={downloadIcon} alt="download"></img>
+            </a>
           </div>
+		  {/* SOCIAL MEDIA BUTTONS DO NOT WORK YET. IMAGES CAN NOT BE EXPORTED AND
+		  SHARED TO SOCIAL MEDIA. IN ORDER TO SHARE, EACH IMAGE/POST NEEDS ITS
+		  OWN CUSTOM URL AND IT CAN BE SHARED AS A WEBPAGE */}
           <div className="overlay_export_btn">
-			<FacebookShareButton>
-			{/* <FacebookShareButton url='INSERT IMAGE LINK URL HERE'> */}
-
-            <FacebookIcon size={50} round={true}/>
-			  </FacebookShareButton>
+            <FacebookShareButton>
+              {/* <FacebookShareButton url='INSERT IMAGE LINK URL HERE'> */}
+              <FacebookIcon size={50} round={true} />
+            </FacebookShareButton>
           </div>
           <div className="overlay_export_btn">
             <TwitterShareButton>
-				<TwitterIcon size={50} round={true}/>
-			</TwitterShareButton>
+              <TwitterIcon size={50} round={true} />
+            </TwitterShareButton>
           </div>
           <div className="overlay_export_btn">
             <WhatsappShareButton>
-				<WhatsappIcon size={50} round={true}/>
-			</WhatsappShareButton>
+              <WhatsappIcon size={50} round={true} />
+            </WhatsappShareButton>
           </div>
         </div>
-        {/* IF USER IS NOT LOGGED IN DISPLAY LOG IN BUTTON LIKE REDDIT! */}
+        {/* displays 'you must be logged in to comment' if not logged in */}
         {loggedIn ? (
           <OverlayCommentBox
             data={data}
@@ -194,7 +211,7 @@ const ImageOverlay = ({ data, removeOverlay, authInfo }) => {
           {allComments.map(commentData => (
             <OverlayComment
               commentData={commentData}
-              postData={postData}
+              userID={userID}
               imageID={data.imageID}
               setAllComments={newComments => setAllComments(newComments)}
             />
