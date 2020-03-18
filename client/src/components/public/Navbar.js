@@ -30,31 +30,37 @@ const Navbar = () =>{
 
     return(
         <div>
+            <div className="header_relative"></div>
             <div className="header_absolute">
                 <Link className="navbar_logo" to="/" onClick={scrollToTop()}>
                     <img src={logo3} className="gifme_logo" alt="logo"/>
                 </Link>
-                <div className="feature_container">
-                    <div className="container_camera_icon">
                     {loggedIn ? 
-                    <Link className="photobooth_link" to="/photobooth">
-                        <img className="camera_icon" src={camera_icon} alt="photobooth"></img>
-                    </Link>
-                    : null}
+                    <div className="feature_container">
+                        <div className="container_camera_icon">
+                            <Link className="photobooth_link" to="/photobooth">
+                                <img className="camera_icon" src={camera_icon} alt="photobooth"></img>
+                            </Link>
+                    <Menu noOverlay isOpen={menuState} onStateChange={openMenu}>
+                        <Link to='/Profile' onClick={openMenu}>Profile</Link>
+                        <Link to='/Settings' onClick={openMenu}>Settings</Link>
+                        <Link to='/likes' onClick={openMenu}>Favorite posts</Link>
+                        <SwitchPrivacy/>       
+                    </Menu>
                     </div>
+                    </div>
+                    :
+                    <div className="feature_container">
+                        <Link to="/Signup" className="signup_button">Sign up</Link>
+                        <Link to="/Login" className="login_button">Log In</Link>
+                    </div>
+                    }
                 </div>
-
-                <Menu noOverlay isOpen={menuState} onStateChange={openMenu}>
-                    <Link to='/Account' onClick={openMenu}>Account</Link>
-                    <Link to='/MyPosts' onClick={openMenu}>My posts</Link>
-                    <Link to='/likes' onClick={openMenu}>Favorite posts</Link>
-                    <Link to='/settings' onClick={openMenu}>Settings</Link>
-                    <SwitchPrivacy/>       
-                </Menu>
+                <div className="container-r-relative"></div>
             </div>
-        </div>
     );
 }
+
 
 const SwitchPrivacy= () =>{
     const V_Token = localStorage.getItem('myToken');

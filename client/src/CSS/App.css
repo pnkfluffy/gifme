@@ -27,7 +27,18 @@ a {
   margin-right: 10px;
 }
 
+.main {
+  font-size: 20px;
+  text-decoration: none;
+}
+
+
+
 /*                 NAVIGATION BAR (NavBar)                     */
+
+.header_relative {
+  height: 60px;
+}
 
 .header_absolute {
   position: fixed;
@@ -35,16 +46,7 @@ a {
   width: 100%;
   height: 60px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   background-color: rgb(112, 93, 128);
-}
-
-.header_relative {
-  height: 60px;
-  background-color: rgb(112, 93, 128);
-  display: flex;
-  justify-content: flex-end;
 }
 
 .navbar_logo {
@@ -53,6 +55,19 @@ a {
   display: flex;
   align-items: center;
 }
+
+.feature_container{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.container_camera_icon{
+  width: 40px;
+  padding: 0 75px 0 5px;
+}
+
 .photobooth_link{
   z-index: 45;
 }
@@ -64,17 +79,32 @@ a {
   transform: scale(1.1);
 }
 
-.feature_container{
-  width: 30%;
-  display: flex;
-  justify-content: right;
+.signup_button {
+  color: rgb(99, 150, 187);
+  font-weight: bold;
+  padding: 0 5px 0 5px;
 }
 
-.container_camera_icon{
-  width: 40px;
-  display: flex;
-  align-items: center;
+.login_button {
+  color: rgb(124, 186, 231);
+  font-weight: bold;
+  padding: 0 10px 0 5px;
 }
+.login_button:hover,
+.signup_button:hover {
+  filter: brightness(110%);
+}
+
+.login {
+  float: right;
+  margin: 0px 2.3px 0px 2.3px;
+  padding: 4px;
+  font-size: 12px;
+  border-radius: 3px;
+  text-decoration: none;
+  background-color: rgba(256, 256, 256, 0.3);
+}
+
 .container-r-relative {
   margin-top: auto;
   margin-bottom: auto;
@@ -84,19 +114,6 @@ a {
   justify-content: space-between;
   text-align: center;
 }
-
-.main {
-  font-size: 20px;
-  text-decoration: none;
-}
-
-  .error_message{
-    background-color: rgb(231, 31, 24);
-    padding: 3px;
-    color: white;
-    text-align: center;
-    font-size: 13px;
-  }
 
 
 
@@ -114,7 +131,7 @@ a {
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
   background: white;
-  height: 15%;
+  height: 15% !important;
   width: 100%;
 }
 
@@ -142,9 +159,9 @@ a {
 }
 .bm-menu-wrap{
   position: fixed;
-  margin-top:30px;
+  margin-top: 8px;
   left: 100vw;
-  height: 220px !important;
+  height: 190px !important;
   width: auto !important;
 }
 
@@ -203,6 +220,7 @@ a {
   }
 
 
+
 /*                 ERROR                    */
 
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300&display=swap");
@@ -232,6 +250,14 @@ a {
   padding: 12px;
   border-radius: 5px;
   text-decoration: none;
+}
+
+.error_message{
+  background-color: rgb(231, 31, 24);
+  padding: 3px;
+  color: white;
+  text-align: center;
+  font-size: 13px;
 }
 
 /*                 FOOTER                    */
