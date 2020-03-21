@@ -56,8 +56,8 @@ const Home = () => {
         </div>
       </div>
       <footer id="footer">
-        &#169; Jack&Jon all rights reserved.
       </footer>
+        &#169; Jack&Jon all rights reserved.
 			{/* if state has imageData, then display overlay. toggleOverlay function 
 			passed in to toggle the overlay off when user clicks out */}
               {overlayData ? (

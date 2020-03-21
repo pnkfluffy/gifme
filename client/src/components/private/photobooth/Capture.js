@@ -9,20 +9,12 @@ import fireImg from "../../../resources/superimposable_fire.png";
 import bananaImg from "../../../resources/superimposable_banana.png";
 import poopImg from "../../../resources/superimposable_poop.png";
 //import mergeImages from "merge-images";
-import Draggable from "react-draggable";
+
+import VideoArea from "./VideoArea";
+import { WebcamProvider } from "./WebcamContext";
+import StickerSelector from "./StickerSelector";
 
 const imageArray = [dogImg, poopImg, hatImg, fireImg, bananaImg];
-
-const DraggableImage = ({image, handleStart, handleStop}) => {
-  const dragHandlers = { onStart: handleStart(), onStop: handleStop };
-  return (
-    <Draggable bounds="form" offsetParent="form" {...dragHandlers}>
-      <div className="draggable_image">
-        <img src={image}></img>
-      </div>
-    </Draggable>
-  );
-};
 
 const videoConstraints = {
   width: 500,
@@ -34,14 +26,6 @@ const PhotoDisplay = () => {
   const [timer, setTimer] = useState(null);
 
   const [imageSrc, setImageSrc] = useState(null);
-  // const [deltaPosition, setDeltaPosition] = useState({x: 0, y: 0});
-
-  const handleStart = () => {
-    console.log('hi');
-  };
-  const handleStop = () => {
-    console.log('bye');
-  };
 
   const authtoken = localStorage.getItem("myToken");
 
@@ -118,47 +102,43 @@ const PhotoDisplay = () => {
     );
   } else {
     return (
-      <div className="photo_box">
-        <form
-          className="photobooth_box"
-          id="upload_img"
-          method="POST"
-          enctype="multipart/form-data"
-          onSubmit={e => onSubmit(e)}
-        >
-          <input
-            className="photobooth_screenshot"
-            type="image"
-            name="image"
-            value={imageSrc}
-            src={imageSrc}
-            alt="upload_image"
-            required
-          />
-          <div className="photobooth_dragndrop">
-            {imageArray.map(singleImg => (
-              <DraggableImage
-                image={singleImg}
-                handleStart={() => handleStart()}
-                handleStop={() => handleStop()}
-              />
-            ))}
-          </div>
-          <div className="photobooth_action_btns">
+      <WebcamProvider>
+        <div className="photo_box">
+          <form
+            className="photobooth_box"
+            id="upload_img"
+            method="POST"
+            enctype="multipart/form-data"
+            onSubmit={e => onSubmit(e)}
+          >
+            <VideoArea />
             <input
+              className="photobooth_screenshot"
               type="image"
-              className="photobooth_accept_btn"
-              value="Upload"
-              src={thumbsUp}
+              name="image"
+              value={imageSrc}
+              src={imageSrc}
+              alt="upload_image"
+              required
             />
-            <img
-              className="photobooth_reject_btn"
-              onClick={delete_img}
-              src={thumbsUp}
-            />
-          </div>
-        </form>
-      </div>
+            <StickerSelector photoStickers={imageArray} />
+
+            <div className="photobooth_action_btns">
+              <input
+                type="image"
+                className="photobooth_accept_btn"
+                value="Upload"
+                src={thumbsUp}
+              />
+              <img
+                className="photobooth_reject_btn"
+                onClick={delete_img}
+                src={thumbsUp}
+              />
+            </div>
+          </form>
+        </div>
+      </WebcamProvider>
     );
   }
 };
