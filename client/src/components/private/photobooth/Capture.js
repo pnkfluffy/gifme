@@ -1,37 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Webcam from "react-webcam";
-import FormData from "form-data";
-import thumbsUp from "../../../resources/thumbs_up_icon.png";
-import dogImg from "../../../resources/superimposable_dog.png";
-//import catImg from "../../../resources/superimposable_cat.png";
-import hatImg from "../../../resources/superimposable_hat.png";
-import fireImg from "../../../resources/superimposable_fire.png";
-import bananaImg from "../../../resources/superimposable_banana.png";
-import poopImg from "../../../resources/superimposable_poop.png";
-//import mergeImages from "merge-images";
-
-import VideoArea from "./VideoArea";
 import { WebcamProvider } from "./WebcamContext";
-import StickerSelector from "./StickerSelector";
 
-const imageArray = [dogImg, poopImg, hatImg, fireImg, bananaImg];
+import PhotoEditor from './PhotoEditor';
 
 const videoConstraints = {
-  width: 500,
-  height: 500,
+  width: 400,
+  height: 400,
   facingMode: "user"
 };
 
+
 const PhotoDisplay = () => {
   const [timer, setTimer] = useState(null);
-
   const [imageSrc, setImageSrc] = useState(null);
-
-  const authtoken = localStorage.getItem("myToken");
 
   const webcamRef = React.useRef(null);
   const capture = React.useCallback(() => {
-    setImageSrc(webcamRef.current.getScreenshot());
+	setImageSrc(webcamRef.current.getScreenshot());
   }, [webcamRef]);
 
   useEffect(() => {
@@ -47,30 +33,6 @@ const PhotoDisplay = () => {
       clearInterval(interval);
     };
   }, [timer]);
-
-  const delete_img = () => {
-    setImageSrc(null);
-  };
-  const onSubmit = async e => {
-    e.preventDefault();
-    fetch(imageSrc)
-      .then(res => res.blob())
-      .then(blob => {
-        const formData = new FormData();
-        const file = new File([blob], "testfile.jpeg");
-        formData.append("photo", file);
-        fetch("/api/posts", {
-          method: "POST",
-          headers: {
-            "x-auth-token": authtoken
-          },
-          body: formData
-        })
-          .then(res => res.json())
-          .then(res => console.log(res))
-          .catch(err => console.log(err.response));
-      });
-  };
 
   if (!imageSrc) {
     return (
@@ -103,41 +65,7 @@ const PhotoDisplay = () => {
   } else {
     return (
       <WebcamProvider>
-        <div className="photo_box">
-          <form
-            className="photobooth_box"
-            id="upload_img"
-            method="POST"
-            enctype="multipart/form-data"
-            onSubmit={e => onSubmit(e)}
-          >
-            <VideoArea />
-            <input
-              className="photobooth_screenshot"
-              type="image"
-              name="image"
-              value={imageSrc}
-              src={imageSrc}
-              alt="upload_image"
-              required
-            />
-            <StickerSelector photoStickers={imageArray} />
-
-            <div className="photobooth_action_btns">
-              <input
-                type="image"
-                className="photobooth_accept_btn"
-                value="Upload"
-                src={thumbsUp}
-              />
-              <img
-                className="photobooth_reject_btn"
-                onClick={delete_img}
-                src={thumbsUp}
-              />
-            </div>
-          </form>
-        </div>
+        <PhotoEditor imageSrc={imageSrc} setImg={(img) => setImageSrc(img)} />
       </WebcamProvider>
     );
   }

@@ -18,20 +18,6 @@ class WebcamProvider extends Component {
       this.state.canvas.drawImage(webcamImage, 0, 0);
     };
   }
-
-  addPic = newPic => {
-    this.mergeStickers(newPic);
-    this.setState({
-      allPics: [
-        ...this.state.allPics,
-        {
-          imageData: newPic,
-          index: this.totalPics
-        }
-      ],
-      totalPics: this.state.totalPics + 1
-    });
-  };
   /* add sticker to canvas line */
   addStickerToCanvas = newSticker => {
     this.setState({
@@ -71,24 +57,10 @@ class WebcamProvider extends Component {
     });
   };
 
-  /* Set RealCanvas */
-  setRealCanvas = realCanvas => {
-    this.setState({ canvas: realCanvas });
-  };
-
   state = {
     /* general sizes */
     canvasWidth: 400,
     canvasHeight: 400,
-
-    /* manage showJustTakenPics */
-    totalPics: 0,
-    allPics: [],
-    addPic: this.addPic,
-
-    /* realCanvas */
-    canvas: null,
-    setRealCanvas: this.setRealCanvas,
 
     /* sticker on FakeCanvas related: */
     imgsOnCanvas: [],
