@@ -17,12 +17,12 @@ class PrintedSticker extends Component {
     this.handleMouseOut = this.handleMouseOut.bind(this);
   }
 
-  /* mouse handles to move the stickers */
+  //  mouse handles to move the stickers
   handleMouseDown(e) {
-    //stop default browser answer:
+    //  stop default browser answer:
     e.preventDefault();
     e.stopPropagation();
-    //get mouse start position
+    //  get mouse start position
     this.setState({
       clicked: true
     });
@@ -31,12 +31,11 @@ class PrintedSticker extends Component {
     this.setState({ clicked: false });
   }
   handleMouseMove(e) {
-    //stop default browser answer:
     e.preventDefault();
     e.stopPropagation();
-    //get mouse movement IF clicked is on
+    //  get mouse movement IF clicked is on
     if (this.state.clicked === true) {
-      //get mouse position in page (means that counts the outside spaces
+      //  get mouse position in page (means that counts the outside spaces)
       const x = e.pageX;
       const y = e.pageY;
       console.log("Page X is " + x + " Page Y is " + y);
@@ -46,15 +45,16 @@ class PrintedSticker extends Component {
           " and Prev Y is: " +
           this.state.prevY
       );
+      //  gets the x and y relative to the stickerCanvas div
       console.log(
         "\nThis is MY X: " +
           this.state.myX +
           " and this is MY Y: " +
           this.state.myY
-	  );
-	  console.log("props\n", this.props);
-      //checks side that mouse is moving and moves in the WebcamContext
-      //RIGHT moves +1 * how much moved
+      );
+      console.log("props\n", this.props);
+      //  checks side that mouse is moving and moves in the WebcamContext
+      //  RIGHT moves +1 * how much moved. Does not move if out of canvas
       if (
         this.state.prevX !== 0 &&
         this.state.prevX !== x &&
@@ -66,8 +66,8 @@ class PrintedSticker extends Component {
           this.props.stickerObject.zPos,
           x - this.state.prevX
         );
-        //need to change myX and myY to keep the x and ys from the PARENT DIV (the canvas) so the images
-        //cant move to outside of the canvas!!!
+        //  need to change myX and myY to keep the x and ys from the PARENT DIV (the canvas) so the images
+        //  cant move to outside of the canvas!!!
         console.log(
           "myX = " +
             this.state.myX +
@@ -81,7 +81,7 @@ class PrintedSticker extends Component {
           prevX: x
         });
       }
-      //LEFT moves -1 * how much moved
+      //  LEFT moves -1 * how much moved
       else if (
         this.state.prevX !== 0 &&
         this.state.prevX !== x &&
@@ -98,7 +98,7 @@ class PrintedSticker extends Component {
           prevX: x
         });
       }
-      //UP moves +1 * how much moved
+      //  UP moves +1 * how much moved
       if (
         this.state.prevY !== 0 &&
         this.state.prevY !== y &&
@@ -115,7 +115,7 @@ class PrintedSticker extends Component {
         });
       }
 
-      //DOWN moves -1 * how much moved
+      //  DOWN moves -1 * how much moved
       else if (
         this.state.prevY !== 0 &&
         this.state.prevY !== y &&

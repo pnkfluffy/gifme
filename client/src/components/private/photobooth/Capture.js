@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Webcam from "react-webcam";
 import { WebcamProvider } from "./WebcamContext";
 
-import PhotoEditor from './PhotoEditor';
+import PhotoEditor from "./PhotoEditor";
 
 const videoConstraints = {
   width: 400,
@@ -10,14 +10,13 @@ const videoConstraints = {
   facingMode: "user"
 };
 
-
 const PhotoDisplay = () => {
   const [timer, setTimer] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
 
   const webcamRef = React.useRef(null);
   const capture = React.useCallback(() => {
-	setImageSrc(webcamRef.current.getScreenshot());
+    setImageSrc(webcamRef.current.getScreenshot());
   }, [webcamRef]);
 
   useEffect(() => {
@@ -64,8 +63,9 @@ const PhotoDisplay = () => {
     );
   } else {
     return (
+      //	Allows all of PhotoEditor to access a single state
       <WebcamProvider>
-        <PhotoEditor imageSrc={imageSrc} setImg={(img) => setImageSrc(img)} />
+        <PhotoEditor imageSrc={imageSrc} setImg={img => setImageSrc(img)} />
       </WebcamProvider>
     );
   }

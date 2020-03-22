@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-/*setup the context provider*/
 const WebcamContext = React.createContext();
 
 // Context Provider Component
@@ -11,14 +10,11 @@ class WebcamProvider extends Component {
     const webcamImage = new Image();
     webcamImage.src = newPic;
     webcamImage.onload = () => {
-      /* this image is the webcam one, I'll position in it in the (0, maxY)
-                because the way I did the FakeCanvas was inverted =(
-                void ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
-             */
+      //  webcame image is set to background. When merged it's added
+      //  as the first image at 0, 0
       this.state.canvas.drawImage(webcamImage, 0, 0);
     };
   }
-  /* add sticker to canvas line */
   addStickerToCanvas = newSticker => {
     this.setState({
       imgsOnCanvas: [
@@ -35,7 +31,7 @@ class WebcamProvider extends Component {
       totalImgsOnCanvas: this.state.totalImgsOnCanvas + 1
     });
   };
-  /*move sticker in canvas */
+  // move stickers in canvas
   moveStickerX = (id, side) => {
     //copy the array:
     const newImgsOnCanvas = this.state.imgsOnCanvas.slice();
@@ -58,11 +54,11 @@ class WebcamProvider extends Component {
   };
 
   state = {
-    /* general sizes */
+    //	sizes of photo editing area
     canvasWidth: 400,
     canvasHeight: 400,
 
-    /* sticker on FakeCanvas related: */
+    //	holds array of all sticker b64, delta x & delt y
     imgsOnCanvas: [],
     totalImgsOnCanvas: 0,
     addStickerToCanvas: this.addStickerToCanvas,

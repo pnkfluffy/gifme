@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import FormData from "form-data";
-import VideoArea from "./VideoArea";
+import StickerCanvas from "./StickerCanvas";
 import StickerSelector from "./StickerSelector";
 import { WebcamContext } from "./WebcamContext";
 import mergeImages from "merge-images";
@@ -46,6 +46,8 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
     });
   } // Use it like : var newDataURI = await resizedataURL('yourDataURIHere', 50, 50);
 
+  //  Resizes the stickers (to 70px x 70px for now) and returns the inversed y coordinate
+  //  due sticker y being fipped
   const resize = async ({ xPos, yPos, imgUrl }) => {
     const resizedImage = await resizedataURL(imgUrl, 70, 70);
     return {
@@ -55,11 +57,14 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
     };
   };
 
+  //  Posts the merged image to the database
   const onSubmit = async e => {
     e.preventDefault();
+    //  Background is the webcamscreenshot
     const background = [{ src: imageSrc, x: 0, y: 0 }];
 
     let stickerArray = [];
+    //  If there are any stickers
     if (webContext.imgsOnCanvas.length) {
       const stickerPromises = webContext.imgsOnCanvas.map(
         ({ xPos, yPos, imgUrl }) => {
@@ -68,10 +73,12 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
       );
       stickerArray = Promise.all(stickerPromises);
       stickerArray.then(res => {
+        //  Adds the webcamscreenshot as the first image in the array
         const finalArray = background.concat(res);
 
         mergeImages(finalArray)
           .then(b64 => {
+            //  Posts the merged image to the website
             fetch(b64)
               .then(res => res.blob())
               .then(blob => {
@@ -85,8 +92,8 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
                   },
                   body: formData
                 })
-				  .then(res => res.json())
-				  //REDIRECT TO CUSTOM URL PAGE FOR IMAGE POST
+                  .then(res => res.json())
+                  //REDIRECT TO CUSTOM URL PAGE FOR IMAGE POST
                   .then(res => console.log(res))
                   .catch(err => console.log(err.response));
               });
@@ -95,7 +102,7 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
           .catch(err => console.error(err));
       });
     }
-  }
+  };
 
   return (
     <div className="photo_box">
@@ -106,7 +113,7 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
         enctype="multipart/form-data"
         onSubmit={e => onSubmit(e)}
       >
-        <VideoArea />
+        <StickerCanvas />
         <input
           className="photobooth_screenshot"
           type="image"
