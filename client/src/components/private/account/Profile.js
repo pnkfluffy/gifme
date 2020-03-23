@@ -43,9 +43,9 @@ const Profile = () => {
 	};
     
     return (
+		<div>
 		<div id="main">
-			<div className="structure">
-				<div className="pic-container">
+				<div className="home_imagegallery">
 					{imageGallery.map(image => (
         				<ImageCard
         				  authInfo={authInfo}
@@ -61,7 +61,7 @@ const Profile = () => {
                   data={overlayData}
                   removeOverlay={() => toggleOverlay(null)}
                 />
-              ) : null}
+			  ) : null}
 		</div>
 	)
 }

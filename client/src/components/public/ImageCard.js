@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import img from '../../resources/edit_button.png';
 
 const Likes = ({likes, imageID, authInfo}) => {
   const [hasLiked, setHasLiked] = useState(null);
@@ -149,6 +150,11 @@ const ImageCard = ({ imageData, addOverlay, authInfo }) => {
     <div className="image_card">
       <div className="image_card_name">
         <div className="image_card_name_text">{imageData.user}</div>
+        {/* this needs to be part of a method that shows it or not based on the logged user */}
+        <div className="feature_container">
+        <div className="edit_butt"><img className="edit_icon" src={img} alt="edit button"/></div>
+        <div className="delete_button">x</div>
+        </div>
       </div>
       <div className="pic_frame">
 		  {/* calls function from home to open imageoverlay with imagedata */}

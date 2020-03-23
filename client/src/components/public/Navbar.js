@@ -8,16 +8,24 @@ import fetchAuth from '../../utils/FetchAuth';
 const Navbar = () =>{
     const [loggedIn, setLoggedIn] = useState(false);
     const [menuState, setMenuState] = useState(true);
+    const [userId, setUserId] = useState('');
+    const V_Token = localStorage.getItem('myToken');
+    console.log('here userId:',userId)
+    const _id = 'test';
+    if (V_Token){
+        //get user ID and destructer it
+
+    }
     
     const openMenu = () =>{setMenuState(false)}
 
     useEffect(() => {
-        fetchAuth().then(res => {
+        setUserId(fetchAuth().then(res => {
           if (res) {
             setLoggedIn(true);
           }
-        });
-      }, []);
+        }));
+    }, []);
 
     //  scroll to top does not work
     const scrollToTop = () => {
@@ -42,10 +50,10 @@ const Navbar = () =>{
                                 <img className="camera_icon" src={camera_icon} alt="photobooth"></img>
                             </Link>
                     <Menu noOverlay isOpen={menuState} onStateChange={openMenu}>
-                        <Link to='/Profile' onClick={openMenu}>Profile</Link>
+                        <Link to={`/${_id}`} onClick={openMenu}>Profile</Link>
                         <Link to='/Settings' onClick={openMenu}>Settings</Link>
                         <Link to='/likes' onClick={openMenu}>Favorite posts</Link>
-                        <SwitchPrivacy/>       
+                        <SwitchPrivacy/>
                     </Menu>
                     </div>
                     </div>
