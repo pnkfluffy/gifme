@@ -25,8 +25,9 @@ const fetchPost = async (imageID) => {
 		})
 }
 
-const fetchAllPosts = async (imageIDs) => {
-	const posts = imageIDs.map(({ image }) => {
+const fetchAllPosts = async (imageData) => {
+	console.log('data', imageData);
+	const posts = imageData.map(({ image }) => {
 		return fetchPost(image)
 	});
 	const allPosts = Promise.all(posts)
