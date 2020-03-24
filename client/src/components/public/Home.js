@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import InfiniteScroll from "react-infinite-scroller";
 
 import { fetchAllPosts } from "../../utils/FetchPosts";
 import ImageCard from "./ImageCard";
@@ -13,45 +12,45 @@ const Home = () => {
   const [authInfo, setAuthInfo] = useState(null);
 
   const [numLoaded, setNumLoaded] = useState(0);
-  const [metaImages, setMetaImages] = useState([]);
+  const [postsMetaData, setPostsMetaData] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const getPostData = () => {
     const finalPosts = axios.get("api/posts/all");
     finalPosts
       .then(res => {
         console.log(res.data);
-        setMetaImages(res.data);
-        // return fetchAllPosts(res.data);
+        setPostsMetaData(res.data);
       })
-      //   .then(res => {
-      //     console.log(res);
-      //     setImageGallery(res);
-      //   })
       .catch(err => {
         console.error(err);
       });
   };
 
-  const getPosts = () => {
-    if (metaImages.length) {
-      const newArray = metaImages.slice(numLoaded, numLoaded + 5);
-      setNumLoaded(numLoaded + 5);
-      if (numLoaded > metaImages.length) {
-        setHasMore(false);
-      }
-      fetchAllPosts(newArray)
-        .then(res => {
-		  console.log("getposts", res);
-		  const newImageGallery = [...imageGallery, ...res];
-		  console.log("newimgs", newImageGallery);
-          setImageGallery(newImageGallery);
-          console.log("imggallry", imageGallery);
-        })
-        .catch(err => {
-          console.error(err);
-        });
+  const getPosts = numPosts => {
+	const list = document.getElementById('main');
+	if (!postsMetaData.length || !hasMore) {
+      return;
     }
+    setLoading(true);
+    const newArray = postsMetaData.slice(numLoaded, numLoaded + numPosts);
+    setNumLoaded(numLoaded + numPosts);
+    if (numLoaded > postsMetaData.length) {
+      setHasMore(false);
+    }
+    fetchAllPosts(newArray)
+      .then(res => {
+        console.log("getposts", res);
+        const newImageGallery = [...imageGallery, ...res];
+        console.log("newimgs", newImageGallery);
+        setImageGallery(newImageGallery);
+        setLoading(false);
+        console.log("imggallry", imageGallery);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
 
   // gets auth info and all posts and saves them to state
@@ -59,6 +58,12 @@ const Home = () => {
     setAuthInfo(fetchAuth());
     getPostData();
   }, []);
+
+  // loads the first 10 posts once the post metadata is fetched
+  useEffect(() => {
+    getPosts(10);
+  }, [postsMetaData]);
+
 
   // toggles overlay by updating the overlayData state
   var body = document.body;
@@ -73,10 +78,15 @@ const Home = () => {
 
   const loader = <div className="loader">Loading...</div>;
 
+  const loadMore = (
+    <div className="load_more_btn">
+      <button onClick={() => getPosts(5)}>Load More!</button>
+    </div>
+  );
+
   let items = [];
 
   imageGallery.map(image => {
-    console.log("THISISIMAGE", image);
     items.push(
       <ImageCard
         authInfo={authInfo}
@@ -86,31 +96,11 @@ const Home = () => {
     );
   });
 
-  //   useEffect(() => {
-  // 	imageGallery.map(image => {
-  // 	  setImageCards(imageCards.push(
-  // 		<ImageCard
-  // 		  authInfo={authInfo}
-  // 		  imageData={image}
-  // 		  addOverlay={imageData => toggleOverlay({ imageData })}
-  // 		/>
-  // 	  ))
-  // 	});
-
-  // }, [imageCards])
-
   return (
     <div>
       <div id="main">
-        {/* {metaImages.length ? ( */}
-          <InfiniteScroll
-            loadMore={getPosts} //call loading API
-            hasMore={hasMore}
-            loader={loader}
-          >
-            <div className="home_imagegallery">{items}</div>
-          </InfiniteScroll>
-        {/* ) : null} */}
+        <div className="home_imagegallery">{items}</div>
+        {loading ? loader : loadMore}
       </div>
       <footer id="footer"></footer>
       &#169; Jack&Jon all rights reserved.
