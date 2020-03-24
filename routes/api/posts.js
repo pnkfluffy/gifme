@@ -59,6 +59,7 @@ router.get("/mine", auth, async (req, res) => {
   }
 });
 
+// creates a mongoose connection to stream image data
 const mongoose = require("mongoose");
 const config = require("config");
 const db = config.get("mongoURI");

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import axios from "axios";
 
 import { fetchAllPosts } from "../../utils/FetchPosts";
@@ -6,12 +6,23 @@ import ImageCard from "./ImageCard";
 import ImageOverlay from "./ImageOverlay";
 import fetchAuth from "../../utils/FetchAuth";
 
+function galleryReducer(state, action) {
+  switch (action.type) {
+    case "add":
+      return [...state, ...action.payload];
+  }
+}
+
+function numLoadedReducer(state, action) {
+  return state + action;
+}
+
 const Home = () => {
-  const [imageGallery, setImageGallery] = useState([]);
+  const [imageGallery, setImageGallery] = useReducer(galleryReducer, []);
   const [overlayData, setOverlayData] = useState(null);
   const [authInfo, setAuthInfo] = useState(null);
 
-  const [numLoaded, setNumLoaded] = useState(0);
+  const [numLoaded, addNumLoaded] = useReducer(numLoadedReducer, 0);
   const [postsMetaData, setPostsMetaData] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -22,35 +33,44 @@ const Home = () => {
       .then(res => {
         console.log(res.data);
         setPostsMetaData(res.data);
+        return res.data;
+      })
+      .catch(err => {
+        console.error(err);
+      });
+    return finalPosts;
+  };
+
+  const getPosts = numPosts => {
+    if (!postsMetaData.length || !hasMore) {
+      return;
+    }
+    setLoading(true);
+    console.log("loaded", numLoaded);
+    const newArray = postsMetaData.slice(numLoaded, numLoaded + numPosts);
+    addNumLoaded(numPosts);
+    if (numLoaded > postsMetaData.length) {
+      setHasMore(false);
+    }
+    fetchAllPosts(newArray)
+      .then(res => {
+        setImageGallery({ type: "add", payload: res });
+        setLoading(false);
       })
       .catch(err => {
         console.error(err);
       });
   };
 
-  const getPosts = numPosts => {
-	const list = document.getElementById('main');
-	if (!postsMetaData.length || !hasMore) {
+  //  loads more posts if user has reached the bottom of the page
+  const handleScroll = () => {
+    const totalPageHeight =
+      window.innerHeight + document.documentElement.scrollTop;
+    const docHeight = document.documentElement.offsetHeight;
+    if (totalPageHeight !== docHeight || !hasMore) {
       return;
     }
-    setLoading(true);
-    const newArray = postsMetaData.slice(numLoaded, numLoaded + numPosts);
-    setNumLoaded(numLoaded + numPosts);
-    if (numLoaded > postsMetaData.length) {
-      setHasMore(false);
-    }
-    fetchAllPosts(newArray)
-      .then(res => {
-        console.log("getposts", res);
-        const newImageGallery = [...imageGallery, ...res];
-        console.log("newimgs", newImageGallery);
-        setImageGallery(newImageGallery);
-        setLoading(false);
-        console.log("imggallry", imageGallery);
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    getPosts(5);
   };
 
   // gets auth info and all posts and saves them to state
@@ -61,9 +81,23 @@ const Home = () => {
 
   // loads the first 10 posts once the post metadata is fetched
   useEffect(() => {
-    getPosts(10);
-  }, [postsMetaData]);
+    if (numLoaded === 0) {
+      getPosts(10);
+    }
 
+    // adds an event listener to check if user has scrolled to the bottom
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [postsMetaData, loading, numLoaded]);
+
+  // checks if the initial loading of posts fills up the page. If not, loads more
+  useEffect(() => {
+    if (document.documentElement.offsetHeight < window.innerHeight) {
+      getPosts(5);
+    }
+  }, [imageGallery]);
+
+  useEffect(() => {}, [imageGallery]);
 
   // toggles overlay by updating the overlayData state
   var body = document.body;
@@ -77,12 +111,6 @@ const Home = () => {
   };
 
   const loader = <div className="loader">Loading...</div>;
-
-  const loadMore = (
-    <div className="load_more_btn">
-      <button onClick={() => getPosts(5)}>Load More!</button>
-    </div>
-  );
 
   let items = [];
 
@@ -100,7 +128,7 @@ const Home = () => {
     <div>
       <div id="main">
         <div className="home_imagegallery">{items}</div>
-        {loading ? loader : loadMore}
+        {loading && loader}
       </div>
       <footer id="footer"></footer>
       &#169; Jack&Jon all rights reserved.
