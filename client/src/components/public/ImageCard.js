@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Link } from "react";
 import axios from "axios";
-import img from '../../resources/edit_button.png';
+import {delImage} from '../../utils/DeleteImage';
 
 const Likes = ({likes, imageID, authInfo}) => {
   const [hasLiked, setHasLiked] = useState(null);
@@ -145,16 +145,16 @@ const CommentsBox = imageInfo => {
 //  ^^CHANGE COMMENTS TO TAGS, MAKE EACH ONE LINK TO SEARCH WHEN CLICKED^^
 
 
-const ImageCard = ({ imageData, addOverlay, authInfo }) => {
+const ImageCard = ({ imageData, addOverlay, authInfo, isAuth }) => {
   return (
     <div className="image_card">
       <div className="image_card_name">
-        <div className="image_card_name_text">{imageData.user}</div>
-        {/* this needs to be part of a method that shows it or not based on the logged user */}
+        <div className="image_card_name_text"  onClick={() => window.location.href =`/${imageData.userID}`}>{imageData.user}</div>
+        {isAuth ?
         <div className="feature_container">
-        <div className="edit_butt"><img className="edit_icon" src={img} alt="edit button"/></div>
-        <div className="delete_button">x</div>
+        <div className="delete_button" onClick={() => delImage(imageData.imageID)}>x</div>
         </div>
+        : null}
       </div>
       <div className="pic_frame">
 		  {/* calls function from home to open imageoverlay with imagedata */}

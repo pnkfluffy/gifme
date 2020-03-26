@@ -46,12 +46,12 @@ router.get("/all", async (req, res) => {
   }
 });
 
-// @route   GET api/posts/mine
-// @desc    Get all post
+// @route   GET api/posts/:id
+// @desc    Get all post of the global profile
 // @access  Private
-router.get("/mine", auth, async (req, res) => {
+router.get("/:userID", async (req, res) => {
   try {
-    const posts = await Post.find({ user: req.user.id }).sort({ date: -1 });
+    const posts = await Post.find({user: req.params.userID}).sort({ date: -1 });
     res.json(posts);
   } catch (err) {
     console.error(err.message);
@@ -74,7 +74,6 @@ conn.once("open", () => {
 // @desc    Get image binary by image ID
 // @access  Public
 router.get("/image/:id", async (req, res) => {
-  console.log(req.params.id);
   try {
     res.contentType = "image/png";
 
@@ -97,9 +96,6 @@ router.get("/image/:id", async (req, res) => {
       .on("error", function(error) {
         console.error(err.message);
       })
-      .on("finish", function() {
-        console.log("done!");
-      });
   } catch (err) {
     console.error(err.message);
     if (err.kind === "ObjectId") {
@@ -112,19 +108,20 @@ router.get("/image/:id", async (req, res) => {
 // @route   GET api/posts/meta/:id
 // @desc    Get post metadata by image ID
 // @access  Public
-router.get("/meta/:id", async (req, res) => {
-  console.log(req.params.id);
+router.get("/meta/:metaID", async (req, res) => {
   try {
-    const post = await Post.findOne({ image: req.params.id });
+    const post = await Post.findOne({ image: req.params.metaID });
     let user = await User.findById(post.user);
     if (!user) {
       user = {
         name: '[deleted]'
       }
     }
+
     const postReturn = {
-      imageID: req.params.id,
+      imageID: req.params.metaID,
       user: user.name,
+      userID: user._id,
       likes: post.likes,
       comments: post.comments,
     };
@@ -144,14 +141,14 @@ router.get("/meta/:id", async (req, res) => {
 // @route   DELETE api/posts
 // @desc    Delete a post
 // @access  Private
-router.delete("/:id", auth, async (req, res) => {
+router.delete('/:imageID', async (req, res) => {
+  console.log('here req.params.imageID:',req.params.imageID)
   try {
-    const post = await Post.findById(req.params.id);
-    if (post.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: "User not authorized" });
-    }
+    const post = await Post.findOne({image: req.params.imageID});
+    console.log('here post:',post)
+
     await post.remove();
-    res.json({ msg: "Post removed" });
+  //  res.json({ msg: "Post removed" });
   } catch (err) {
     console.error(err.message);
     if (err.kind === "ObjectId") {
@@ -212,7 +209,6 @@ router.put("/unlike/:id", auth, async (req, res) => {
 router.post("/comment/:id", auth,
   [ check('text', 'Text is required').not().isEmpty() ],
   async (req, res) => {
-    console.log("text", req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -229,7 +225,6 @@ router.post("/comment/:id", auth,
       post.comments.unshift(newComment);
     
       await post.save();
-      console.log(post.comments);
       res.json(post.comments);
     } catch (err) {
       console.error(err.message);
@@ -259,7 +254,6 @@ router.delete("/comment/:id/:comment_id", auth, async (req, res) => {
       .indexOf(req.user.id);
     post.comments.splice(removeIndex, 1);
     await post.save();
-    console.log(post.comments);
     res.json(post.comments);
   } catch (err) {
     console.error(err.message);

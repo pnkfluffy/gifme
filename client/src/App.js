@@ -24,7 +24,7 @@ const App =() => (
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/settings" component={Settings}/>
-            <Route exact path="/:user_id" component={Profile}/>
+            <Route exact path="/:userID" component={Profile}/>
             <Route exact path="/confirmation" component={Confirmation} />
             <Route exact path="/recovery-email" component={RecoveryEmail} />
             <Route exact path="/reset-password" component={ResetPassword} />

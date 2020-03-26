@@ -8,23 +8,26 @@ import fetchAuth from '../../utils/FetchAuth';
 const Navbar = () =>{
     const [loggedIn, setLoggedIn] = useState(false);
     const [menuState, setMenuState] = useState(true);
-    const [userId, setUserId] = useState('');
-    const V_Token = localStorage.getItem('myToken');
-    console.log('here userId:',userId)
-    const _id = 'test';
-    if (V_Token){
-        //get user ID and destructer it
+    const [user, setUser] = useState(null);
+    const [userId, setUserId] = useState(null);
 
+    if (user){
+        //get user ID and destructer it
+        user.then((res =>{
+            if (res) {
+                setUserId(res._id)
+            }
+        }))
     }
-    
     const openMenu = () =>{setMenuState(false)}
 
     useEffect(() => {
-        setUserId(fetchAuth().then(res => {
+        setUser(fetchAuth());
+        fetchAuth().then(res => {
           if (res) {
             setLoggedIn(true);
           }
-        }));
+        });
     }, []);
 
     //  scroll to top does not work
@@ -50,7 +53,7 @@ const Navbar = () =>{
                                 <img className="camera_icon" src={camera_icon} alt="photobooth"></img>
                             </Link>
                     <Menu noOverlay isOpen={menuState} onStateChange={openMenu}>
-                        <Link to={`/${_id}`} onClick={openMenu}>Profile</Link>
+                        <Link to={`/${userId}`} onClick={openMenu}>Profile</Link>
                         <Link to='/Settings' onClick={openMenu}>Settings</Link>
                         <Link to='/likes' onClick={openMenu}>Favorite posts</Link>
                         <SwitchPrivacy/>
@@ -81,7 +84,7 @@ const SwitchPrivacy= () =>{
     if (V_Token){ 
         return(
         <div>
-            <Link className="bm-item" onClick={deleteToken}>Log out</Link>
+            <div className="bm-item" onClick={deleteToken}>Log out</div>
         </div>
     )} 
     else {

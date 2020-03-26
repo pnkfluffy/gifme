@@ -39,27 +39,22 @@ img{
 .image_card_name_text{
 	width: 100%;
 	font-size: 12px;
+	cursor: pointer;
 }
 
-.edit_butt, .delete_button{
+.delete_button{
 	justify-content: flex-end;
 	border: solid 1px white;
 	border-radius: 10px;
 	margin: 0 5px 5px 0;
-}
-
-.edit_butt{
-	padding: 0 4px;
+	color: white;
+	padding: 0 5px;
+	font-size: 16px;
+	cursor: pointer;
 }
 
 .edit_icon{
 	width: 10px;
-}
-
-.delete_button{
-	color: white;
-	padding: 0 5px;
-	font-size: 16px;
 }
 
 .image_card_comment_like{

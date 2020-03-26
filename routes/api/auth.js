@@ -23,6 +23,23 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
+// @route   GET api/auth/:id
+// @desc    check user auth
+// @access  Private
+router.get("/:userID", auth, async (req, res) => {
+    let authorized = false;
+    try {
+      //checks if the logged user is the owner of the post or not
+      if (req.params.userID === req.user.id) {
+        authorized = true;
+      }
+      res.json(authorized)
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
+  });
+
 router.get('/confirmation', eauth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
