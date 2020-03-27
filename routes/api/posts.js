@@ -146,20 +146,27 @@ router.delete('/:imageID', async (req, res) => {
     const post = await Post.findOne({image: req.params.imageID});
     gfs.delete({_id: req.params.imageID}, function(error){
       test.equal(error, null);
-    
+
+    console.log('here _id:',_id)
+
     var chunksQuery = db.collection(chunks).find({ files_id:  req.params.imageID});
     chunksQuery.toArray(function(error, docs) {
       test.equal(error, null);
       test.equal(docs.length, 0);
-    
+
+      console.log('here chunksQuery:',chunksQuery)
+
     var filesQuery = db.collection(files).find({ _id: req.params.imageID });
     filesQuery.toArray(function(error, docs) {
       test.equal(error, null);
       test.equal(docs.length, 0);
+
+      console.log('here filesQuery:',filesQuery)
+
       });
     });
   });
-  await post.remove();
+  //await post.remove();
   console.log('backend search:', post)
 });
 
