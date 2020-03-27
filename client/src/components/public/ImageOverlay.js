@@ -173,7 +173,7 @@ const ImageOverlay = ({ data, removeOverlay, authInfo }) => {
         </div>
         <div className="overlay_export_box">
           <div className="overlay_export_btn">
-            <a href={`${data.image}`} download="my_image.jpeg">
+            <a href={`${data.image}`} download="my_image.png">
               <img src={downloadIcon} alt="download"></img>
             </a>
           </div>
