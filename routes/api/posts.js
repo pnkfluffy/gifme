@@ -63,6 +63,8 @@ const mongoose = require("mongoose");
 const config = require("config");
 const db = config.get("mongoURI");
 let gfs;
+const chunks = 'photos.chunks';
+const files = 'photos.files';
 const conn = mongoose.createConnection(db);
 conn.once("open", () => {
   gfs = new mongoose.mongo.GridFSBucket(conn.db, {
@@ -141,17 +143,24 @@ router.get("/meta/:metaID", async (req, res) => {
 // @desc    Delete a post
 // @access  Private
 router.delete('/:imageID', async (req, res) => {
-  try {
     const post = await Post.findOne({image: req.params.imageID});
-    await post.remove();
-  //  res.json({ msg: "Post removed" });
-  } catch (err) {
-    console.error(err.message);
-    if (err.kind === "ObjectId") {
-      return res.status(404).json({ msg: "Post not found" });
-    }
-    res.status(500).send("Server Error");
-  }
+    gfs.delete({_id: req.params.imageID}, function(error){
+      test.equal(error, null);
+    
+    var chunksQuery = db.collection(chunks).find({ files_id:  req.params.imageID});
+    chunksQuery.toArray(function(error, docs) {
+      test.equal(error, null);
+      test.equal(docs.length, 0);
+    
+    var filesQuery = db.collection(files).find({ _id: req.params.imageID });
+    filesQuery.toArray(function(error, docs) {
+      test.equal(error, null);
+      test.equal(docs.length, 0);
+      });
+    });
+  });
+  await post.remove();
+  console.log('backend search:', post)
 });
 
 // @route   PUT api/posts/like/:id
