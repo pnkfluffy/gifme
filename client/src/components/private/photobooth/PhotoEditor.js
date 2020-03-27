@@ -19,7 +19,6 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
   const webContext = useContext(WebcamContext);
 
   const returnWebcam = () => {
-    console.log(webContext.imgsOnCanvas);
     setImg(null);
   };
 
@@ -59,6 +58,8 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
 
   //  Posts the merged image to the database
   const onSubmit = async e => {
+	//	MAKE GIFS
+	//  BRING UP LOADING SCREEN
     e.preventDefault();
     //  Background is the webcamscreenshot
     const background = [{ src: imageSrc, x: 0, y: 0 }];
@@ -92,8 +93,11 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
                   },
                   body: formData
                 })
-                  .then(res => res.json())
-                  //REDIRECT TO CUSTOM URL PAGE FOR IMAGE POST
+                  .then(res => {
+                    res.json();
+                    window.location.href = "/";
+                  })
+                  //  REDIRECT TO CUSTOM URL PAGE FOR IMAGE POST
                   .then(res => console.log(res))
                   .catch(err => console.log(err.response));
               });

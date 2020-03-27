@@ -139,7 +139,7 @@ const OverlayCommentBox = ({ data, setAllComments }) => {
 const OverlayLoginBox = () => (
   <Link to="/Signup">
     <div className="overlay_login_box">
-      Please log in to comment, tag, or like posts.
+      Please make an account to comment, tag, or like posts.
     </div>
   </Link>
 );

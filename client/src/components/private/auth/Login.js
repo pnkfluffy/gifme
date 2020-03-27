@@ -28,7 +28,7 @@ const Login = () => {
             }
             const body = JSON.stringify(loginInfo);
             await axios.post('/api/auth', body, config)
-            //this shows the returned value either token or error message
+            //	this shows the returned value either token or error message
             .then(res=>{
                 const myToken = res.data.token;
                 const myUserID = res.data.userID;
@@ -37,9 +37,6 @@ const Login = () => {
                 window.location.href = '/';
             })
         } catch (err) {
-    //    const error = await err.response.data;
-    //    const errormsg = await err.response.data;
-    //        console.log('array:', errormsg[0]);
             console.log(err.response.data);
 			setError(err.response.data.toString());
 		}

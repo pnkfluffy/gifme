@@ -31,7 +31,6 @@ const Home = () => {
     const finalPosts = axios.get("api/posts/all");
     finalPosts
       .then(res => {
-        console.log(res.data);
         setPostsMetaData(res.data);
         return res.data;
       })
@@ -92,7 +91,7 @@ const Home = () => {
 
   // checks if the initial loading of posts fills up the page. If not, loads more
   useEffect(() => {
-    if (document.documentElement.offsetHeight < window.innerHeight) {
+    if (document.documentElement.offsetHeight < window.innerHeight + 200) {
       getPosts(5);
     }
   }, [imageGallery]);

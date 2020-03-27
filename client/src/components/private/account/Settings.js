@@ -41,9 +41,9 @@ const Account = () => {
             <button name="password" 
                     onClick={e => onChange(e)} 
                     className="Change">Change Password</button>
-            <button name="delete" 
+            <button className="delete_btn" name="delete" 
                     onClick={e => onChange(e)} 
-                    className="Change">Delete Account</button>
+                    >Delete Account</button>
             </div>
             <ToSwitch data={trace}/>
             </div>

@@ -107,6 +107,23 @@ h5{
     background-color: rgb(128, 0, 128, 40%);
 }
 
+.delete_btn {
+	margin: 30px;
+    margin-left: 25%;
+    padding: 10px;
+    width: 50%;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 20px;
+    border: solid 0.5px white;
+	background-color: rgb(256, 100, 100);
+}
+
+.delete_btn:hover{
+    background-color: rgb(256, 150, 150);
+}
+
 /*
 **  PHOTOBOOTH
 */

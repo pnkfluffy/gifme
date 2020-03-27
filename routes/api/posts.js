@@ -114,7 +114,6 @@ router.get("/image/:id", async (req, res) => {
 // @desc    Get post metadata by image ID
 // @access  Public
 router.get("/meta/:id", async (req, res) => {
-  console.log(req.params.id);
   try {
     const post = await Post.findOne({ image: req.params.id });
     let user = await User.findById(post.user);
