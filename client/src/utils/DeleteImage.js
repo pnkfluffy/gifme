@@ -1,6 +1,5 @@
 import axios from "axios"
 
-
 const delImage = async (imageID) =>{
     try {
     // delete req cannot take body, only deletes by ID

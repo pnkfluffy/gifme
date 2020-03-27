@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import axios from 'axios';
 import FormData from "form-data";
 import StickerCanvas from "./StickerCanvas";
 import StickerSelector from "./StickerSelector";
@@ -8,7 +7,6 @@ import mergeImages from "merge-images";
 
 import thumbsUp from "../../../resources/thumbs_up_icon.png";
 import dogImg from "../../../resources/superimposable_dog.png";
-//import catImg from "../../../resources/superimposable_cat.png";
 import hatImg from "../../../resources/superimposable_hat.png";
 import fireImg from "../../../resources/superimposable_fire.png";
 import bananaImg from "../../../resources/superimposable_banana.png";
@@ -86,20 +84,13 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
                 const formData = new FormData();
                 const file = new File([blob], "testfile.jpeg");
                 formData.append("photo", file);
-              //  const config = {
-              //    headers: {
-              //         "x-auth-token": authtoken,
-              //       }
-              //      }
-              //    const body = JSON.stringify(formData);
-              //  axios.post('/api/posts/', body, config)
-               fetch("/api/posts/", {
-                 method: "POST",
-                 headers: {
-                   "x-auth-token": authtoken
-                 },
-                 body: formData
-               })
+                fetch("/api/posts", {
+                  method: "POST",
+                  headers: {
+                    "x-auth-token": authtoken
+                  },
+                  body: formData
+                })
                   .then(res => res.json())
                   //REDIRECT TO CUSTOM URL PAGE FOR IMAGE POST
                   .then(res => console.log(res))

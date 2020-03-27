@@ -4,7 +4,7 @@ const { check, validationResult } = require("express-validator");
 
 const auth = require("../../middleware/auth");
 const postphotos = require("../../middleware/postphotos");
-// const searchphotos = require('../../middleware/searchphotos');
+//const searchphotos = require('../../middleware/searchphotos');
 const User = require("../../models/Users");
 const Post = require("../../models/Post");
 
@@ -137,16 +137,12 @@ router.get("/meta/:metaID", async (req, res) => {
 });
 
 
-// NEEDS TO BE CREATED TO DELETE MONGODB IMAGE AS WELL AS IMAGE POST
 // @route   DELETE api/posts
 // @desc    Delete a post
 // @access  Private
 router.delete('/:imageID', async (req, res) => {
-  console.log('here req.params.imageID:',req.params.imageID)
   try {
     const post = await Post.findOne({image: req.params.imageID});
-    console.log('here post:',post)
-
     await post.remove();
   //  res.json({ msg: "Post removed" });
   } catch (err) {
@@ -184,10 +180,7 @@ router.put("/like/:id", auth, async (req, res) => {
 router.put("/unlike/:id", auth, async (req, res) => {
   try {
     const post = await Post.findOne({ image: req.params.id });
-    if (
-      post.likes.filter(like => like.user.toString() === req.user.id).length ===
-      0
-    ) {
+    if (post.likes.filter(like => like.user.toString() === req.user.id).length === 0){
       return res.status(400).json({ msg: "Post not liked" });
     }
     //  somehow finds and removes the liked user
