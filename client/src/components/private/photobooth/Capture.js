@@ -4,7 +4,7 @@ import { WebcamProvider } from "./WebcamContext";
 
 import fetchAuth from "../../../utils/FetchAuth";
 import PhotoEditor from "./PhotoEditor";
-import PageError from '../../error/NotValidUser(400)';
+import PageError from "../../error/NotValidUser(400)";
 
 const videoConstraints = {
   width: 400,
@@ -12,10 +12,10 @@ const videoConstraints = {
   facingMode: "user"
 };
 
-const PhotoDisplay = () => {
+const CaptureArea = () => {
   const [timer, setTimer] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
-  const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(true);
 
   const webcamRef = React.useRef(null);
   const capture = React.useCallback(() => {
@@ -23,12 +23,13 @@ const PhotoDisplay = () => {
   }, [webcamRef]);
 
   useEffect(() => {
-	const auth = fetchAuth();
-	auth.then(res => {
-		console.log('auth', res);
-		if (res) { setLogin(true) }
-	})
-  }, [])
+    const auth = fetchAuth();
+    auth.then(res => {
+      if (!res) {
+        setLogin(false);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (timer < 0) {
@@ -45,7 +46,7 @@ const PhotoDisplay = () => {
   }, [timer]);
 
   if (!login) {
-	  return (<PageError/>);
+    return <PageError />;
   }
   if (!imageSrc) {
     return (
@@ -85,16 +86,4 @@ const PhotoDisplay = () => {
   }
 };
 
-const PhotoBooth = () => {
-  return (
-    <div>
-      <div id="main">
-        <div class="photobooth">
-          <PhotoDisplay />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default PhotoBooth;
+export default CaptureArea;

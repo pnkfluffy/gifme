@@ -129,7 +129,6 @@ h5{
 */
 
 .photobooth_box {
-    background-color: rgba(256, 256, 256, 0.5);
     width: 600px;
     height: 800px;
     display: flex;
