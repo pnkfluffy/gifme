@@ -9,7 +9,7 @@ import RecoveryEmail from './components/private/auth/RecoveryEmail';
 import ResetPassword from './components/private/auth/ResetPassword';
 import Settings from './components/private/account/Settings';
 import Profile from './components/private/account/Profile';
-import PhotoBooth from './components/private/photobooth/PhotoBooth';
+import PhotoBooth from './components/private/photobooth/PhotoBooth.js';
 
 import './CSS/App.css';
 import './CSS/Home.css';
