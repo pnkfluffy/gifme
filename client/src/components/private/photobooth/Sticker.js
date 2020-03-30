@@ -2,9 +2,6 @@ import React, { Component } from "react";
 import { WebcamContext } from "./WebcamContext";
 
 export default class Sticker extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   addSticker = () => {
     const image = new Image();

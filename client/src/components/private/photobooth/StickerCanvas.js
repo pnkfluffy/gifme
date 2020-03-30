@@ -9,9 +9,6 @@ import PrintedSticker from "./PrintedSticker";
 
 //  each individual sticker stores its own b64 data as well as its x, y, and z locations
 export default class StickerCanvas extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   placeStickers() {
     if (this.context.totalImgsOnCanvas > 0) {

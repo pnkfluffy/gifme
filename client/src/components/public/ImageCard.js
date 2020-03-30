@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Link } from "react";
+import React, { useState, useEffect} from "react";
 import noLikeHeart from '../../resources/heart_purple.png';
 import likeHeart from '../../resources/heart_red.png';
 import {delImage} from '../../utils/DeleteImage';
@@ -61,7 +61,7 @@ const Likes = ({likes, imageID, authInfo}) => {
   if (hasLiked) {
     return (
       <div className="image_card_like" onClick={e => unLikePost(e)}>
-        <img src={likeHeart} className="image_card_heart"/>
+        <img alt="likeHeart" src={likeHeart} className="image_card_heart"/>
       </div>
     );
   }
