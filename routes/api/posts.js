@@ -109,9 +109,9 @@ router.get("/image/:id", async (req, res) => {
 // @route   GET api/posts/meta/:id
 // @desc    Get post metadata by image ID
 // @access  Public
-router.get("/meta/:metaID", async (req, res) => {
+router.get("/meta/:id", async (req, res) => {
   try {
-    const post = await Post.findOne({ image: req.params.metaID });
+    const post = await Post.findOne({ image: req.params.id });
     let user = await User.findById(post.user);
     if (!user) {
       user = {
