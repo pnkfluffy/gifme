@@ -7,6 +7,7 @@ import mergeImages from "merge-images";
 
 import thumbsUp from "../../../resources/thumbs_up_icon.png";
 import dogImg from "../../../resources/superimposable_dog.png";
+//import catImg from "../../../resources/superimposable_cat.png";
 import hatImg from "../../../resources/superimposable_hat.png";
 import fireImg from "../../../resources/superimposable_fire.png";
 import bananaImg from "../../../resources/superimposable_banana.png";
@@ -18,7 +19,6 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
   const webContext = useContext(WebcamContext);
 
   const returnWebcam = () => {
-    console.log(webContext.imgsOnCanvas);
     setImg(null);
   };
 
@@ -58,6 +58,8 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
 
   //  Posts the merged image to the database
   const onSubmit = async e => {
+	//	MAKE GIFS
+	//  BRING UP LOADING SCREEN
     e.preventDefault();
     //  Background is the webcamscreenshot
     const background = [{ src: imageSrc, x: 0, y: 0 }];
@@ -91,8 +93,11 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
                   },
                   body: formData
                 })
-                  .then(res => res.json())
-                  //REDIRECT TO CUSTOM URL PAGE FOR IMAGE POST
+                  .then(res => {
+                    res.json();
+                    window.location.href = "/";
+                  })
+                  //  REDIRECT TO CUSTOM URL PAGE FOR IMAGE POST
                   .then(res => console.log(res))
                   .catch(err => console.log(err.response));
               });
@@ -100,7 +105,29 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
           .then(b64 => console.log("DONE!: ", b64))
           .catch(err => console.error(err));
       });
-    }
+    } else {
+		fetch(imageSrc)
+              .then(res => res.blob())
+              .then(blob => {
+                const formData = new FormData();
+                const file = new File([blob], "testfile.jpeg");
+                formData.append("photo", file);
+                fetch("/api/posts", {
+                  method: "POST",
+                  headers: {
+                    "x-auth-token": authtoken
+                  },
+                  body: formData
+                })
+                  .then(res => {
+                    res.json();
+                    window.location.href = "/";
+                  })
+                  //  REDIRECT TO CUSTOM URL PAGE FOR IMAGE POST
+                  .then(res => console.log(res))
+                  .catch(err => console.log(err.response));
+              });
+	}
   };
 
   return (
