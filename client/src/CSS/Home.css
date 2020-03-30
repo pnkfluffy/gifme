@@ -31,8 +31,30 @@ img{
 }
 
 .image_card_name{
-	height: 18px;
+	height: 20px;
 	margin-left: 10px;
+	display: flex;
+}
+
+.image_card_name_text{
+	width: 100%;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.delete_button{
+	justify-content: flex-end;
+	border: solid 1px white;
+	border-radius: 10px;
+	margin: 0 5px 5px 0;
+	color: white;
+	padding: 0 5px;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.edit_icon{
+	width: 10px;
 }
 
 .image_card_bottom{
@@ -47,9 +69,7 @@ img{
 	margin-top: -23px;
 }
 
-.image_card_name_text{
-	font-size: 12px;
-}
+
 
 .overlay{
 	display: flex;
