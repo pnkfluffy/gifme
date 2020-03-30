@@ -105,29 +105,7 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
           .then(b64 => console.log("DONE!: ", b64))
           .catch(err => console.error(err));
       });
-    } else {
-		fetch(imageSrc)
-              .then(res => res.blob())
-              .then(blob => {
-                const formData = new FormData();
-                const file = new File([blob], "testfile.jpeg");
-                formData.append("photo", file);
-                fetch("/api/posts", {
-                  method: "POST",
-                  headers: {
-                    "x-auth-token": authtoken
-                  },
-                  body: formData
-                })
-                  .then(res => {
-                    res.json();
-                    window.location.href = "/";
-                  })
-                  //  REDIRECT TO CUSTOM URL PAGE FOR IMAGE POST
-                  .then(res => console.log(res))
-                  .catch(err => console.log(err.response));
-              });
-	}
+    }
   };
 
   return (
@@ -157,7 +135,6 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
             className="photobooth_accept_btn"
             value="Upload"
             src={thumbsUp}
-            alt="thumbsUp"
           />
           <img
             className="photobooth_reject_btn"
