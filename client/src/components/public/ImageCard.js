@@ -152,7 +152,7 @@ const ImageCard = ({ imageData, addOverlay, authInfo, isAuth }) => {
         <div className="image_card_name_text"  onClick={() => window.location.href =`/${imageData.userID}`}>{imageData.user}</div>
         {isAuth ?
         <div className="feature_container">
-        <div className="delete_button" onClick={() => delImage(imageData.imageID)}>x</div>
+        <div className="delete_button" onClick={() => delImage(imageData.imageID, imageData.userID)}>x</div>
         </div>
         : null}
       </div>
