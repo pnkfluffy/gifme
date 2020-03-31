@@ -99,6 +99,9 @@ router.get("/image/:id", async (req, res) => {
       .on("error", function(error) {
         console.error(err.message);
       })
+      .on("finish", function() {
+        console.log("done!");
+      });
   } catch (err) {
     console.error(err.message);
     if (err.kind === "ObjectId") {
