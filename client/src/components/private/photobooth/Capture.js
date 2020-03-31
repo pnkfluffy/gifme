@@ -89,7 +89,7 @@ const PhotoBooth = () => {
   return (
     <div>
       <div id="main">
-        <div class="photobooth">
+        <div className="photobooth">
           <PhotoDisplay />
         </div>
       </div>

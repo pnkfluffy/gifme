@@ -73,7 +73,7 @@ const SwitchPrivacy= () =>{
     if (V_Token){ 
         return(
         <div>
-            <Link className="bm-item" onClick={deleteToken}>Log out</Link>
+            <div className="bm-item" onClick={deleteToken}>Log out</div>
         </div>
     )} 
     else {
