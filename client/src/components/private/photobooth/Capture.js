@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import { WebcamProvider } from "./WebcamContext";
 
-import fetchAuth from "../../../utils/FetchAuth";
+import fetchAuth from "../../utils/FetchAuth";
 import PhotoEditor from "./PhotoEditor";
 import PageError from '../../error/NotValidUser(400)';
 

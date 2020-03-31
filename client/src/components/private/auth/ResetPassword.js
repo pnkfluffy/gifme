@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import ErrorMessage from '../../../utils/errorMessage';
-import PopUpMessage from '../../../utils/popUpMessage';
+import ErrorMessage from '../../utils/errorMessage';
+import PopUpMessage from '../../utils/popUpMessage';
 import Error from '../../error/PageNotFound(404)';
 
 

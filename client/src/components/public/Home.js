@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useReducer } from "react";
 import axios from "axios";
 
-import { fetchAllPosts } from "../../utils/FetchPosts";
+import { fetchAllPosts } from "../utils/FetchPosts";
 import ImageCard from "./ImageCard";
 import ImageOverlay from "./ImageOverlay";
-import fetchAuth from "../../utils/FetchAuth";
+import fetchAuth from "../utils/FetchAuth";
 
 function galleryReducer(state, action) {
   switch (action.type) {

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
-import ErrorMessage from '../../../utils/errorMessage';
-import PopUpMessage from '../../../utils/popUpMessage';
-import LinkRegistration from '../../../utils/linkRegistration';
+import ErrorMessage from '../../utils/errorMessage';
+import PopUpMessage from '../../utils/popUpMessage';
+import LinkRegistration from '../../utils/linkRegistration';
 import axios from 'axios';
 
 const Signup = () => {
