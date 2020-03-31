@@ -80,7 +80,7 @@ router.get("/image/:id", async (req, res) => {
   try {
     res.contentType = "image/png";
 
-    const obj_id = new mongoose.Types.ObjectId(req.params.id);
+    const post = await Post.findOne({ image: req.params.id });
     const file = gfs.find(obj_id).toArray((err, files) => {
       if (!files || files.length === 0) {
         return res.status(404).json({
