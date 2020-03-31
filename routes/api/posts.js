@@ -49,9 +49,9 @@ router.get("/all", async (req, res) => {
 // @route   GET api/posts/mine
 // @desc    Get all post
 // @access  Private
-router.get("/mine", auth, async (req, res) => {
+router.get("/:userID", async (req, res) => {
   try {
-    const posts = await Post.find({ user: req.user.id }).sort({ date: -1 });
+    const posts = await Post.find({user: req.params.userID}).sort({ date: -1 });
     res.json(posts);
   } catch (err) {
     console.error(err.message);
@@ -74,12 +74,12 @@ conn.once("open", () => {
 // @route   GET api/posts/image/:id
 // @desc    Get image binary by image ID
 // @access  Public
-router.get("/image/:id", async (req, res) => {
+router.get("/image/:metaID", async (req, res) => {
   console.log(req.params.id);
   try {
     res.contentType = "image/png";
 
-    const obj_id = new mongoose.Types.ObjectId(req.params.id);
+    const post = await Post.findOne({ image: req.params.metaID });
     const file = gfs.find(obj_id).toArray((err, files) => {
       if (!files || files.length === 0) {
         return res.status(404).json({
@@ -113,9 +113,9 @@ router.get("/image/:id", async (req, res) => {
 // @route   GET api/posts/meta/:id
 // @desc    Get post metadata by image ID
 // @access  Public
-router.get("/meta/:id", async (req, res) => {
+router.get("/meta/:metaID", async (req, res) => {
   try {
-    const post = await Post.findOne({ image: req.params.id });
+    const post = await Post.findOne({ image: req.params.metaID });
     let user = await User.findById(post.user);
     if (!user) {
       user = {
@@ -123,8 +123,9 @@ router.get("/meta/:id", async (req, res) => {
       }
     }
     const postReturn = {
-      imageID: req.params.id,
+      imageID: req.params.metaID,
       user: user.name,
+      userID: user._id,
       likes: post.likes,
       comments: post.comments,
     };
