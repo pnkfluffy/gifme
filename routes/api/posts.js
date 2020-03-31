@@ -77,11 +77,10 @@ conn.once("open", () => {
 // @desc    Get image binary by image ID
 // @access  Public
 router.get("/image/:id", async (req, res) => {
-  console.log('here req.params.id:',req.params.id);
   try {
     res.contentType = "image/png";
 
-    const post = await Post.findOne({ image: req.params.id });
+    const obj_id = new mongoose.Types.ObjectId(req.params.id);
     const file = gfs.find(obj_id).toArray((err, files) => {
       if (!files || files.length === 0) {
         return res.status(404).json({
@@ -100,9 +99,6 @@ router.get("/image/:id", async (req, res) => {
       .on("error", function(error) {
         console.error(err.message);
       })
-      .on("finish", function() {
-        console.log("done!");
-      });
   } catch (err) {
     console.error(err.message);
     if (err.kind === "ObjectId") {
