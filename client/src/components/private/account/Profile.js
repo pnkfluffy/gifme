@@ -16,6 +16,8 @@ const Profile = () => {
 	const authToken = localStorage.getItem('myToken');
 	let params  = useParams("/:userID");
 	const {userID} = params;
+	console.log('userID:', userID)
+
 
 	const isAuth = async =>{
 		const config = {
@@ -23,6 +25,7 @@ const Profile = () => {
 				'x-auth-token': authToken
 				//logged user
 			}}
+			console.log('userID:', userID)
 		const isAuth = axios.get(`/api/auth/${userID}`, config)
 		isAuth.then(res => {setAuthorize(res.data)});
 	}
