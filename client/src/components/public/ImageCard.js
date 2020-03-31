@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Link } from "react";
 import axios from "axios";
+import noLikeHeart from '../../resources/heart_purple.png';
+import likeHeart from '../../resources/heart_red.png';
+import {delImage} from '../../utils/DeleteImage';
 
 const Likes = ({likes, imageID, authInfo}) => {
   const [hasLiked, setHasLiked] = useState(null);
@@ -144,12 +147,16 @@ const CommentsBox = imageInfo => {
 //  ^^CHANGE COMMENTS TO TAGS, MAKE EACH ONE LINK TO SEARCH WHEN CLICKED^^
 
 
-const ImageCard = ({ imageData, addOverlay, authInfo }) => {
-  return (
+const ImageCard = ({ imageData, addOverlay, authInfo, isAuth }) => {
+    return (
     <div className="image_card">
       <div className="image_card_name">
-        <div className="image_card_name_text">{imageData.user}</div>
-      </div>
+      <div className="image_card_name_text"  onClick={() => window.location.href =`/${imageData.userID}`}>{imageData.user}</div>
+        {isAuth ?
+        <div className="feature_container">
+        <div className="delete_button" onClick={() => delImage(imageData.imageID, imageData.userID)}>x</div>
+        </div>
+        : null}      </div>
       <div className="pic_frame">
 		  {/* calls function from home to open imageoverlay with imagedata */}
         <img

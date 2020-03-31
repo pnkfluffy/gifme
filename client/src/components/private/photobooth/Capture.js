@@ -97,4 +97,4 @@ const PhotoBooth = () => {
   );
 };
 
-export default PhotoBooth;
+export default PhotoDisplay;

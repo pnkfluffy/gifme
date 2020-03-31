@@ -19,6 +19,7 @@ const fetchPost = async (imageID) => {
 				imageID: metaData.data.imageID,
 				image: binaryToB64(arrayBuffer.data),
 				user: metaData.data.user,
+				userID: metaData.data.userID,
 				likes: metaData.data.likes,
 				comments: metaData.data.comments
 			})
