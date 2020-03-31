@@ -23,20 +23,20 @@ const Profile = () => {
                 'x-auth-token': authToken
             //logged user
 			}}
-			const isAuth = axios.get(`/api/auth/${userID}`, config)
-			isAuth.then(res => {setAuthorize(res.data)});
-		}
+		const isAuth = axios.get(`/api/auth/${userID}`, config)
+		isAuth.then(res => {setAuthorize(res.data)});
 	
-		const getPosts = async => {
-			const finalPosts = axios.get(`/api/posts/${userID}`)
-			finalPosts.then(res => {
-				return fetchAllPosts(res.data);
-			}).then(res => {
-				setImageGallery(res);
-			}).catch(err => {
-				console.error(err);
-			})
-			};
+	
+	const getPosts = async => {
+		const finalPosts = axios.get(`/api/posts/${userID}`)
+		finalPosts.then(res => {
+			return fetchAllPosts(res.data);
+		}).then(res => {
+			setImageGallery(res);
+		}).catch(err => {
+			console.error(err);
+		})
+	};
 
 	useEffect(() => {
 		setAuthInfo(fetchAuth());
@@ -77,6 +77,7 @@ const Profile = () => {
               ) : null}
 		</div>
 	)
+}
 }
 
 export default Profile;
