@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import {useParams} from 'react-router';
+import axios from 'axios';
 import ImageCard from "../../public/ImageCard";
 import ImageOverlay from "../../public/ImageOverlay";
 import { fetchAllPosts } from '../../utils/FetchPosts';
@@ -8,25 +8,25 @@ import fetchAuth from '../../utils/FetchAuth';
 
 
 const Profile = () => {
-    const [imageGallery, setImageGallery] = useState([]);
+	const [imageGallery, setImageGallery] = useState([]);
 	const [overlayData, setOverlayData] = useState(null);
 	const [authInfo, setAuthInfo] = useState(null);
 	const [authorize, setAuthorize] = useState(null);
 
-    const authToken = localStorage.getItem('myToken');
+	const authToken = localStorage.getItem('myToken');
 	let params  = useParams("/:userID");
 	const {userID} = params;
 
 	const isAuth = async =>{
 		const config = {
             headers:{
-                'x-auth-token': authToken
-            //logged user
+				'x-auth-token': authToken
+				//logged user
 			}}
 		const isAuth = axios.get(`/api/auth/${userID}`, config)
 		isAuth.then(res => {setAuthorize(res.data)});
-	
-	
+	}
+
 	const getPosts = async => {
 		const finalPosts = axios.get(`/api/posts/${userID}`)
 		finalPosts.then(res => {
@@ -35,8 +35,8 @@ const Profile = () => {
 			setImageGallery(res);
 		}).catch(err => {
 			console.error(err);
-		})
-	};
+		});
+	}
 
 	useEffect(() => {
 		setAuthInfo(fetchAuth());
@@ -70,14 +70,13 @@ const Profile = () => {
 			</div>
 			{overlayData ? (
                 <ImageOverlay
-                  authInfo={authInfo}
+				  authInfo={authInfo}
                   data={overlayData}
                   removeOverlay={() => toggleOverlay(null)}
                 />
-              ) : null}
+			  ) : null}
 		</div>
 	)
-}
 }
 
 export default Profile;
