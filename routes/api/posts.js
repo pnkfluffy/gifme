@@ -13,10 +13,7 @@ const Post = require("../../models/Post");
 // @access  Private
 router.post("/", auth, postphotos, async (req, res) => {
   try {
-    console.log('here req.file.id:',req.file.id)
-
     let post = await Post.findOne({ image: req.file.id });
-    console.log('here post:',post)
     if (post) {
       return res.error({ error: "file duplication" });
     }
