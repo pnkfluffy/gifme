@@ -76,11 +76,11 @@ conn.once("open", () => {
 // @route   GET api/posts/image/:id
 // @desc    Get image binary by image ID
 // @access  Public
-router.get("/image/:metaID", async (req, res) => {
+router.get("/image/:id", async (req, res) => {
   try {
     res.contentType = "image/png";
 
-    const obj_id = new mongoose.Types.ObjectId(req.params.metaID);
+    const obj_id = new mongoose.Types.ObjectId(req.params.id);
     const file = gfs.find(obj_id).toArray((err, files) => {
       if (!files || files.length === 0) {
         return res.status(404).json({
