@@ -23,6 +23,8 @@ const Profile = () => {
 				'x-auth-token': authToken
 				//logged user
 			}}
+			console.log('here userID:', userID)
+			console.log('Token:',authToken)
 		const isAuth = axios.get(`/api/auth/${userID}`, config)
 		isAuth.then(res => {setAuthorize(res.data)});
 	}
