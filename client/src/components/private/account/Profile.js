@@ -3,8 +3,8 @@ import {useParams} from 'react-router';
 import axios from 'axios';
 import ImageCard from "../../public/ImageCard";
 import ImageOverlay from "../../public/ImageOverlay";
-import { fetchAllPosts } from '../../utils/FetchPosts';
-import fetchAuth from '../../utils/FetchAuth';
+import { fetchAllPosts } from '../../../utils/FetchPosts';
+import fetchAuth from '../../../utils/FetchAuth';
 
 
 const Profile = () => {

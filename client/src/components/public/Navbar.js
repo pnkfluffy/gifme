@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {slide as Menu} from "react-burger-menu";
 import logo3 from '../../resources/gifme_logo_3.png';
 import camera_icon from '../../resources/camera_icon_white.png'
-import fetchAuth from '../utils/FetchAuth';
+import fetchAuth from '../../utils/FetchAuth';
 
 const Navbar = () =>{
     const [loggedIn, setLoggedIn] = useState(false);

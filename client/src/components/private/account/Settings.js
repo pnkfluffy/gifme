@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import ErrorMessage from '../../utils/errorMessage';
+import ErrorMessage from '../../../utils/errorMessage';
 
 const Account = () => {
     const [userName, setUserName] = useState('');

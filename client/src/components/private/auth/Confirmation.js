@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Error from '../../error/PageNotFound(404)';
-import PopUpMessage from '../../utils/popUpMessage';
+import PopUpMessage from '../../../utils/popUpMessage';
 
 
 const Confirmation = () => {

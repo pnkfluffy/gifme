@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../CSS/App.css';
+import '../CSS/App.css';
 
 
 const PopUpMessage = ({text}) =>{

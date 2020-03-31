@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import ErrorMessage from '../../utils/errorMessage';
-import LinkRegistration from '../../utils/linkRegistration';
+import ErrorMessage from '../../../utils/errorMessage';
+import LinkRegistration from '../../../utils/linkRegistration';
 
 import '../../../CSS/Signup.css';
 
