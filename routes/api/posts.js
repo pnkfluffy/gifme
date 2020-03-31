@@ -78,6 +78,7 @@ conn.once("open", () => {
 // @access  Public
 router.get("/image/:id", async (req, res) => {
   try {
+    console.log('inside image/:id', req.params.id)
     res.contentType = "image/png";
 
     const obj_id = new mongoose.Types.ObjectId(req.params.id);

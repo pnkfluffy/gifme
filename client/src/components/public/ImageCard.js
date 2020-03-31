@@ -77,12 +77,15 @@ const ImageCard = ({ imageData, addOverlay, authInfo, isAuth }) => {
     return (
     <div className="image_card">
       <div className="image_card_name">
-      <div className="image_card_name_text"  onClick={() => window.location.href =`/${imageData.userID}`}>{imageData.user}</div>
+      <div className="image_card_name_text"  onClick={() => window.location.href =`/profile/${imageData.userID}`}>{imageData.user}</div>
         {isAuth ?
         <div className="feature_container">
         <div className="delete_button" onClick={() => delImage(imageData.imageID, imageData.userID)}>x</div>
         </div>
-        : null}      </div>
+        : <div className="feature_container">
+          <div className="image_card_name_text"
+          onClick={() => window.location.href =`/image/${imageData.imageID}`}> view picture</div>
+          </div>}      </div>
       <div className="pic_frame">
 		  {/* calls function from home to open imageoverlay with imagedata */}
         <img

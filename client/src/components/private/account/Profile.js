@@ -14,7 +14,7 @@ const Profile = () => {
 	const [authorize, setAuthorize] = useState(null);
 
 	const authToken = localStorage.getItem('myToken');
-	let params  = useParams("/:userID");
+	let params  = useParams("/profile/:userID");
 	const {userID} = params;
 	console.log('userID:', userID)
 

@@ -9,6 +9,8 @@ import RecoveryEmail from './components/private/auth/RecoveryEmail';
 import ResetPassword from './components/private/auth/ResetPassword';
 import Settings from './components/private/account/Settings';
 import Profile from './components/private/account/Profile';
+import ImageProfile from './components/public/imageProfile';
+
 import PhotoBooth from './components/private/photobooth/Capture';
 
 import './CSS/App.css';
@@ -24,7 +26,8 @@ const App =() => (
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/settings" component={Settings}/>
-            <Route exact path="/:userID" component={Profile}/>
+            <Route exact path="/profile/:userID" component={Profile}/>
+            <Route exact path="/image/:imageID" component={ImageProfile}/>
             <Route exact path="/confirmation" component={Confirmation} />
             <Route exact path="/recovery-email" component={RecoveryEmail} />
             <Route exact path="/reset-password" component={ResetPassword} />

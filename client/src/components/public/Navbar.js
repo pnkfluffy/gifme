@@ -54,7 +54,7 @@ const Navbar = () =>{
                                 <img className="camera_icon" src={camera_icon} alt="photobooth"></img>
                             </Link>
                     <Menu noOverlay isOpen={menuState} onStateChange={openMenu}>
-                    <Link to={`/${userId}`} onClick={openMenu}>Profile</Link>
+                    <Link to={`/profile/${userId}`} onClick={openMenu}>Profile</Link>
                         <Link to='/Settings' onClick={openMenu}>Settings</Link>
                         <Link to='/likes' onClick={openMenu}>Favorite posts</Link>
                         <SwitchPrivacy/>       
