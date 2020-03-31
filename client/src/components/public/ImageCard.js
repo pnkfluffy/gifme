@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from "react";
 import noLikeHeart from '../../resources/heart_purple.png';
 import likeHeart from '../../resources/heart_red.png';
+import {delImage} from '../utils/DeleteImage'
 
 const Likes = ({likes, imageID, authInfo}) => {
   const [hasLiked, setHasLiked] = useState(null);

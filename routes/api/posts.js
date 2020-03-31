@@ -77,7 +77,7 @@ conn.once("open", () => {
 // @desc    Get image binary by image ID
 // @access  Public
 router.get("/image/:id", async (req, res) => {
-  console.log(req.params.id);
+  console.log('here req.params.id:',req.params.id);
   try {
     res.contentType = "image/png";
 
