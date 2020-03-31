@@ -23,15 +23,13 @@ const Profile = () => {
 				'x-auth-token': authToken
 				//logged user
 			}}
-			console.log('here userID:', userID)
-			console.log('Token:',authToken)
 		const isAuth = axios.get(`/api/auth/${userID}`, config)
 		isAuth.then(res => {setAuthorize(res.data)});
 	}
 
 	const getPosts = async => {
-		const finalPosts = axios.get(`/api/posts/${userID}`)
-		finalPosts.then(res => {
+		const allPosts = axios.get(`/api/posts/${userID}`)
+		allPosts.then(res => {
 			return fetchAllPosts(res.data);
 		}).then(res => {
 			setImageGallery(res);
