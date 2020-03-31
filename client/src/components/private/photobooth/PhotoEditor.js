@@ -15,6 +15,7 @@ import poopImg from "../../../resources/superimposable_poop.png";
 
 const PhotoEditor = ({ imageSrc, setImg }) => {
   const authtoken = localStorage.getItem("myToken");
+  console.log('here authtoken',authtoken)
   const imageArray = [dogImg, poopImg, hatImg, fireImg, bananaImg];
   const webContext = useContext(WebcamContext);
 

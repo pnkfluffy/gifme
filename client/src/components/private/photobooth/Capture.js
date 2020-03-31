@@ -23,7 +23,8 @@ const PhotoDisplay = () => {
   }, [webcamRef]);
 
   useEffect(() => {
-	const auth = fetchAuth();
+  const auth = fetchAuth();
+  console.log('here auth:',auth)
 	auth.then(res => {
 		console.log('auth', res);
 		if (res) { setLogin(true) }
@@ -89,7 +90,7 @@ const PhotoBooth = () => {
   return (
     <div>
       <div id="main">
-        <div class="photobooth">
+        <div className="photobooth">
           <PhotoDisplay />
         </div>
       </div>
