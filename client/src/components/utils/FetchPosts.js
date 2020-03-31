@@ -10,7 +10,6 @@ const binaryToB64 = (binary) => {
 }
 
 const fetchPost = async (imageID) => {
-	console.log(`Fetching ${imageID}`);
 	const arrayBuffer = await axios.get(`/api/posts/image/${imageID}`, { responseType: 'arraybuffer' });
 	const metaData = await axios.get(`/api/posts/meta/${imageID}`);
 	return Promise.all([arrayBuffer, metaData])
@@ -26,9 +25,8 @@ const fetchPost = async (imageID) => {
 		})
 }
 
-const fetchAllPosts = async (imageData) => {
-	console.log('data', imageData);
-	const posts = imageData.map(({ image }) => {
+const fetchAllPosts = async (imageIDs) => {
+	const posts = imageIDs.map(({ image }) => {
 		return fetchPost(image)
 	});
 	const allPosts = Promise.all(posts)
