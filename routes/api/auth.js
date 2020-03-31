@@ -40,7 +40,6 @@ router.get("/:userID", auth, async (req, res) => {
     }
   });
 
-
 router.get('/confirmation', eauth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
