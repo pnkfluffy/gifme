@@ -145,21 +145,15 @@ router.get("/meta/:metaID", async (req, res) => {
 // @route   DELETE api/posts
 // @desc    Delete a post
 // @access  Private
-router.delete("/:id", auth, async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id);
-    if (post.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: "User not authorized" });
-    }
-    await post.remove();
-    res.json({ msg: "Post removed" });
-  } catch (err) {
-    console.error(err.message);
-    if (err.kind === "ObjectId") {
-      return res.status(404).json({ msg: "Post not found" });
-    }
-    res.status(500).send("Server Error");
-  }
+router.delete('/:imageID', async (req, res) => {
+  const post = await Post.findOne({image: req.params.imageID});
+//  gfs.delete({_id: req.params.imageID, root:"photos"}, function(error){
+//    test.equal(error, null);
+//
+//  console.log('here _id:',_id)
+//});
+await post.remove();
+console.log('backend search:', post)
 });
 
 // @route   PUT api/posts/like/:id
@@ -188,10 +182,7 @@ router.put("/like/:id", auth, async (req, res) => {
 router.put("/unlike/:id", auth, async (req, res) => {
   try {
     const post = await Post.findOne({ image: req.params.id });
-    if (
-      post.likes.filter(like => like.user.toString() === req.user.id).length ===
-      0
-    ) {
+    if (post.likes.filter(like => like.user.toString() === req.user.id).length === 0){
       return res.status(400).json({ msg: "Post not liked" });
     }
     //  somehow finds and removes the liked user
