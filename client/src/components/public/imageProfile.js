@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useParams} from 'react-router';
-import axios from 'axios';
-import { fetchAllPosts } from '../../utils/FetchPosts';
+import { fetchPost } from '../../utils/FetchPosts';
 
 
 const ImageProfile = () => {
@@ -12,29 +11,23 @@ const ImageProfile = () => {
     console.log('imageID:', imageID)
     console.log('imageGallery:', imageGallery)
     
-    const getPosts = async => {
-	const allPosts = axios.get(`/api/posts/image/${imageID}`)
-	allPosts.then(res => {
-		return fetchAllPosts(res.data);
-	}).then(res => {
-		setImageGallery(res);
-	}).catch(err => {
-		console.error(err);
-    });
+    const getPost = async => {
+		const post = fetchPost(imageID);
+		setImageGallery(post);
 }
 
 	useEffect(() => {
-		getPosts();
+		getPost();
 	}, []);
 
 	return (
 		<div>
-			<div >
-				{imageGallery.map(image => (
-                    <img 
+			<div>
+				{imageGallery ?(image => (
+                    <img
                     alt="database_image"
                     src={`${image.image}`}/>
-        			))}
+        			)) : <div>loading</div>}
 			</div>
 		</div>
     )
