@@ -19,7 +19,7 @@ const ImageProfile = () => {
 	useEffect(() => {
 		getPost();
 	}, []);
-
+//  Here look for the return to work
 	return (
 		<div>
 			<div>
