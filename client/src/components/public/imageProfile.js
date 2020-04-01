@@ -8,13 +8,15 @@ const ImageProfile = () => {
 
 	let params  = useParams("/image/:imageID");
 	const {imageID} = params;
-    console.log('imageID:', imageID)
-    console.log('imageGallery:', imageGallery)
     
     const getPost = async => {
-		const post = fetchPost(imageID);
-		setImageGallery(post);
-}
+        const post = fetchPost(imageID)
+        post.then(res => {setImageGallery(res)
+        }).catch(err => {
+            console.error(err);
+        });
+    }
+
 
 	useEffect(() => {
 		getPost();
@@ -23,11 +25,9 @@ const ImageProfile = () => {
 	return (
 		<div>
 			<div>
-				{imageGallery ?(image => (
-                    <img
-                    alt="database_image"
-                    src={`${image.image}`}/>
-        			)) : <div>loading</div>}
+                <img
+                alt="database_image"
+                src={`${imageGallery.image}`}/>
 			</div>
 		</div>
     )
