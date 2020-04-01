@@ -118,6 +118,7 @@ const Home = () => {
       <ImageCard
         authInfo={authInfo}
         imageData={image}
+        isAuth={null}
         addOverlay={imageData => toggleOverlay({ imageData })}
       />
     );

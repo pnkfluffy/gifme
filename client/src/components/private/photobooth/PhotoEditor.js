@@ -136,11 +136,13 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
             className="photobooth_accept_btn"
             value="Upload"
             src={thumbsUp}
+            alt="thumbsUp"
           />
           <img
             className="photobooth_reject_btn"
             onClick={returnWebcam}
             src={thumbsUp}
+            alt="thumbsUp"
           />
         </div>
       </form>
