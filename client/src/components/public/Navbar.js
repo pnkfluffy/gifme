@@ -55,8 +55,8 @@ const Navbar = () =>{
                             </Link>
                     <Menu noOverlay isOpen={menuState} onStateChange={openMenu}>
                     <Link to={`/profile/${userId}`} onClick={openMenu}>Profile</Link>
+                    <Link to='/likes' onClick={openMenu}>Favorite posts</Link>
                         <Link to='/Settings' onClick={openMenu}>Settings</Link>
-                        <Link to='/likes' onClick={openMenu}>Favorite posts</Link>
                         <SwitchPrivacy/>       
                     </Menu>
                     </div>

@@ -83,12 +83,14 @@ a {
   color: rgb(99, 150, 187);
   font-weight: bold;
   padding: 0 5px 0 5px;
+  cursor: pointer;
 }
 
 .login_button {
   color: rgb(124, 186, 231);
   font-weight: bold;
   padding: 0 10px 0 5px;
+  cursor: pointer;
 }
 .login_button:hover,
 .signup_button:hover {
@@ -187,6 +189,7 @@ a {
   transition: color 0.1s;
   border-bottom: solid 0.1px white;
   width: 90%;
+  cursor: pointer;
 }
 
 /* Change color on hover */

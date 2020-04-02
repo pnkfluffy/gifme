@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import ErrorMessage from '../../../utils/errorMessage';
 import PopUpMessage from '../../../utils/popUpMessage';
-import LinkRegistration from '../../../utils/linkRegistration';
+//import LinkRegistration from '../../../utils/linkRegistration';
 import axios from 'axios';
 
 const Signup = () => {
@@ -16,7 +16,7 @@ const Signup = () => {
        name:'', email: '', password: '', password2: ''});
        const [error, setError] = useState('');
        const [popMessage, setPopMessage] = useState('');
-       const [link, setLink] = useState('');
+    //   const [link, setLink] = useState('');
 
     
        //here we destructure the props of formData,
@@ -34,7 +34,7 @@ const Signup = () => {
     //onSubmit is called in the form and just checks if passwords match
     //preventDefault() method protects infinit loops
 
-    const onLinkRegistration = e => {setLink([e.target.name])}
+    //const onLinkRegistration = e => {setLink([e.target.name])}
 
 
     const onSubmit = async e => {
@@ -110,15 +110,18 @@ const Signup = () => {
             <p>
                 Have an account? <Link to='/Login'>Log In</Link>
             </p>
-            <div className="links">
-                <img className="google" name="google API" onClick={e => onLinkRegistration(e)} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png" alt="Google link" />
-                <p className="google_text">Sign in with Google account</p>
-                <LinkRegistration name={link}/>
-            </div>
         </div>
         </div>
     </div>
     </div>;
 };
+
+/*
+<div className="links">
+                <img className="google" name="google API" onClick={e => onLinkRegistration(e)} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png" alt="Google link" />
+                <p className="google_text">Sign in with Google account</p>
+                <LinkRegistration name={link}/>
+            </div>
+*/
 
 export default Signup;

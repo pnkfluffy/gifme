@@ -2,19 +2,19 @@ import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ErrorMessage from '../../../utils/errorMessage';
-import LinkRegistration from '../../../utils/linkRegistration';
+//import LinkRegistration from '../../../utils/linkRegistration';
 
 import '../../../CSS/Signup.css';
 
 const Login = () => {
 	const [formData, setFormData] = useState({email:'', password:''});
     const [error, setError] = useState('');
-    const [link, setLink] = useState('');
+//    const [link, setLink] = useState('');
 
     const {email, password} = formData;
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value});
     
-    const onLinkRegistration = e => {setLink([e.target.name])}
+    //const onLinkRegistration = e => {setLink([e.target.name])}
 
     const onSubmit = async e => {
         e.preventDefault();
@@ -73,15 +73,19 @@ const Login = () => {
                 Don't have an account? <Link to='/Signup'>Sign Up</Link> <br/>
                 <Link to='/recovery-email'>Forgot password?</Link>
             </p>
-            <div className="links">
-                <img className="google" name="google API" onClick={e => onLinkRegistration(e)} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png" alt="Google link" />
-                <p className="google_text">Sign in with Google account</p>
-                <LinkRegistration name={link}/>
-            </div>
         </div>
         </div>
     </div>
     </div>;
 };
+
+//log in with google account
+/*
+<div className="links">
+                <img className="google" name="google API" onClick={e => onLinkRegistration(e)} src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png" alt="Google link" />
+                <p className="google_text">Sign in with Google account</p>
+                <LinkRegistration name={link}/>
+            </div>
+*/
 
 export default Login;

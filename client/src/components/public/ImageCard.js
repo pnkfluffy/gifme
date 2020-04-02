@@ -1,4 +1,5 @@
 import React, { useState, useEffect} from "react";
+import { Link } from 'react-router-dom';
 import noLikeHeart from '../../resources/heart_purple.png';
 import likeHeart from '../../resources/heart_red.png';
 import {delImage} from '../../utils/DeleteImage'
@@ -77,15 +78,15 @@ const ImageCard = ({ imageData, addOverlay, authInfo, isAuth }) => {
     return (
     <div className="image_card">
       <div className="image_card_name">
-      <div className="image_card_name_text"  onClick={() => window.location.href =`/profile/${imageData.userID}`}>{imageData.user}</div>
+      <Link className="image_card_name_text"  to={`/profile/${imageData.userID}`}>{imageData.user}</Link>
         {isAuth ?
         <div className="feature_container">
         <div className="delete_button" onClick={() => delImage(imageData.imageID, imageData.userID)}>x</div>
         </div>
         : <div className="feature_container">
-          <div className="image_card_name_text"
-          onClick={() => window.location.href =`/image/${imageData.imageID}`}> view picture</div>
-          </div>}      </div>
+          <Link className="image_card_name_text" to={`/image/${imageData.imageID}`}> view picture</Link>
+          </div>}
+        </div>
       <div className="pic_frame">
 		  {/* calls function from home to open imageoverlay with imagedata */}
         <img
