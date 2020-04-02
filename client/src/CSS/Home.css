@@ -34,22 +34,29 @@ img{
 	height: 20px;
 	margin-left: 10px;
 	display: flex;
-}
-
-.image_card_name_text{
-	width: 100%;
-	font-size: 12px;
 	cursor: pointer;
 }
 
-.delete_button{
+.image_card_view_img{
+	height: 15px;
+	width: 15px;
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+.image_card_delete{
+	height: 12px;
+	width: 12px;
 	justify-content: flex-end;
-	border: solid 1px white;
-	border-radius: 10px;
-	margin: 0 5px 5px 0;
-	color: white;
-	padding: 0 5px;
-	font-size: 16px;
+	border: solid 2px rgba(256, 120, 120, 0.85);
+	border-radius: 100%;
+	margin-right: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: rgb(256, 120, 120);
+	background-color: rgba(256, 256, 256, 0.7);
+	font-size: 12px;
 	cursor: pointer;
 }
 
@@ -202,4 +209,8 @@ img{
 	justify-content: space-between;
 	flex-direction: row;
 	font-size: 12px;
+}
+.loader{
+	margin-top: 20px;
+	margin-bottom: 20px;
 }

@@ -5,6 +5,7 @@ import { fetchAllPosts } from "../../utils/FetchPosts";
 import ImageCard from "./ImageCard";
 import ImageOverlay from "./ImageOverlay";
 import fetchAuth from "../../utils/FetchAuth";
+import loader from '../../utils/loader';
 
 function galleryReducer(state, action) {
   switch (action.type) {
@@ -81,7 +82,7 @@ const Home = () => {
   // loads the first 10 posts once the post metadata is fetched
   useEffect(() => {
     if (numLoaded === 0) {
-      getPosts(10);
+      getPosts(5);
     }
 
     // adds an event listener to check if user has scrolled to the bottom
@@ -96,7 +97,7 @@ const Home = () => {
     }
   }, [imageGallery]);
 
-  useEffect(() => {}, [imageGallery]);
+  // useEffect(() => {}, [imageGallery]);
 
   // toggles overlay by updating the overlayData state
   var body = document.body;
@@ -108,8 +109,6 @@ const Home = () => {
       setOverlayData(null);
     }
   };
-
-  const loader = <div className="loader">Loading...</div>;
 
   let items = [];
 
