@@ -18,7 +18,6 @@ function numLoadedReducer(state, action) {
   return state + action;
 }
 
-//	FIX DOUBLE LOADING
 //	FIX AUTHENTICATION ERRORS
 
 const Profile = () => {
@@ -32,38 +31,23 @@ const Profile = () => {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const authToken = localStorage.getItem('myToken');
+  const authToken = localStorage.getItem("myToken");
   let params = useParams("/profile/:userID");
   const { userID } = params;
-  console.log("userID:", userID);
 
-  // const getPosts = async => {
-  // 	const allPosts = axios.get(`/api/posts/${userID}`)
-  // 	allPosts.then(res => {
-  // 		return fetchAllPosts(res.data);
-  // 	}).then(res => {
-  // 		setImageGallery(res);
-  // 	}).catch(err => {
-  // 		console.error(err);
-  // 	});
-  // }
-
-  const isUsersProfile = async =>{
-  	const config = {
-          headers:{
-  			'x-auth-token': authToken
-  			//logged user
-  		}}
-  		console.log('userID:', userID)
-  	const isUsersProfile = axios.get(`/api/auth/${userID}`, config)
-  	isUsersProfile.then(res => {setUsersProfile(res.data)});
-  }
-
-  // useEffect(() => {
-  // 	setAuthInfo(fetchAuth());
-  // 	getPosts();
-  // 	isUsersProfile();
-  // }, []);
+  const isUsersProfile = () => {
+    const config = {
+      headers: {
+        "x-auth-token": authToken
+        //logged user
+      }
+    };
+    console.log("userID:", userID);
+    const isUsersProfile = axios.get(`/api/auth/${userID}`, config);
+    isUsersProfile.then(res => {
+      setUsersProfile(res.data);
+    });
+  };
 
   const getPostData = () => {
     const finalPosts = axios.get(`/api/posts/${userID}`);
@@ -123,7 +107,6 @@ const Profile = () => {
   // loads the first 10 posts once the post metadata is fetched
   useEffect(() => {
     if (numLoaded === 0) {
-      console.log(1);
       getPosts(5);
     }
 
@@ -134,38 +117,16 @@ const Profile = () => {
 
   // checks if the initial loading of posts fills up the page. If not, loads more
   useEffect(() => {
-	console.log('lengths', imageGallery, postsMetaData);
     if (document.documentElement.offsetHeight < window.innerHeight + 200) {
-      console.log(2);
       getPosts(5);
     }
   }, [imageGallery]);
-
-  //   useEffect(() => {}, [imageGallery]);
 
   useEffect(() => {
     setAuthInfo(fetchAuth());
-	getPostData();
-	isUsersProfile();
+    getPostData();
+    isUsersProfile();
   }, []);
-
-  // loads the first 10 posts once the post metadata is fetched
-  useEffect(() => {
-    if (numLoaded === 0) {
-      getPosts(10);
-    }
-
-    // adds an event listener to check if user has scrolled to the bottom
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [postsMetaData, loading, numLoaded]);
-
-  // checks if the initial loading of posts fills up the page. If not, loads more
-  useEffect(() => {
-    if (document.documentElement.offsetHeight < window.innerHeight + 200) {
-      getPosts(5);
-    }
-  }, [imageGallery]);
 
   let items = [];
 
@@ -174,8 +135,8 @@ const Profile = () => {
       <ImageCard
         authInfo={authInfo}
         imageData={image}
-		addOverlay={imageData => toggleOverlay({ imageData })}
-		isUsersProfile={usersProfile}
+        addOverlay={imageData => toggleOverlay({ imageData })}
+        isUsersProfile={usersProfile}
       />
     );
   });

@@ -24,7 +24,7 @@ const Account = () => {
     return(
         <div>
             <div className="account_body">
-            <div className="Title">Profile</div>
+            <div className="Title">Account</div>
             <div className="Container">
                 <div className="Content"><h5>Name:</h5> {userName} </div>
                 <div className="Content"><h5>Email:</h5> {userEmail} </div>
