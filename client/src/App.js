@@ -9,7 +9,7 @@ import RecoveryEmail from "./components/private/auth/RecoveryEmail";
 import ResetPassword from "./components/private/auth/ResetPassword";
 import Settings from "./components/private/account/Settings";
 import Profile from "./components/private/account/Profile";
-import ImageProfile from "./components/public/imageProfile";
+import FullImage from "./components/public/FullImage";
 import Favorites from "./components/private/account/Favorites";
 
 import PhotoBooth from "./components/private/photobooth/Capture";
@@ -29,7 +29,7 @@ const App = () => (
       <Route exact path="/settings" component={Settings} />
       <Route exact path="/profile/:userID" component={Profile} />
       <Route exact path="/favorites/:userID" component={Favorites} />
-      <Route exact path="/image/:imageID" component={ImageProfile} />
+      <Route exact path="/image/:imageID" component={FullImage} />
       <Route exact path="/confirmation" component={Confirmation} />
       <Route exact path="/recovery-email" component={RecoveryEmail} />
       <Route exact path="/reset-password" component={ResetPassword} />

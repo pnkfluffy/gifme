@@ -161,6 +161,10 @@ const ImageOverlay = ({ data, removeOverlay, authInfo }) => {
     setAllComments(data.comments);
   }, []);
 
+  const shareURL = `https://pnkfluffy.github.io/gifme/image/${data.imageID}`;
+  const title = 'I made this image using gifme, check it out!'
+  const hashtag = '#gifme'
+
   return (
     <div className="overlay" onClick={e => removeOverlay(e)}>
       {/* ^removes overlay if background is clicked^ */}
@@ -187,18 +191,18 @@ const ImageOverlay = ({ data, removeOverlay, authInfo }) => {
 		  SHARED TO SOCIAL MEDIA. IN ORDER TO SHARE, EACH IMAGE/POST NEEDS ITS
 		  OWN CUSTOM URL AND IT CAN BE SHARED AS A WEBPAGE */}
           <div className="overlay_export_btn">
-            <FacebookShareButton>
+            <FacebookShareButton url={shareURL} quote={title} hashtag={hashtag}>
               {/* <FacebookShareButton url='INSERT IMAGE LINK URL HERE'> */}
               <FacebookIcon size={50} round={true} />
             </FacebookShareButton>
           </div>
           <div className="overlay_export_btn">
-            <TwitterShareButton>
+            <TwitterShareButton url={shareURL} title={title} hashtags={hashtag}>
               <TwitterIcon size={50} round={true} />
             </TwitterShareButton>
           </div>
           <div className="overlay_export_btn">
-            <WhatsappShareButton>
+            <WhatsappShareButton url={shareURL} title={title}>
               <WhatsappIcon size={50} round={true} />
             </WhatsappShareButton>
           </div>
