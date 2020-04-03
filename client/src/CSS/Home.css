@@ -60,6 +60,33 @@ img{
 	cursor: pointer;
 }
 
+.confirm_delete_popup{
+	position: absolute;
+	z-index: 100;
+	left: calc(50% - 160px);
+	top: 30%;
+	width: 320px;
+	height: 200px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	background-color: lightgrey;
+	border: 3px solid white;
+	border-radius: 5px;
+}
+
+.confirm_delete_txt{
+	margin: 20px;
+	text-align: center;
+}
+
+.confirm_delete_btns{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	margin-bottom: 30px;
+}
+
 .edit_icon{
 	width: 10px;
 }

@@ -1,6 +1,4 @@
 import React from 'react';
-import '../CSS/App.css';
-
 
 const ErrorMessage = ({text}) =>{
     if (text){

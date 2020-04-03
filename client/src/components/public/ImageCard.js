@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import noLikeHeart from "../../resources/heart_purple.png";
 import likeHeart from "../../resources/heart_red.png";
 import { delImage } from "../../utils/DeleteImage";
+import ConfirmDelete from "../../utils/ConfirmDelete";
 
 const Likes = ({ imageID, hasLiked, setHasLiked }) => {
   const authToken = localStorage.getItem("myToken");
@@ -75,6 +76,7 @@ const Likes = ({ imageID, hasLiked, setHasLiked }) => {
 const ImageCard = ({ imageData, addOverlay, authInfo }) => {
   const [isUsersPost, setIsUsersPost] = useState(false);
   const [hasLiked, setHasLiked] = useState(false);
+  const [confirmDeletion, setConfirmDeletion] = useState(false);
 
   //  checks if user has liked posts, and updates ui
   useEffect(() => {
@@ -94,6 +96,12 @@ const ImageCard = ({ imageData, addOverlay, authInfo }) => {
 
   return (
     <div className="image_card">
+      {confirmDeletion && (
+        <ConfirmDelete
+          yesDelete={() => delImage(imageData.imageID, imageData.userID)}
+          plsNoDelete={() => setConfirmDeletion(false)}
+        />
+      )}
       <div className="image_card_name">
         <Link
           className="image_card_name_text"
@@ -105,8 +113,7 @@ const ImageCard = ({ imageData, addOverlay, authInfo }) => {
           <div className="feature_container">
             <div
               className="image_card_delete"
-              // MAKE 'ARE YOU SURE POPUP'
-              onClick={() => delImage(imageData.imageID, imageData.userID)}
+              onClick={() => setConfirmDeletion(true)}
             >
               x
             </div>
