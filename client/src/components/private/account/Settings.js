@@ -19,6 +19,7 @@ const Account = () => {
         setUserEmail(res.data.email);
     })
     .catch(err=>{
+        console.error(err.response);
         window.location.href = '/profile';
     })
     return(

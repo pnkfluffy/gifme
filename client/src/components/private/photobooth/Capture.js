@@ -15,7 +15,7 @@ const videoConstraints = {
 const PhotoDisplay = () => {
   const [timer, setTimer] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
-  const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(true);
 
   const webcamRef = React.useRef(null);
   const capture = React.useCallback(() => {
@@ -27,7 +27,7 @@ const PhotoDisplay = () => {
   console.log('here auth:',auth)
 	auth.then(res => {
 		console.log('auth', res);
-		if (res) { setLogin(true) }
+		if (!res) { setLogin(false) }
 	})
   }, [])
 

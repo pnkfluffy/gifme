@@ -59,7 +59,7 @@ const Navbar = () => {
                 <Link to={`/profile/${userId}`} onClick={openMenu}>
                   Profile
                 </Link>
-                <Link to="/likes" onClick={openMenu}>
+                <Link to={`/favorites/${userId}`} onClick={openMenu}>
                   Favorite posts
                 </Link>
                 <Link to="/Settings" onClick={openMenu}>

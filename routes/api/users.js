@@ -27,6 +27,22 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
+// @route   GET api/users/:id
+// @desc    Returns username
+// @access  Public
+router.get('/:userID', async (req, res) => {
+  try {
+      const user = await User.findById(req.params.userID);
+      if (!user) {
+          return res.status(400).send('There is no profile for this user');
+      }
+      res.json({ name: user.name});
+  } catch(err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+  }
+});
+
 // @route   POST api/users
 // @desc    Register user
 // @access  Public

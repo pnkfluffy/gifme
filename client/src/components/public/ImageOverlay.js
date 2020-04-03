@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import newWindow from "../../resources/new_window_icon.png";
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -47,7 +48,7 @@ const OverlayComment = ({ commentData, userID, imageID, setAllComments }) => {
   return (
     <div className="overlay_comment_single">
       <div className="overlay_comment_topbar">
-		  {/* adds css to change color of username if comment left by logged in user */}
+        {/* adds css to change color of username if comment left by logged in user */}
         <div
           className={
             "overlay_comment_name " +
@@ -59,7 +60,7 @@ const OverlayComment = ({ commentData, userID, imageID, setAllComments }) => {
         <div className="overlay_comment_date">{formattedDate}</div>
       </div>
       <div className="overlay_comment_content">{commentData.text}</div>
-	  {/* allows user to delete if comment left by logged in user */}
+      {/* allows user to delete if comment left by logged in user */}
       {myComment ? (
         <div className="overlay_comment_mycomment">
           <div
@@ -68,7 +69,7 @@ const OverlayComment = ({ commentData, userID, imageID, setAllComments }) => {
           >
             delete
           </div>
-		  {/* ADD ABILITY AND ROUTE TO EDIT COMMENTS */}
+          {/* ADD ABILITY AND ROUTE TO EDIT COMMENTS */}
           {/* <div className="overlay_comment_edit">
               edit
               </div> */}
@@ -161,10 +162,15 @@ const ImageOverlay = ({ data, removeOverlay, authInfo }) => {
   }, []);
 
   return (
-	  <div className="overlay" onClick={e => removeOverlay(e)}>
-	  {/* ^removes overlay if background is clicked^ */}
+    <div className="overlay" onClick={e => removeOverlay(e)}>
+      {/* ^removes overlay if background is clicked^ */}
       <div className="overlay_card" onClick={e => stopProp(e)}>
         <div className="overlay_pic_frame">
+          <Link className="image_card_view_img" to={`/image/${data.imageID}`}>
+            <div className="overlay_img_top_right">
+              <img src={newWindow} alt="view image" />
+            </div>
+          </Link>
           <img
             className="image_card_image"
             src={`${data.image}`}
@@ -177,7 +183,7 @@ const ImageOverlay = ({ data, removeOverlay, authInfo }) => {
               <img src={downloadIcon} alt="download"></img>
             </a>
           </div>
-		  {/* SOCIAL MEDIA BUTTONS DO NOT WORK YET. IMAGES CAN NOT BE EXPORTED AND
+          {/* SOCIAL MEDIA BUTTONS DO NOT WORK YET. IMAGES CAN NOT BE EXPORTED AND
 		  SHARED TO SOCIAL MEDIA. IN ORDER TO SHARE, EACH IMAGE/POST NEEDS ITS
 		  OWN CUSTOM URL AND IT CAN BE SHARED AS A WEBPAGE */}
           <div className="overlay_export_btn">

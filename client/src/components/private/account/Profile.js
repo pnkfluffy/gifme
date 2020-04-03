@@ -18,14 +18,12 @@ function numLoadedReducer(state, action) {
   return state + action;
 }
 
-//	FIX AUTHENTICATION ERRORS
-
 const Profile = () => {
   const [imageGallery, setImageGallery] = useReducer(galleryReducer, []);
   const [overlayData, setOverlayData] = useState(null);
   const [authInfo, setAuthInfo] = useState(null);
-  const [usersProfile, setUsersProfile] = useState(null);
 
+  const [whosProfile, setWhosProfile] = useState('');
   const [numLoaded, addNumLoaded] = useReducer(numLoadedReducer, 0);
   const [postsMetaData, setPostsMetaData] = useState([]);
   const [hasMore, setHasMore] = useState(true);
@@ -34,20 +32,6 @@ const Profile = () => {
   const authToken = localStorage.getItem("myToken");
   let params = useParams("/profile/:userID");
   const { userID } = params;
-
-  const isUsersProfile = () => {
-    const config = {
-      headers: {
-        "x-auth-token": authToken
-        //logged user
-      }
-    };
-    console.log("userID:", userID);
-    const isUsersProfile = axios.get(`/api/auth/${userID}`, config);
-    isUsersProfile.then(res => {
-      setUsersProfile(res.data);
-    });
-  };
 
   const getPostData = () => {
     const finalPosts = axios.get(`/api/posts/${userID}`);
@@ -91,7 +75,7 @@ const Profile = () => {
     if (totalPageHeight !== docHeight || !hasMore) {
       return;
     }
-    getPosts(5);
+    getPosts(1);
   };
 
   var body = document.body;
@@ -107,7 +91,7 @@ const Profile = () => {
   // loads the first 10 posts once the post metadata is fetched
   useEffect(() => {
     if (numLoaded === 0) {
-      getPosts(5);
+      getPosts(1);
     }
 
     // adds an event listener to check if user has scrolled to the bottom
@@ -118,15 +102,35 @@ const Profile = () => {
   // checks if the initial loading of posts fills up the page. If not, loads more
   useEffect(() => {
     if (document.documentElement.offsetHeight < window.innerHeight + 200) {
-      getPosts(5);
+      getPosts(1);
     }
   }, [imageGallery]);
 
+  // const fetchUserName = async () => {
+  //   try {
+  //     const userID = await axios.get(`api/users/${userID}`);
+  //     return userID.data.name;
+  //   } catch (err) {
+  //     console.log("error: ", err.response);
+  //   }
+  // }
+
+  axios.get(`api/users/${userID}`)
+  .then(res=>{
+    console.log('1', res);
+    setWhosProfile(res.data.name);
+  })
+  .catch(err=>{
+    console.error(err.response);
+  })
+
   useEffect(() => {
     setAuthInfo(fetchAuth());
+    // setWhosProfile(fetchUserName());
     getPostData();
-    isUsersProfile();
   }, []);
+  
+console.log(authInfo);
 
   let items = [];
 
@@ -136,13 +140,13 @@ const Profile = () => {
         authInfo={authInfo}
         imageData={image}
         addOverlay={imageData => toggleOverlay({ imageData })}
-        isUsersProfile={usersProfile}
       />
     );
   });
 
   return (
     <div>
+      <h1>{whosProfile}</h1>
       <div id="main">
         <div className="home_imagegallery">{items}</div>
         {loading && loader}

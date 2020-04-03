@@ -70,7 +70,7 @@ const Home = () => {
     if (totalPageHeight !== docHeight || !hasMore) {
       return;
     }
-    getPosts(5);
+    getPosts(1);
   };
 
   // gets auth info and all posts and saves them to state
@@ -82,7 +82,7 @@ const Home = () => {
   // loads the first 10 posts once the post metadata is fetched
   useEffect(() => {
     if (numLoaded === 0) {
-      getPosts(5);
+      getPosts(1);
     }
 
     // adds an event listener to check if user has scrolled to the bottom
@@ -93,7 +93,7 @@ const Home = () => {
   // checks if the initial loading of posts fills up the page. If not, loads more
   useEffect(() => {
     if (document.documentElement.offsetHeight < window.innerHeight + 200) {
-      getPosts(5);
+      getPosts(1);
     }
   }, [imageGallery]);
 

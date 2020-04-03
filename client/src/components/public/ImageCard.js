@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import noLikeHeart from "../../resources/heart_purple.png";
 import likeHeart from "../../resources/heart_red.png";
 import { delImage } from "../../utils/DeleteImage";
-import newWindow from "../../resources/new_window_icon.png";
 
-const Likes = ({ likes, imageID, authInfo }) => {
-  const [hasLiked, setHasLiked] = useState(null);
+const Likes = ({ imageID, hasLiked, setHasLiked }) => {
   const authToken = localStorage.getItem("myToken");
 
   // puts like from currently logged in user
@@ -47,18 +45,18 @@ const Likes = ({ likes, imageID, authInfo }) => {
       });
   };
 
-  //  checks if user has liked posts, and updates ui
-  useEffect(() => {
-    if (likes.length) {
-      authInfo.then(res => {
-        if (res) {
-          const myLikes = likes.some(like => like.user.toString() === res._id);
-          setHasLiked(myLikes);
-        }
-        // else, the user is not logged in
-      });
-    }
-  }, []);
+  // //  checks if user has liked posts, and updates ui
+  // useEffect(() => {
+  //   if (likes.length) {
+  //     authInfo.then(res => {
+  //       if (res) {
+  //         const myLikes = likes.some(like => like.user.toString() === res._id);
+  //         setHasLiked(myLikes);
+  //       }
+  //       // else, the user is not logged in
+  //     });
+  //   }
+  // }, []);
 
   if (hasLiked) {
     return (
@@ -74,7 +72,26 @@ const Likes = ({ likes, imageID, authInfo }) => {
   );
 };
 
-const ImageCard = ({ imageData, addOverlay, authInfo, isUsersProfile }) => {
+const ImageCard = ({ imageData, addOverlay, authInfo }) => {
+  const [isUsersPost, setIsUsersPost] = useState(false);
+  const [hasLiked, setHasLiked] = useState(false);
+
+  //  checks if user has liked posts, and updates ui
+  useEffect(() => {
+    authInfo.then(res => {
+      if (res) {
+        const myLikes = imageData.likes.some(
+          like => like.user.toString() === res._id
+        );
+        setHasLiked(myLikes);
+        if (imageData.userID === res._id) {
+          setIsUsersPost(true);
+        }
+      }
+      // else, the user is not logged in
+    });
+  }, []);
+
   return (
     <div className="image_card">
       <div className="image_card_name">
@@ -84,7 +101,7 @@ const ImageCard = ({ imageData, addOverlay, authInfo, isUsersProfile }) => {
         >
           {imageData.user}
         </Link>
-        {isUsersProfile ? (
+        {isUsersPost && (
           <div className="feature_container">
             <div
               className="image_card_delete"
@@ -93,16 +110,7 @@ const ImageCard = ({ imageData, addOverlay, authInfo, isUsersProfile }) => {
               x
             </div>
           </div>
-        ) : (
-          <div className="feature_container">
-            <Link
-              className="image_card_view_img"
-              to={`/image/${imageData.imageID}`}
-            >
-              <img src={newWindow} alt="view image" />
-            </Link>
-          </div>
-        )}{" "}
+        )}
       </div>
       <div className="pic_frame">
         {/* calls function from home to open imageoverlay with imagedata */}
@@ -115,9 +123,9 @@ const ImageCard = ({ imageData, addOverlay, authInfo, isUsersProfile }) => {
       </div>
       <div className="image_card_bottom">
         <Likes
-          likes={imageData.likes}
           imageID={imageData.imageID}
-          authInfo={authInfo}
+          hasLiked={hasLiked}
+          setHasLiked={e => setHasLiked(e)}
         />
       </div>
     </div>

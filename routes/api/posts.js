@@ -61,6 +61,20 @@ router.get("/:userID", async (req, res) => {
   }
 });
 
+// @route   GET api/posts/favorites/:id
+// @desc    Get all post
+// @access  Private
+router.get("/favorites/:userID", async (req, res) => {
+  try {
+    const posts = await Post.find({'likes.user': req.params.userID}).sort({ date: -1 });
+    res.json(posts);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+
 // creates a mongoose connection to stream image data
 const mongoose = require("mongoose");
 const config = require("config");
@@ -144,8 +158,13 @@ router.get("/meta/:metaID", async (req, res) => {
 // @route   DELETE api/posts
 // @desc    Delete a post
 // @access  Private
-router.delete('/:imageID', async (req, res) => {
+router.delete('/:imageID', auth, async (req, res) => {
   const post = await Post.findOne({image: req.params.imageID});
+  if (post.user.id !== req.params.imageID)
+  {
+    res.status(401).send('Invalid credentials');
+  }
+  
 //  gfs.delete({_id: req.params.imageID, root:"photos"}, function(error){
 //    test.equal(error, null);
 //
