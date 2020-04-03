@@ -15,7 +15,7 @@ import poopImg from "../../../resources/superimposable_poop.png";
 
 const PhotoEditor = ({ imageSrc, setImg }) => {
   const authtoken = localStorage.getItem("myToken");
-  console.log('here authtoken',authtoken)
+  console.log("here authtoken", authtoken);
   const imageArray = [dogImg, poopImg, hatImg, fireImg, bananaImg];
   const webContext = useContext(WebcamContext);
 
@@ -59,8 +59,8 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
 
   //  Posts the merged image to the database
   const onSubmit = async e => {
-	//	MAKE GIFS
-	//  BRING UP LOADING SCREEN
+    //	MAKE GIFS
+    //  BRING UP LOADING SCREEN
     e.preventDefault();
     //  Background is the webcamscreenshot
     const background = [{ src: imageSrc, x: 0, y: 0 }];
@@ -106,6 +106,28 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
           .then(b64 => console.log("DONE!: ", b64))
           .catch(err => console.error(err));
       });
+    } else {
+      fetch(imageSrc)
+        .then(res => res.blob())
+        .then(blob => {
+          const formData = new FormData();
+          const file = new File([blob], "testfile.jpeg");
+          formData.append("photo", file);
+          fetch("/api/posts", {
+            method: "POST",
+            headers: {
+              "x-auth-token": authtoken
+            },
+            body: formData
+          })
+            .then(res => {
+              res.json();
+              window.location.href = "/";
+            })
+            //  REDIRECT TO CUSTOM URL PAGE FOR IMAGE POST
+            .then(res => console.log(res))
+            .catch(err => console.log(err.response));
+        });
     }
   };
 

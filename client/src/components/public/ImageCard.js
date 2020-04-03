@@ -105,6 +105,7 @@ const ImageCard = ({ imageData, addOverlay, authInfo }) => {
           <div className="feature_container">
             <div
               className="image_card_delete"
+              // MAKE 'ARE YOU SURE POPUP'
               onClick={() => delImage(imageData.imageID, imageData.userID)}
             >
               x

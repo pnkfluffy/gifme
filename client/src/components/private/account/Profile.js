@@ -52,7 +52,6 @@ const Profile = () => {
       return;
     }
     setLoading(true);
-    console.log("loaded", numLoaded);
     const newArray = postsMetaData.slice(numLoaded, numLoaded + numPosts);
     addNumLoaded(numPosts);
     if (numLoaded > postsMetaData.length) {
@@ -115,23 +114,21 @@ const Profile = () => {
   //   }
   // }
 
-  axios.get(`api/users/${userID}`)
-  .then(res=>{
-    console.log('1', res);
-    setWhosProfile(res.data.name);
-  })
-  .catch(err=>{
-    console.error(err.response);
-  })
+
 
   useEffect(() => {
     setAuthInfo(fetchAuth());
     // setWhosProfile(fetchUserName());
     getPostData();
+    axios.get(`api/users/${userID}`)
+    .then(res=>{
+      setWhosProfile(res.data.name);
+    })
+    .catch(err=>{
+      console.error(err.response);
+    })
   }, []);
   
-console.log(authInfo);
-
   let items = [];
 
   imageGallery.map(image => {

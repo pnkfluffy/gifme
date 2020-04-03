@@ -13,9 +13,7 @@ const Post = require("../../models/Post");
 // @access  Private
 router.post("/", auth, postphotos, async (req, res) => {
   try {
-    console.log('here req.file.id',req.file.id)
     let post = await Post.findOne({ image: req.file.id });
-    console.log('here post', post)
     if (post) {
       return res.error({ error: "file duplication" });
     }
@@ -53,7 +51,9 @@ router.get("/all", async (req, res) => {
 // @access  Private
 router.get("/:userID", async (req, res) => {
   try {
-    const posts = await Post.find({user: req.params.userID}).sort({ date: -1 });
+    const posts = await Post.find({ user: req.params.userID }).sort({
+      date: -1
+    });
     res.json(posts);
   } catch (err) {
     console.error(err.message);
@@ -66,14 +66,15 @@ router.get("/:userID", async (req, res) => {
 // @access  Private
 router.get("/favorites/:userID", async (req, res) => {
   try {
-    const posts = await Post.find({'likes.user': req.params.userID}).sort({ date: -1 });
+    const posts = await Post.find({ "likes.user": req.params.userID }).sort({
+      date: -1
+    });
     res.json(posts);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
 });
-
 
 // creates a mongoose connection to stream image data
 const mongoose = require("mongoose");
@@ -83,7 +84,7 @@ let gfs;
 const conn = mongoose.createConnection(db);
 conn.once("open", () => {
   gfs = new mongoose.mongo.GridFSBucket(conn.db, {
-    bucketName: "photos"
+    bucketName: 'photos'
   });
 });
 
@@ -112,7 +113,7 @@ router.get("/image/:id", async (req, res) => {
       .pipe(res)
       .on("error", function(error) {
         console.error(err.message);
-      })
+      });
   } catch (err) {
     console.error(err.message);
     if (err.kind === "ObjectId") {
@@ -131,8 +132,8 @@ router.get("/meta/:metaID", async (req, res) => {
     let user = await User.findById(post.user);
     if (!user) {
       user = {
-        name: '[deleted]'
-      }
+        name: "[deleted]"
+      };
     }
 
     const postReturn = {
@@ -140,7 +141,7 @@ router.get("/meta/:metaID", async (req, res) => {
       user: user.name,
       userID: user._id,
       likes: post.likes,
-      comments: post.comments,
+      comments: post.comments
     };
 
     res.json(postReturn);
@@ -153,25 +154,30 @@ router.get("/meta/:metaID", async (req, res) => {
   }
 });
 
-
 // NEEDS TO BE CREATED TO DELETE MONGODB IMAGE AS WELL AS IMAGE POST
 // @route   DELETE api/posts
 // @desc    Delete a post
 // @access  Private
-router.delete('/:imageID', auth, async (req, res) => {
-  const post = await Post.findOne({image: req.params.imageID});
-  if (post.user.id !== req.params.imageID)
-  {
-    res.status(401).send('Invalid credentials');
-  }
+router.delete("/:imageID", auth, async (req, res) => {
   
-//  gfs.delete({_id: req.params.imageID, root:"photos"}, function(error){
-//    test.equal(error, null);
-//
-//  console.log('here _id:',_id)
-//});
-await post.remove();
-console.log('backend search:', post)
+  
+  try {
+    const post = await Post.findOne({ image: req.params.imageID });
+    console.log(post);
+    if (post.user != req.user.id) {
+      res.status(401).send("Invalid credentials");
+    }
+  
+    const obj_id = new mongoose.Types.ObjectId(req.params.imageID);
+    gfs.delete( obj_id );
+  
+    await post.remove();
+    console.log("backend search:", post);
+    res.json("successfully deleted image!");
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
 });
 
 // @route   PUT api/posts/like/:id
@@ -200,7 +206,10 @@ router.put("/like/:id", auth, async (req, res) => {
 router.put("/unlike/:id", auth, async (req, res) => {
   try {
     const post = await Post.findOne({ image: req.params.id });
-    if (post.likes.filter(like => like.user.toString() === req.user.id).length === 0){
+    if (
+      post.likes.filter(like => like.user.toString() === req.user.id).length ===
+      0
+    ) {
       return res.status(400).json({ msg: "Post not liked" });
     }
     //  somehow finds and removes the liked user
@@ -219,8 +228,14 @@ router.put("/unlike/:id", auth, async (req, res) => {
 // @route   POST api/posts/comment/:id
 // @desc    Comment a post
 // @access  Private
-router.post("/comment/:id", auth,
-  [ check('text', 'Text is required').not().isEmpty() ],
+router.post(
+  "/comment/:id",
+  auth,
+  [
+    check("text", "Text is required")
+      .not()
+      .isEmpty()
+  ],
   async (req, res) => {
     console.log("text", req.body);
     const errors = validationResult(req);
@@ -237,7 +252,7 @@ router.post("/comment/:id", auth,
       };
 
       post.comments.unshift(newComment);
-    
+
       await post.save();
       console.log(post.comments);
       res.json(post.comments);
