@@ -1,4 +1,4 @@
-const reset_password = data => {
+const reset_password = token => {
     return `
     <!DOCTYPE html>
     <html style="margin: 0; padding: 0;">
@@ -11,7 +11,7 @@ const reset_password = data => {
             <br/>
             <br/>
             <div>Click in the following link to reset your password</div>
-            <a href="http://localhost:3000/reset-password">Reset Password</a>
+            <a href="http://localhost:3000/reset/${token}">Reset Password</a>
             <br/>
             <br/>
         </body>

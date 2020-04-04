@@ -79,14 +79,14 @@ async (req, res) => {
 
         jwt.sign(
           payload,
-          config.get('emailSecret'),
+          config.get('jwtSecret'),
           { expiresIn: 900 },
           (err, etoken) => {
-          //sends email with confirmation link
-          sendEmail(email, name, "verify account");
             if (err) throw err;
-            res.json({ etoken });
+            res.json({ token });
           });
+          //sends email with confirmation link
+          sendEmail(email, name, token, "verify account");
 
         await user.save();
 

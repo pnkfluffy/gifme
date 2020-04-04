@@ -159,8 +159,6 @@ router.get("/meta/:metaID", async (req, res) => {
 // @desc    Delete a post
 // @access  Private
 router.delete("/:imageID", auth, async (req, res) => {
-  
-  
   try {
     const post = await Post.findOne({ image: req.params.imageID });
     console.log(post);
@@ -172,7 +170,6 @@ router.delete("/:imageID", auth, async (req, res) => {
     gfs.delete( obj_id );
   
     await post.remove();
-    console.log("backend search:", post);
     res.json("successfully deleted image!");
   } catch (err) {
     console.error(err.message);

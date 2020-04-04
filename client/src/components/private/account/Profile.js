@@ -29,7 +29,6 @@ const Profile = () => {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const authToken = localStorage.getItem("myToken");
   let params = useParams("/profile/:userID");
   const { userID } = params;
 

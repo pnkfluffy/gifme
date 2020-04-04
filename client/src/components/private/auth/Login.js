@@ -71,7 +71,8 @@ const Login = () => {
             </form>
             <p>
                 Don't have an account? <Link to='/Signup'>Sign Up</Link> <br/>
-                <Link to='/recovery-email'>Forgot password?</Link>
+                <Link to='/recovery-email'>Forgot password?</Link> <br/>
+                <Link to='/send-email'>Resend email confirmation</Link>
             </p>
         </div>
         </div>
