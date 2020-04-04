@@ -15,13 +15,9 @@ import SendEmail from "./components/private/auth/SendEmail";
 
 import Settings from "./components/private/account/Settings";
 import Profile from "./components/private/account/Profile";
-<<<<<<< HEAD
-=======
 import FullImage from "./components/public/FullImage";
->>>>>>> 4344524a0487e52290282a7826e462e613ef422f
 import Favorites from "./components/private/account/Favorites";
 
-import ImageProfile from "./components/public/imageProfile";
 
 import "./CSS/App.css";
 import "./CSS/Home.css";
@@ -38,14 +34,9 @@ const App = () => (
       <Route exact path="/settings" component={Settings} />
       <Route exact path="/profile/:userID" component={Profile} />
       <Route exact path="/favorites/:userID" component={Favorites} />
-<<<<<<< HEAD
-      <Route exact path="/image/:imageID" component={ImageProfile} />
+      <Route exact path="/image/:imageID" component={FullImage} />
       <Route exact path="/confirm/:token" component={Confirmation} />
       <Route exact path="/send-email" component={SendEmail} />
-=======
-      <Route exact path="/image/:imageID" component={FullImage} />
-      <Route exact path="/confirmation" component={Confirmation} />
->>>>>>> 4344524a0487e52290282a7826e462e613ef422f
       <Route exact path="/recovery-email" component={RecoveryEmail} />
       <Route exact path="/reset/:token" component={ResetPassword} />
       <Route exact path="/photobooth" component={PhotoBooth} />

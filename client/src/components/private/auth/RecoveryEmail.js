@@ -33,25 +33,6 @@ const RecoveryEmail = () =>{
             setError(err.response.data.toString());
         }
       };
-      const body = JSON.stringify(recoveryEmail);
-
-      await axios
-        .post("/api/auth/recoveryemail", body, config)
-        //this shows the returned value either token or error message
-        .then(res => {
-          const eToken = res.data.etoken;
-          console.log("here eToken:", eToken);
-          localStorage.setItem("eToken", eToken);
-          setPopMessage("We have sent you an email to reset your password");
-          setTimeout(() => {
-            window.location.href = "/login";
-          }, 3500);
-        });
-    } catch (err) {
-      console.log(err.response.data);
-      setError(err.response.data.toString());
-    }
-  };
 
   return (
     <div className="outside-container">

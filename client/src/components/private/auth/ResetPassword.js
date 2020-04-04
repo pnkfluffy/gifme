@@ -3,13 +3,6 @@ import axios from 'axios';
 import { useParams } from "react-router";
 import ErrorMessage from '../../../utils/errorMessage';
 import PopUpMessage from '../../../utils/popUpMessage';
-import Error from '../../error/PageNotFound(404)';
-
-const ResetPassword = () => {
-  const [formData, setFormData] = useState({ password: "", password2: "" });
-  const [error, setError] = useState("");
-  const [popMessage, setPopMessage] = useState("");
-  const E_Token = localStorage.getItem("eToken");
 
 const ResetPassword = () =>{
     const [formData, setFormData] = useState({password: '', password2: ''});
