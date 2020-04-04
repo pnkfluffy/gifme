@@ -24,9 +24,6 @@ const RecoveryEmail = () =>{
             await axios.post('/api/auth/recoveryemail', body, config)
             //this shows the returned value either token or error message
             .then(res=>{
-                const eToken = res.data.etoken;
-                console.log('here eToken:', eToken)
-                localStorage.setItem('eToken', eToken);
                 setPopMessage('We have sent you an email to reset your password');
                 setTimeout(() => { window.location.href = '/login';}, 3500);
             })
@@ -35,29 +32,35 @@ const RecoveryEmail = () =>{
             console.log(err.response.data);
             setError(err.response.data.toString());
         }
-    }
+      };
 
-    return(
-        <div>
-            <div className="form">
-            <PopUpMessage text={popMessage}/>
-            <form onSubmit={e => onSubmit(e)} className="form-box">
-                <ErrorMessage text={error}/>
+  return (
+    <div className="outside-container">
+      <div className="container-form">
+        <div className="form">
+          <PopUpMessage text={popMessage} />
+          <form onSubmit={e => onSubmit(e)} className="form-box">
+            <ErrorMessage text={error} />
 
-                <input name="email"
-                type="email"
-                value={email}
-                onChange={e => onChange(e)}
-                placeholder="Your email"
-                className="input"/>
+            <input
+              name="email"
+              type="email"
+              value={email}
+              onChange={e => onChange(e)}
+              placeholder="Your email"
+              className="input"
+            />
 
-                <input type="submit"
-                value="Confirm email"
-                className="sign-bottom"/>
-                </form>
-            </div>
+            <input
+              type="submit"
+              value="Confirm email"
+              className="sign-bottom"
+            />
+          </form>
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
 export default RecoveryEmail;

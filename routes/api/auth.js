@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const auth = require('../../middleware/auth');
-const eauth = require('../../middleware/eauth');
 const User = require('../../models/Users');
 const { check, validationResult } = require('express-validator');
 const {sendEmail} = require('../../middleware/email');
@@ -40,13 +39,42 @@ router.get("/:userID", auth, async (req, res) => {
     }
   });
 
-router.get('/confirmation', eauth, async (req, res) => {
+router.get('/confirm/', auth, async (req, res) => {
+    console.log('Im here!!')
     try {
+        console.log('Im here too!!')
         const user = await User.findById(req.user.id).select('-password');
+        console.log('user', user)
         await user.update({ confirmed: true });
         sendEmail(user.email, user.name, "welcome");
     } catch (err) {
       res.status(401).send('your email token is invalid');
+      return;
+    }
+});
+
+router.post('/sendEmail', async (req, res) => {
+    const {email} = req.body;
+    try {
+        let user = await User.findOne({ email });
+        if(!user){
+            res.status(404).send('The email you enter is invalid');
+            return;
+        }
+        const payload = {user: { id: user.id } };
+
+        //sends email verification and stores emailToken
+
+        const token = jwt.sign(
+          payload,
+          config.get('jwtSecret'),
+          { expiresIn: 9000 },
+          );
+
+        sendEmail(user.email, user.name, token, "verify account");
+
+    } catch (err) {
+      res.status(401).send('unexpected email error, please try again');
       return;
     }
 });
@@ -60,22 +88,23 @@ router.post('/recoveryemail', async (req, res) => {
             return;
         }
         const payload = {user: { id: user.id } };
-        jwt.sign(
-            payload,
-            config.get('emailSecret'),
-            { expiresIn: 900 },
-            (err, etoken) => {
-              if (err) throw err;
-              res.json({ etoken });
-            });
-        sendEmail(user.email, user.name, "reset password");
+
+        //sends email verification and stores emailToken
+
+        const token = jwt.sign(
+          payload,
+          config.get('jwtSecret'),
+          { expiresIn: 9000 },
+          );
+ 
+        sendEmail(user.email, user.name, token, "reset password");
     } catch (err) {
       res.status(401).send('unexpected email error');
       return;
     }
 });
 
-router.put('/resetpass', eauth, async (req, res) => {
+router.put('/resetpass', auth, async (req, res) => {
     try {
         let user = await User.findById(req.user.id);
         const {password} = req.body;
@@ -87,7 +116,7 @@ router.put('/resetpass', eauth, async (req, res) => {
         await user.save();
         sendEmail(user.email, user.name, "change confirmation");
     } catch (err) {
-      res.status(401).send('your email token is invalid');
+      res.status(401).send('your token url is invalid');
       return;
     }
 });

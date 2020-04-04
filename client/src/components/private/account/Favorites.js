@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useReducer } from "react";
+import { useParams } from "react-router";
 import axios from "axios";
-
-import { fetchAllPosts } from "../../utils/FetchPosts";
-import ImageCard from "./ImageCard";
-import ImageOverlay from "./ImageOverlay";
-import fetchAuth from "../../utils/FetchAuth";
-import loader from '../../utils/loader';
+import ImageCard from "../../public/ImageCard";
+import ImageOverlay from "../../public/ImageOverlay";
+import { fetchAllPosts } from "../../../utils/FetchPosts";
+import fetchAuth from "../../../utils/FetchAuth";
+import loader from "../../../utils/loader";
 
 function galleryReducer(state, action) {
   switch (action.type) {
@@ -18,18 +18,40 @@ function numLoadedReducer(state, action) {
   return state + action;
 }
 
-const Home = () => {
+//	FIX AUTHENTICATION ERRORS
+
+const Profile = () => {
   const [imageGallery, setImageGallery] = useReducer(galleryReducer, []);
   const [overlayData, setOverlayData] = useState(null);
   const [authInfo, setAuthInfo] = useState(null);
+  const [usersProfile, setUsersProfile] = useState(null);
 
   const [numLoaded, addNumLoaded] = useReducer(numLoadedReducer, 0);
   const [postsMetaData, setPostsMetaData] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
+  const authToken = localStorage.getItem("myToken");
+  console.log(authToken);
+  let params = useParams("/profile/:userID");
+  const { userID } = params;
+
+  const isUsersProfile = () => {
+    const config = {
+      headers: {
+        "x-auth-token": authToken
+        //logged user
+      }
+    };
+    console.log("userID:", userID);
+    const isUsersProfile = axios.get(`/api/auth/${userID}`, config);
+    isUsersProfile.then(res => {
+      setUsersProfile(res.data);
+    });
+  };
+
   const getPostData = () => {
-    const finalPosts = axios.get("api/posts/all");
+    const finalPosts = axios.get(`/api/posts/favorites/${userID}`);
     finalPosts
       .then(res => {
         setPostsMetaData(res.data);
@@ -42,6 +64,7 @@ const Home = () => {
   };
 
   const getPosts = numPosts => {
+    console.log("postmetadata", postsMetaData, numPosts, numLoaded, hasMore);
     if (!postsMetaData.length || !hasMore) {
       return;
     }
@@ -62,7 +85,6 @@ const Home = () => {
       });
   };
 
-  //  loads more posts if user has reached the bottom of the page
   const handleScroll = () => {
     const totalPageHeight =
       window.innerHeight + document.documentElement.scrollTop;
@@ -73,11 +95,15 @@ const Home = () => {
     getPosts(1);
   };
 
-  // gets auth info and all posts and saves them to state
-  useEffect(() => {
-    setAuthInfo(fetchAuth());
-    getPostData();
-  }, []);
+  var body = document.body;
+  const toggleOverlay = props => {
+    body.classList.toggle("noscroll");
+    if (props) {
+      setOverlayData(props.imageData);
+    } else {
+      setOverlayData(null);
+    }
+  };
 
   // loads the first 10 posts once the post metadata is fetched
   useEffect(() => {
@@ -97,18 +123,11 @@ const Home = () => {
     }
   }, [imageGallery]);
 
-  // useEffect(() => {}, [imageGallery]);
-
-  // toggles overlay by updating the overlayData state
-  var body = document.body;
-  const toggleOverlay = props => {
-    body.classList.toggle("noscroll");
-    if (props) {
-      setOverlayData(props.imageData);
-    } else {
-      setOverlayData(null);
-    }
-  };
+  useEffect(() => {
+    setAuthInfo(fetchAuth());
+    getPostData();
+    isUsersProfile();
+  }, []);
 
   let items = [];
 
@@ -117,22 +136,19 @@ const Home = () => {
       <ImageCard
         authInfo={authInfo}
         imageData={image}
-        isAuth={null}
         addOverlay={imageData => toggleOverlay({ imageData })}
+        isUsersProfile={usersProfile}
       />
     );
   });
 
   return (
     <div>
+        <h1>Favorites</h1>
       <div id="main">
         <div className="home_imagegallery">{items}</div>
-        {loading && loader}
+    {loading && loader}
       </div>
-      <footer id="footer"></footer>
-      &#169; Jack&Jon all rights reserved.
-      {/* if state has imageData, then display overlay. toggleOverlay function 
-			passed in to toggle the overlay off when user clicks out */}
       {overlayData ? (
         <ImageOverlay
           authInfo={authInfo}
@@ -144,4 +160,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Profile;

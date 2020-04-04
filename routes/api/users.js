@@ -27,6 +27,22 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
+// @route   GET api/users/:id
+// @desc    Returns username
+// @access  Public
+router.get('/:userID', async (req, res) => {
+  try {
+      const user = await User.findById(req.params.userID);
+      if (!user) {
+          return res.status(400).send('There is no profile for this user');
+      }
+      res.json({ name: user.name});
+  } catch(err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+  }
+});
+
 // @route   POST api/users
 // @desc    Register user
 // @access  Public
@@ -66,14 +82,14 @@ async (req, res) => {
 
         jwt.sign(
           payload,
-          config.get('emailSecret'),
+          config.get('jwtSecret'),
           { expiresIn: 900 },
           (err, etoken) => {
-          //sends email with confirmation link
-          sendEmail(email, name, "verify account");
             if (err) throw err;
-            res.json({ etoken });
+            res.json({ token });
           });
+          //sends email with confirmation link
+          sendEmail(email, name, token, "verify account");
 
         await user.save();
 

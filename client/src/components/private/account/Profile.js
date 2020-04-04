@@ -18,52 +18,19 @@ function numLoadedReducer(state, action) {
   return state + action;
 }
 
-//	FIX DOUBLE LOADING
-//	FIX AUTHENTICATION ERRORS
-
 const Profile = () => {
   const [imageGallery, setImageGallery] = useReducer(galleryReducer, []);
   const [overlayData, setOverlayData] = useState(null);
   const [authInfo, setAuthInfo] = useState(null);
-  const [usersProfile, setUsersProfile] = useState(null);
 
+  const [whosProfile, setWhosProfile] = useState('');
   const [numLoaded, addNumLoaded] = useReducer(numLoadedReducer, 0);
   const [postsMetaData, setPostsMetaData] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const authToken = localStorage.getItem('myToken');
   let params = useParams("/profile/:userID");
   const { userID } = params;
-  console.log("userID:", userID);
-
-  // const getPosts = async => {
-  // 	const allPosts = axios.get(`/api/posts/${userID}`)
-  // 	allPosts.then(res => {
-  // 		return fetchAllPosts(res.data);
-  // 	}).then(res => {
-  // 		setImageGallery(res);
-  // 	}).catch(err => {
-  // 		console.error(err);
-  // 	});
-  // }
-
-  const isUsersProfile = async =>{
-  	const config = {
-          headers:{
-  			'x-auth-token': authToken
-  			//logged user
-  		}}
-  		console.log('userID:', userID)
-  	const isUsersProfile = axios.get(`/api/auth/${userID}`, config)
-  	isUsersProfile.then(res => {setUsersProfile(res.data)});
-  }
-
-  // useEffect(() => {
-  // 	setAuthInfo(fetchAuth());
-  // 	getPosts();
-  // 	isUsersProfile();
-  // }, []);
 
   const getPostData = () => {
     const finalPosts = axios.get(`/api/posts/${userID}`);
@@ -84,7 +51,6 @@ const Profile = () => {
       return;
     }
     setLoading(true);
-    console.log("loaded", numLoaded);
     const newArray = postsMetaData.slice(numLoaded, numLoaded + numPosts);
     addNumLoaded(numPosts);
     if (numLoaded > postsMetaData.length) {
@@ -107,7 +73,7 @@ const Profile = () => {
     if (totalPageHeight !== docHeight || !hasMore) {
       return;
     }
-    getPosts(5);
+    getPosts(1);
   };
 
   var body = document.body;
@@ -123,8 +89,7 @@ const Profile = () => {
   // loads the first 10 posts once the post metadata is fetched
   useEffect(() => {
     if (numLoaded === 0) {
-      console.log(1);
-      getPosts(5);
+      getPosts(1);
     }
 
     // adds an event listener to check if user has scrolled to the bottom
@@ -134,39 +99,35 @@ const Profile = () => {
 
   // checks if the initial loading of posts fills up the page. If not, loads more
   useEffect(() => {
-	console.log('lengths', imageGallery, postsMetaData);
     if (document.documentElement.offsetHeight < window.innerHeight + 200) {
-      console.log(2);
-      getPosts(5);
+      getPosts(1);
     }
   }, [imageGallery]);
 
-  //   useEffect(() => {}, [imageGallery]);
+  // const fetchUserName = async () => {
+  //   try {
+  //     const userID = await axios.get(`api/users/${userID}`);
+  //     return userID.data.name;
+  //   } catch (err) {
+  //     console.log("error: ", err.response);
+  //   }
+  // }
+
+
 
   useEffect(() => {
     setAuthInfo(fetchAuth());
-	getPostData();
-	isUsersProfile();
+    // setWhosProfile(fetchUserName());
+    getPostData();
+    axios.get(`api/users/${userID}`)
+    .then(res=>{
+      setWhosProfile(res.data.name);
+    })
+    .catch(err=>{
+      console.error(err.response);
+    })
   }, []);
-
-  // loads the first 10 posts once the post metadata is fetched
-  useEffect(() => {
-    if (numLoaded === 0) {
-      getPosts(10);
-    }
-
-    // adds an event listener to check if user has scrolled to the bottom
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [postsMetaData, loading, numLoaded]);
-
-  // checks if the initial loading of posts fills up the page. If not, loads more
-  useEffect(() => {
-    if (document.documentElement.offsetHeight < window.innerHeight + 200) {
-      getPosts(5);
-    }
-  }, [imageGallery]);
-
+  
   let items = [];
 
   imageGallery.map(image => {
@@ -174,14 +135,14 @@ const Profile = () => {
       <ImageCard
         authInfo={authInfo}
         imageData={image}
-		addOverlay={imageData => toggleOverlay({ imageData })}
-		isUsersProfile={usersProfile}
+        addOverlay={imageData => toggleOverlay({ imageData })}
       />
     );
   });
 
   return (
     <div>
+      <h1>{whosProfile}</h1>
       <div id="main">
         <div className="home_imagegallery">{items}</div>
         {loading && loader}

@@ -5,8 +5,9 @@ const {reset_password} = require('../email_templates/reset_password');
 const {goodbye} = require('../email_templates/goodbye');
 
 
-const getEmailData = (to, name, template) =>{
+const getEmailData = (to, name, token, template) =>{
     let data = null;
+    console.log('token in email:', token)
     switch(template){
         case "welcome":
             data = {
@@ -22,7 +23,7 @@ const getEmailData = (to, name, template) =>{
                 from: "Gifme <jsandler.aol@gmail.com",
                 to,
                 subject: `Gifme - Please verify your account`,
-                html: `<a href="http://localhost:3000/confirmation">click here to validate your account</a>`
+                html: `<a href="http://localhost:3000/confirm/${token}">click here to validate your account</a>`
             //    html: verify_account()
             }
             break;
@@ -31,7 +32,7 @@ const getEmailData = (to, name, template) =>{
                 from: "Gifme <jsandler.aol@gmail.com",
                 to,
                 subject: `Gifme - Reset your password`,
-                html: reset_password()
+                html: reset_password(token)
             }
             break;
         case "change confirmation":
@@ -57,7 +58,7 @@ const getEmailData = (to, name, template) =>{
     return data;
 }
 
-const sendEmail = (to, name, type) => {
+const sendEmail = (to, name,token, type) => {
     const smtpTransport = mailer.createTransport({
         service: "Gmail",
         auth:{
@@ -66,7 +67,7 @@ const sendEmail = (to, name, type) => {
         }
     })
 
-const mail = getEmailData(to, name, type);
+const mail = getEmailData(to, name,token, type);
 
 smtpTransport.sendMail(mail, function(error, response){
     if(error){
