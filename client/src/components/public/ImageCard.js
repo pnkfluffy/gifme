@@ -94,6 +94,8 @@ const ImageCard = ({ imageData, addOverlay, authInfo }) => {
     });
   }, []);
 
+  const maxNameLength = 18;
+
   return (
     <div className="image_card">
       {confirmDeletion && (
@@ -107,7 +109,8 @@ const ImageCard = ({ imageData, addOverlay, authInfo }) => {
           className="image_card_name_text"
           to={`/profile/${imageData.userID}`}
         >
-          {imageData.user}
+          {/* limits the length of usernames so they don't overflow */}
+          {imageData.user.length > maxNameLength ? `${imageData.user.substring(0, maxNameLength)}...` : imageData.user }
         </Link>
         {isUsersPost && (
           <div className="feature_container">

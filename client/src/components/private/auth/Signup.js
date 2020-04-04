@@ -1,119 +1,135 @@
-import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
-import ErrorMessage from '../../../utils/errorMessage';
-import PopUpMessage from '../../../utils/popUpMessage';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import ErrorMessage from "../../../utils/errorMessage";
+import PopUpMessage from "../../../utils/popUpMessage";
 //import LinkRegistration from '../../../utils/linkRegistration';
-import axios from 'axios';
+import axios from "axios";
 
 const Signup = () => {
-    /*
+  /*
     useState is the 'state' from a class
     formData is just an initialized object with all the props
     set[FormData] is this.setState in a class
     */
 
-   const [formData, setFormData] = useState({
-       name:'', email: '', password: '', password2: ''});
-       const [error, setError] = useState('');
-       const [popMessage, setPopMessage] = useState('');
-    //   const [link, setLink] = useState('');
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    password2: ""
+  });
+  const [error, setError] = useState("");
+  const [popMessage, setPopMessage] = useState("");
+  //   const [link, setLink] = useState('');
 
-    
-       //here we destructure the props of formData,
-    //instead of accessing them as formData.name, we just say name
-    
-    const {name, email, password, password2} = formData;
-    
-    /*
+  //here we destructure the props of formData,
+  //instead of accessing them as formData.name, we just say name
+
+  const { name, email, password, password2 } = formData;
+
+  /*
     onChange updates the prop's state,
     [e.target.name] updates the prop by the 'name' value
      e.target.value is the new value 
     */
 
-   const onChange = e => setFormData({...formData, [e.target.name]: e.target.value})
-    //onSubmit is called in the form and just checks if passwords match
-    //preventDefault() method protects infinit loops
+  const onChange = e =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  //onSubmit is called in the form and just checks if passwords match
+  //preventDefault() method protects infinit loops
 
-    //const onLinkRegistration = e => {setLink([e.target.name])}
+  //const onLinkRegistration = e => {setLink([e.target.name])}
 
-
-    const onSubmit = async e => {
-        e.preventDefault();
-        if(password !== password2) {
-			setError('Passwords do not match');
-        } else {
-        //here the props of newUser come from the state/form event
-			const newUser = {name, email, password};
-            try {
-                //this sets the header properties
-                const config = {
-                    headers:{
-						'Content-Type': 'application/json',
-                    }
-                }
-                //this sets what to send as the 'body' of the request
-                const body = JSON.stringify(newUser);
-				//here we set the type of request, where to send it and the data 
-				await axios.post('/api/users', body, config)
-				.then(res=>{
-                    const eToken = res.data.etoken;
-                    const myUserID = res.data.userID;
-                    localStorage.setItem('eToken', eToken);
-                    localStorage.setItem('myGifmeUserID', myUserID);
-                    setPopMessage('We have sent you an email, please confirm your account');
-                    setTimeout(() => { window.location.href = '/login';}, 3500);
-				})
-            } catch (err) {setError(err.response.data.toString());}
-        }
+  const onSubmit = async e => {
+    e.preventDefault();
+    if (password !== password2) {
+      setError("Passwords do not match");
+    } else {
+      //here the props of newUser come from the state/form event
+      const newUser = { name, email, password };
+      try {
+        //this sets the header properties
+        const config = {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        };
+        //this sets what to send as the 'body' of the request
+        const body = JSON.stringify(newUser);
+        //here we set the type of request, where to send it and the data
+        await axios.post("/api/users", body, config).then(res => {
+          const eToken = res.data.etoken;
+          const myUserID = res.data.userID;
+          localStorage.setItem("eToken", eToken);
+          localStorage.setItem("myGifmeUserID", myUserID);
+          setPopMessage(
+            "We have sent you an email, please confirm your account (check your spam folder)"
+          );
+          setTimeout(() => {
+            window.location.href = "/login";
+          }, 10000);
+        });
+      } catch (err) {
+        setError(err.response.data.toString());
+      }
     }
+  };
 
-    return <div>
-        <div className="outside-container">
+  return (
+    <div>
+      <div className="outside-container">
         <div className="container-form">
-        <div className="form">
-            <PopUpMessage text={popMessage}/>
+          <div className="form">
+            <PopUpMessage text={popMessage} />
             <form onSubmit={e => onSubmit(e)} className="form-box">
-            <ErrorMessage text={error}/>
+              <ErrorMessage text={error} />
 
-                <input name="name"
+              <input
+                name="name"
                 type="text"
                 value={name}
                 onChange={e => onChange(e)}
                 placeholder="Your name"
-                className="input"/>
+                className="input"
+              />
 
-                <input name="email"
+              <input
+                name="email"
                 type="email"
                 value={email}
                 onChange={e => onChange(e)}
                 placeholder="Your email"
-                className="input"/>
+                className="input"
+              />
 
-                <input name="password"
+              <input
+                name="password"
                 type="password"
                 value={password}
                 onChange={e => onChange(e)}
                 placeholder="Your password"
-                className="input"/>
+                className="input"
+              />
 
-                <input name="password2"
+              <input
+                name="password2"
                 value={password2}
                 onChange={e => onChange(e)}
                 type="password"
                 placeholder="Confirm your password"
-                className="input"/>
+                className="input"
+              />
 
-                <input type="submit"
-                value="Sign up"
-                className="sign-bottom"/>
+              <input type="submit" value="Sign up" className="sign-bottom" />
             </form>
             <p>
-                Have an account? <Link to='/Login'>Log In</Link>
+              Have an account? <Link to="/Login">Log In</Link>
             </p>
+          </div>
         </div>
-        </div>
+      </div>
     </div>
-    </div>;
+  );
 };
 
 /*
