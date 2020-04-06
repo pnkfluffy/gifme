@@ -20,6 +20,11 @@ const Signup = () => {
   });
   const [error, setError] = useState("");
   const [popMessage, setPopMessage] = useState("");
+
+  let Token = '';
+
+  
+
   //   const [link, setLink] = useState('');
 
   //here we destructure the props of formData,
@@ -58,17 +63,17 @@ const Signup = () => {
         const body = JSON.stringify(newUser);
         //here we set the type of request, where to send it and the data
         await axios.post("/api/users", body, config).then(res => {
-          const eToken = res.data.etoken;
+          Token = res.data.token;
           const myUserID = res.data.userID;
-          localStorage.setItem("eToken", eToken);
+          localStorage.setItem("Token", Token);
           localStorage.setItem("myGifmeUserID", myUserID);
-          setPopMessage(
-            "We have sent you an email, please confirm your account (check your spam folder)"
-          );
-          setTimeout(() => {
-            window.location.href = "/login";
-          }, 10000);
         });
+        setPopMessage(
+          "We have sent you an email, please confirm your account (check your spam folder)"
+        );
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 10000);
       } catch (err) {
         setError(err.response.data.toString());
       }

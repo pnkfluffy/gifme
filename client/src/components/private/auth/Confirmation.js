@@ -18,10 +18,10 @@ const Confirmation = () => {
                     'x-auth-token': token,
                 }
             }
-            await axios.get('/api/auth/confirm/', config)
+            axios.get('/api/auth/confirm/', config)
             .catch(err=>{
                 console.error(err.response);
-            })
+            });
             setPopMessage('Your account has been confirmed');
         //    setTimeout(() => { window.location.href = '/login';}, 3500);
         } catch (err) {
