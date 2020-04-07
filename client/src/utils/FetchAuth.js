@@ -2,7 +2,6 @@ import axios from "axios";
 
 const fetchAuth = async () => {
   const auth_token = localStorage.getItem("myToken");
-  console.log(auth_token);
   const config = {
     headers: {
       "x-auth-token": auth_token
