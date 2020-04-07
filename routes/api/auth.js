@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const auth = require('../../middleware/auth');
-
 const User = require('../../models/Users');
 const { check, validationResult } = require('express-validator');
 const {sendEmail} = require('../../middleware/email');
@@ -40,12 +39,14 @@ router.get("/:userID", auth, async (req, res) => {
     }
   });
 
-router.put('/confirmAccount', auth, async (req, res) => {
+router.put('/confirm', auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
-        await user.updateOne({ confirmed: true });
-        sendEmail(user.email, user.name, null, "welcome");
-        res.send('your account is confirmed')
+        console.log('user', user)
+        await user.update({ confirmed: true });
+        console.log('user', user)
+        res.send('Your account has been confirmed')
+        sendEmail(user.email, user.name, "welcome");
     } catch (err) {
       res.status(401).send('your email token is invalid');
       return;
