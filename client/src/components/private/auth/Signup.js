@@ -21,8 +21,6 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [popMessage, setPopMessage] = useState("");
 
-  let Token = '';
-
   
 
   //   const [link, setLink] = useState('');
@@ -63,7 +61,7 @@ const Signup = () => {
         const body = JSON.stringify(newUser);
         //here we set the type of request, where to send it and the data
         await axios.post("/api/users", body, config).then(res => {
-          Token = res.data.token;
+          const Token = res.data.token;
           const myUserID = res.data.userID;
           localStorage.setItem("Token", Token);
           localStorage.setItem("myGifmeUserID", myUserID);

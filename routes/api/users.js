@@ -80,14 +80,11 @@ async (req, res) => {
 
         //sends email verification and stores emailToken
 
-        jwt.sign(
+        const token = jwt.sign(
           payload,
           config.get('jwtSecret'),
           { expiresIn: 900 },
-          (err, etoken) => {
-            if (err) throw err;
-            res.json({ token });
-          });
+          );
           //sends email with confirmation link
           sendEmail(email, name, token, "verify account");
 
