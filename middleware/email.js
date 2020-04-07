@@ -7,7 +7,6 @@ const {goodbye} = require('../email_templates/goodbye');
 
 const getEmailData = (to, name, token, template) =>{
     let data = null;
-    console.log('token in email:', token)
     switch(template){
         case "welcome":
             data = {

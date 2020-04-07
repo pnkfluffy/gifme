@@ -68,7 +68,7 @@ const Likes = ({ imageID, hasLiked, setHasLiked }) => {
   }
   return (
     <div className="image_card_like" onClick={e => likePost(e)}>
-      <img src={noLikeHeart} className="image_card_heart" />
+      <img src={noLikeHeart} alt="noLikeHeart" className="image_card_heart" />
     </div>
   );
 };

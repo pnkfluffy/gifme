@@ -41,13 +41,9 @@ router.get("/:userID", auth, async (req, res) => {
 
  router.put('/confirm', auth, async (req, res) => {
      try {
-         console.log('before finding user!!')
          const user = await User.findById(req.user.id).select('-password');
-         console.log('user', user)
-         await user.update({ confirmed: true });
-         console.log('user', user)
-         res.send('Your account has been confirmed')
-         sendEmail(user.email, user.name, "welcome");
+         await user.updateOne({ confirmed: true });
+         sendEmail(user.email, user.name, null,  "welcome");
      } catch (err) {
        res.status(401).send('your email token is invalid');
        return;

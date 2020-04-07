@@ -6,7 +6,6 @@ const config = require('config');
 */
 
 module.exports = function(req, res, next) {
-    console.log('inside Auth')
     const token = req.header('x-auth-token');
     if (!token) {
         return res.status(401).send('No token, authorization denied ');

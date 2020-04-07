@@ -6,11 +6,6 @@ import PopUpMessage from "../../../utils/popUpMessage";
 import axios from "axios";
 
 const Signup = () => {
-  /*
-    useState is the 'state' from a class
-    formData is just an initialized object with all the props
-    set[FormData] is this.setState in a class
-    */
 
   const [formData, setFormData] = useState({
     name: "",
@@ -20,13 +15,6 @@ const Signup = () => {
   });
   const [error, setError] = useState("");
   const [popMessage, setPopMessage] = useState("");
-
-  
-
-  //   const [link, setLink] = useState('');
-
-  //here we destructure the props of formData,
-  //instead of accessing them as formData.name, we just say name
 
   const { name, email, password, password2 } = formData;
 
@@ -39,7 +27,7 @@ const Signup = () => {
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   //onSubmit is called in the form and just checks if passwords match
-  //preventDefault() method protects infinit loops
+  //preventDefault() method protects infinite loops
 
   //const onLinkRegistration = e => {setLink([e.target.name])}
 
@@ -66,14 +54,16 @@ const Signup = () => {
           localStorage.setItem("Token", Token);
           localStorage.setItem("myGifmeUserID", myUserID);
         });
-        setPopMessage(
-          "We have sent you an email, please confirm your account (check your spam folder)"
-        );
-        setTimeout(() => {
-          window.location.href = "/login";
-        }, 10000);
+         setPopMessage(
+           "We have sent you an email, please confirm your account"
+         );
+         setTimeout(() => {
+           window.location.href = "/login";
+         }, 10000);
       } catch (err) {
-        setError(err.response.data.toString());
+        if (err.response.data.errors){
+          setError(err.response.data.errors);
+        }else {setError(err.response.data.toString());}        
       }
     }
   };
