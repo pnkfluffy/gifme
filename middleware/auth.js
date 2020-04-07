@@ -12,11 +12,10 @@ module.exports = function(req, res, next) {
     }
     try {
         const decoded = jwt.verify(token, config.get('jwtSecret'));
-        console.log('decoded:', decoded)
+    //    console.log('decoded:', decoded)
         req.user = decoded.user;
+        console.log('next:', next())
         next();
-        console.log('next:', decoded)
-
     } catch(err) {
         res.status(401).send('Token is not valid');
     }
