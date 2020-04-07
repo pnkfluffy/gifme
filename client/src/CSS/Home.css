@@ -37,6 +37,15 @@ img{
 	cursor: pointer;
 }
 
+.image_card_name_text{
+	color: rgb(5, 5, 5);
+}
+
+.image_card_name_text_user{
+	color: rgb(61, 82, 179);
+	font-weight: bold;
+}
+
 .image_card_view_img{
 	height: 15px;
 	width: 15px;
