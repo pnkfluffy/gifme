@@ -146,7 +146,9 @@ h5{
   }
 
   .photobooth_screenshot {
-	  position: absolute;
+      position: absolute;
+      width: 400px;
+      height: 400px;
   }
 
   .sticker_canvas {

@@ -4,6 +4,8 @@ import StickerCanvas from "./StickerCanvas";
 import StickerSelector from "./StickerSelector";
 import { WebcamContext } from "./WebcamContext";
 import mergeImages from "merge-images";
+import gifFrames from 'gif-frames';
+import { Buffer } from 'buffer';
 
 import thumbsUp from "../../../resources/thumbs_up_icon.png";
 import dogImg from "../../../resources/superimposable_dog.png";
@@ -62,73 +64,86 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
     //	MAKE GIFS
     //  BRING UP LOADING SCREEN
     e.preventDefault();
+    
+    const buff = Buffer.from(imageSrc);
+    const i = -1;
+    
+    gifFrames({ url: buff, frames: 'all', outputType: 'canvas', cumulative: true })
+    .then(function (frameData) {
+      frameData.forEach(function (frame) {
+        document.body.appendChild(frame.getImage());
+      })
+    }).catch(console.error.bind(console));
+    
+    
+    
     //  Background is the webcamscreenshot
-    const background = [{ src: imageSrc, x: 0, y: 0 }];
+    // const background = [{ src: imageSrc, x: 0, y: 0 }];
 
-    let stickerArray = [];
-    //  If there are any stickers
-    if (webContext.imgsOnCanvas.length) {
-      const stickerPromises = webContext.imgsOnCanvas.map(
-        ({ xPos, yPos, imgUrl }) => {
-          return resize({ xPos, yPos, imgUrl });
-        }
-      );
-      stickerArray = Promise.all(stickerPromises);
-      stickerArray.then(res => {
-        //  Adds the webcamscreenshot as the first image in the array
-        const finalArray = background.concat(res);
+    // let stickerArray = [];
+    // //  If there are any stickers
+    // if (webContext.imgsOnCanvas.length) {
+    //   const stickerPromises = webContext.imgsOnCanvas.map(
+    //     ({ xPos, yPos, imgUrl }) => {
+    //       return resize({ xPos, yPos, imgUrl });
+    //     }
+    //   );
+    //   stickerArray = Promise.all(stickerPromises);
+    //   stickerArray.then(res => {
+    //     //  Adds the webcamscreenshot as the first image in the array
+    //     const finalArray = background.concat(res);
 
-        mergeImages(finalArray)
-          .then(b64 => {
-            //  Posts the merged image to the website
-            fetch(b64)
-              .then(res => res.blob())
-              .then(blob => {
-                const formData = new FormData();
-                const file = new File([blob], "testfile.jpeg");
-                formData.append("photo", file);
-                fetch("/api/posts", {
-                  method: "POST",
-                  headers: {
-                    "x-auth-token": authtoken
-                  },
-                  body: formData
-                })
-                  .then(res => {
-                    res.json();
-                    window.location.href = "/";
-                  })
-                  //  REDIRECT TO CUSTOM URL PAGE FOR IMAGE POST
-                  .then(res => console.log(res))
-                  .catch(err => console.log(err.response));
-              });
-          })
-          .then(b64 => console.log("DONE!: ", b64))
-          .catch(err => console.error(err));
-      });
-    } else {
-      fetch(imageSrc)
-        .then(res => res.blob())
-        .then(blob => {
-          const formData = new FormData();
-          const file = new File([blob], "testfile.jpeg");
-          formData.append("photo", file);
-          fetch("/api/posts", {
-            method: "POST",
-            headers: {
-              "x-auth-token": authtoken
-            },
-            body: formData
-          })
-            .then(res => {
-              res.json();
-              window.location.href = "/";
-            })
-            //  REDIRECT TO CUSTOM URL PAGE FOR IMAGE POST
-            .then(res => console.log(res))
-            .catch(err => console.log(err.response));
-        });
-    }
+    //     mergeImages(finalArray)
+    //       .then(b64 => {
+    //         //  Posts the merged image to the website
+    //         fetch(b64)
+    //           .then(res => res.blob())
+    //           .then(blob => {
+    //             const formData = new FormData();
+    //             const file = new File([blob], "testfile.jpeg");
+    //             formData.append("photo", file);
+    //             fetch("/api/posts", {
+    //               method: "POST",
+    //               headers: {
+    //                 "x-auth-token": authtoken
+    //               },
+    //               body: formData
+    //             })
+    //               .then(res => {
+    //                 res.json();
+    //                 window.location.href = "/";
+    //               })
+    //               //  REDIRECT TO CUSTOM URL PAGE FOR IMAGE POST
+    //               .then(res => console.log(res))
+    //               .catch(err => console.log(err.response));
+    //           });
+    //       })
+    //       .then(b64 => console.log("DONE!: ", b64))
+    //       .catch(err => console.error(err));
+    //   });
+    // } else {
+    //   fetch(imageSrc)
+    //     .then(res => res.blob())
+    //     .then(blob => {
+    //       const formData = new FormData();
+    //       const file = new File([blob], "testfile.jpeg");
+    //       formData.append("photo", file);
+    //       fetch("/api/posts", {
+    //         method: "POST",
+    //         headers: {
+    //           "x-auth-token": authtoken
+    //         },
+    //         body: formData
+    //       })
+    //         .then(res => {
+    //           res.json();
+    //           window.location.href = "/";
+    //         })
+    //         //  REDIRECT TO CUSTOM URL PAGE FOR IMAGE POST
+    //         .then(res => console.log(res))
+    //         .catch(err => console.log(err.response));
+    //     });
+    // }
   };
 
   return (
@@ -144,7 +159,7 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
         <input
           className="photobooth_screenshot"
           type="image"
-          name="image"
+          name="gif"
           value={imageSrc}
           src={imageSrc}
           alt="upload_image"

@@ -5,6 +5,7 @@ import { WebcamProvider } from "./WebcamContext";
 import fetchAuth from "../../../utils/FetchAuth";
 import PhotoEditor from "./PhotoEditor";
 import PageError from '../../error/NotValidUser(400)';
+import gifshot from 'gifshot';
 
 const videoConstraints = {
   width: 400,
@@ -12,28 +13,52 @@ const videoConstraints = {
   facingMode: "user"
 };
 
+const gifDimensions = 400;
+
 const PhotoDisplay = () => {
   const [timer, setTimer] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
   const [login, setLogin] = useState(true);
 
   const webcamRef = React.useRef(null);
-  const capture = React.useCallback(() => {
-    setImageSrc(webcamRef.current.getScreenshot());
-  }, [webcamRef]);
+
+
+  // const capture = React.useCallback(() => {
+  //   setImageSrc(webcamRef.current.getScreenshot());
+  // }, [webcamRef]);
+
+  const recordGif = () => {
+    // const stream = document.getElementById("webcam");
+    // console.log('stream', stream);
+   
+    // navigator.mediaDevices.getUserMedia({ video: true })
+    // .then(stream => {
+
+    // })
+
+    gifshot.createGIF({ gifWidth: gifDimensions, gifHeight: gifDimensions }, function(obj) {
+      if (!obj.error) {
+        var image = obj.image,
+        animatedImage = document.createElement('img');
+        animatedImage.src = image;
+        setImageSrc(image);
+      }
+    });
+  }
 
   useEffect(() => {
   const auth = fetchAuth();
-  console.log('here auth:',auth)
 	auth.then(res => {
-		console.log('auth', res);
 		if (!res) { setLogin(false) }
 	})
   }, [])
 
   useEffect(() => {
     if (timer < 0) {
-      capture();
+      
+      recordGif();
+
+      // capture();
       setTimer(null);
     }
     if (!timer) return;
