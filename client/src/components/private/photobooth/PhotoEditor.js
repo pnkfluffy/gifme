@@ -4,9 +4,12 @@ import StickerCanvas from "./StickerCanvas";
 import StickerSelector from "./StickerSelector";
 import { WebcamContext } from "./WebcamContext";
 import mergeImages from "merge-images";
-import gifFrames from 'gif-frames';
-import { Buffer } from 'buffer';
+import gifFrames from "gif-frames";
+import { Buffer } from "buffer";
+import gifshot from "gifshot";
+import { gifDimensions } from "./Capture";
 
+import { binaryToB64 } from "../../../utils/FetchPosts";
 import thumbsUp from "../../../resources/thumbs_up_icon.png";
 import dogImg from "../../../resources/superimposable_dog.png";
 //import catImg from "../../../resources/superimposable_cat.png";
@@ -17,7 +20,6 @@ import poopImg from "../../../resources/superimposable_poop.png";
 
 const PhotoEditor = ({ imageSrc, setImg }) => {
   const authtoken = localStorage.getItem("myToken");
-  console.log("here authtoken", authtoken);
   const imageArray = [dogImg, poopImg, hatImg, fireImg, bananaImg];
   const webContext = useContext(WebcamContext);
 
@@ -27,11 +29,11 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
 
   // Takes a data URI and returns the Data URI corresponding to the resized image at the wanted size.
   function resizedataURL(datas, wantedWidth, wantedHeight) {
-    return new Promise(async function(resolve, reject) {
+    return new Promise(async function (resolve, reject) {
       // We create an image to receive the Data URI
       var img = document.createElement("img");
       // When the event "onload" is triggered we can resize the image.
-      img.onload = function() {
+      img.onload = function () {
         // We create a canvas and get its context.
         var canvas = document.createElement("canvas");
         var ctx = canvas.getContext("2d");
@@ -55,28 +57,88 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
     return {
       src: resizedImage,
       x: xPos,
-      y: 330 - yPos
+      y: 330 - yPos,
     };
   };
 
   //  Posts the merged image to the database
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     //	MAKE GIFS
     //  BRING UP LOADING SCREEN
     e.preventDefault();
-    
+
     const buff = Buffer.from(imageSrc);
-    const i = -1;
-    
-    gifFrames({ url: buff, frames: 'all', outputType: 'canvas', cumulative: true })
-    .then(function (frameData) {
-      frameData.forEach(function (frame) {
-        document.body.appendChild(frame.getImage());
+
+    let imageArray = [];
+    let stickeredImageArray = [];
+
+    // its the big boy
+    gifFrames({
+      url: buff,
+      frames: "all",
+      outputType: "canvas",
+      cumulative: true,
+    })
+      .then(function (frameData) {
+        frameData.forEach(function (frame) {
+          const canvasImage = frame.getImage();
+          const b64 = canvasImage.toDataURL();
+          imageArray.push(b64);
+          console.log(imageArray);
+          // document.body.appendChild(frame.getImage());
+          // console.log(frame.getImage());
+        });
       })
-    }).catch(console.error.bind(console));
-    
-    
-    
+      .then(() => {
+        imageArray.forEach(function (image) {
+          // Background is the webcamscreenshot
+          const background = [{ src: image, x: 0, y: 0 }];
+
+          let stickerArray = [];
+          //  If there are any stickers
+          if (webContext.imgsOnCanvas.length) {
+            const stickerPromises = webContext.imgsOnCanvas.map(
+              ({ xPos, yPos, imgUrl }) => {
+                return resize({ xPos, yPos, imgUrl });
+              }
+            );
+            stickerArray = Promise.all(stickerPromises);
+            stickerArray.then((res) => {
+              //  Adds the webcamscreenshot as the first image in the array
+              const finalArray = background.concat(res);
+
+              mergeImages(finalArray).then((b64) => {
+                stickeredImageArray.push(b64);
+                console.log("sticker", b64);
+              });
+            });
+          } else {
+            stickeredImageArray = imageArray;
+            console.log("nosticker", stickeredImageArray);
+          }
+        });
+      })
+      .then(() => {
+        // ISSUE IN .THEN CHAIN, GOES BEFORE STICKEREDIMAGEARRAY RESOLVES
+        console.log('p', stickeredImageArray);
+        gifshot.createGIF(
+          {
+            gifWidth: gifDimensions,
+            gifHeight: gifDimensions,
+            images: stickeredImageArray,
+          },
+          function (obj) {
+            if (!obj.error) {
+              let finalGIF = obj.image,
+              finalAnimatedImage = document.createElement("img");
+              finalAnimatedImage.src = finalGIF;
+              console.log('final', finalGIF);
+            }
+          }
+        );
+      })
+      .catch(console.error.bind(console));
+
     //  Background is the webcamscreenshot
     // const background = [{ src: imageSrc, x: 0, y: 0 }];
 
@@ -153,7 +215,7 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
         id="upload_img"
         method="POST"
         enctype="multipart/form-data"
-        onSubmit={e => onSubmit(e)}
+        onSubmit={(e) => onSubmit(e)}
       >
         <StickerCanvas />
         <input

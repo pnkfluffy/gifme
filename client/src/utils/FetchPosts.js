@@ -33,4 +33,4 @@ const fetchAllPosts = async (imageIDs) => {
 	return allPosts;
 }
 
-export { fetchAllPosts, fetchPost };
+export { binaryToB64, fetchAllPosts, fetchPost };

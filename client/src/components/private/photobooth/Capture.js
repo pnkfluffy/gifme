@@ -4,16 +4,16 @@ import { WebcamProvider } from "./WebcamContext";
 
 import fetchAuth from "../../../utils/FetchAuth";
 import PhotoEditor from "./PhotoEditor";
-import PageError from '../../error/NotValidUser(400)';
-import gifshot from 'gifshot';
+import PageError from "../../error/NotValidUser(400)";
+import gifshot from "gifshot";
 
 const videoConstraints = {
   width: 400,
   height: 400,
-  facingMode: "user"
+  facingMode: "user",
 };
 
-const gifDimensions = 400;
+export const gifDimensions = 400;
 
 const PhotoDisplay = () => {
   const [timer, setTimer] = useState(null);
@@ -22,7 +22,6 @@ const PhotoDisplay = () => {
 
   const webcamRef = React.useRef(null);
 
-
   // const capture = React.useCallback(() => {
   //   setImageSrc(webcamRef.current.getScreenshot());
   // }, [webcamRef]);
@@ -30,32 +29,42 @@ const PhotoDisplay = () => {
   const recordGif = () => {
     // const stream = document.getElementById("webcam");
     // console.log('stream', stream);
-   
+
     // navigator.mediaDevices.getUserMedia({ video: true })
     // .then(stream => {
 
     // })
 
-    gifshot.createGIF({ gifWidth: gifDimensions, gifHeight: gifDimensions }, function(obj) {
-      if (!obj.error) {
-        var image = obj.image,
-        animatedImage = document.createElement('img');
-        animatedImage.src = image;
-        setImageSrc(image);
+    gifshot.createGIF(
+      {
+        gifWidth: gifDimensions,
+        gifHeight: gifDimensions,
+        frameDuration: 1,
+        interval: 0.1,
+        numFrames: 3,
+      },
+      function (obj) {
+        if (!obj.error) {
+          let image = obj.image,
+            animatedImage = document.createElement("img");
+          animatedImage.src = image;
+          setImageSrc(image);
+        }
       }
-    });
-  }
+    );
+  };
 
   useEffect(() => {
-  const auth = fetchAuth();
-	auth.then(res => {
-		if (!res) { setLogin(false) }
-	})
-  }, [])
+    const auth = fetchAuth();
+    auth.then((res) => {
+      if (!res) {
+        setLogin(false);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (timer < 0) {
-      
       recordGif();
 
       // capture();
@@ -63,7 +72,7 @@ const PhotoDisplay = () => {
     }
     if (!timer) return;
     const interval = setInterval(() => {
-      setTimer(timer => (timer - 0.01).toFixed(2));
+      setTimer((timer) => (timer - 0.01).toFixed(2));
     }, 10);
     return () => {
       clearInterval(interval);
@@ -71,7 +80,7 @@ const PhotoDisplay = () => {
   }, [timer]);
 
   if (!login) {
-	  return (<PageError/>);
+    return <PageError />;
   }
   if (!imageSrc) {
     return (
@@ -105,7 +114,7 @@ const PhotoDisplay = () => {
     return (
       //	Allows all of PhotoEditor to access a single state
       <WebcamProvider>
-        <PhotoEditor imageSrc={imageSrc} setImg={img => setImageSrc(img)} />
+        <PhotoEditor imageSrc={imageSrc} setImg={(img) => setImageSrc(img)} />
       </WebcamProvider>
     );
   }
