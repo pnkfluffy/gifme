@@ -41,7 +41,7 @@ const PhotoDisplay = () => {
         gifHeight: gifDimensions,
         frameDuration: 1,
         interval: 0.1,
-        numFrames: 3,
+        numFrames: 15,
       },
       function (obj) {
         if (!obj.error) {

@@ -22,11 +22,7 @@ router.post("/", auth, postphotos, async (req, res) => {
       image: req.file.id
     });
     await post.save();
-    return res.json({
-      success: true,
-      file: req.file,
-      post: post
-    });
+    res.json(post);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
