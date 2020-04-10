@@ -10,16 +10,9 @@ import StickerSelector from "./StickerSelector";
 import { WebcamContext } from "./WebcamContext";
 import { gifDimensions } from "./Capture";
 import thumbsUp from "../../../resources/thumbs_up_icon.png";
-import dogImg from "../../../resources/superimposable_dog.png";
-//import catImg from "../../../resources/superimposable_cat.png";
-import hatImg from "../../../resources/superimposable_hat.png";
-import fireImg from "../../../resources/superimposable_fire.png";
-import bananaImg from "../../../resources/superimposable_banana.png";
-import poopImg from "../../../resources/superimposable_poop.png";
 
 const PhotoEditor = ({ imageSrc, setImg }) => {
   const authtoken = localStorage.getItem("myToken");
-  const stickerArray = [dogImg, poopImg, hatImg, fireImg, bananaImg];
   const webContext = useContext(WebcamContext);
 
   const returnWebcam = () => {
@@ -52,11 +45,11 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
   //  Resizes the stickers (to 70px x 70px for now) and returns the inversed y coordinate
   //  due sticker y being fipped
   const resize = async ({ xPos, yPos, imgUrl }) => {
-    const resizedImage = await resizedataURL(imgUrl, 70, 70);
+    const resizedImage = await resizedataURL(imgUrl, 100, 100);
     return {
       src: resizedImage,
       x: xPos,
-      y: 330 - yPos,
+      y: 300 - yPos,
     };
   };
 
@@ -64,91 +57,128 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    const hasStickers = webContext.imgsOnCanvas.length;
     const buff = Buffer.from(imageSrc);
 
     // its the big boy
-    gifFrames({
+    const backgroundImageArray = gifFrames({
       url: buff,
       frames: "all",
       outputType: "canvas",
       cumulative: true,
-    })
-      .then((frameData) => {
-        const imageArrayPromise = frameData.map((frame) => {
-          const canvasImage = frame.getImage();
-          const b64 = canvasImage.toDataURL();
-          return b64;
-        });
-        const imageArray = Promise.all(imageArrayPromise);
-        console.log("1", imageArray);
-        return imageArray;
-      })
-      .then((imageArray) => {
-        const stickeredImagesPromise = imageArray.map((image) => {
-          // Background is the webcamscreenshot
-          const background = [{ src: image, x: 0, y: 0 }];
+    }).then((frameData) => {
+      const imageArrayPromise = frameData.map((frame) => {
+        const canvasImage = frame.getImage();
+        const b64 = canvasImage.toDataURL();
+        return b64;
+      });
+      return Promise.all(imageArrayPromise);
 
-          //  If there are any stickers
-          if (webContext.imgsOnCanvas.length) {
-            const stickerPromises = webContext.imgsOnCanvas.map(
-              ({ xPos, yPos, imgUrl }) => {
-                return resize({ xPos, yPos, imgUrl });
-              }
-            );
-            return Promise.all(stickerPromises).then(stickers => {
-              console.log("1.5", stickers);
-              //  Adds the webcamscreenshot as the first image in the array
-              const finalArray = background.concat(stickers);
-              const stickeredImage = mergeImages(finalArray);
-              console.log("2: sticker", stickeredImage);
-              return stickeredImage;
-            });
-          } else {
-            console.log("2: nosticker", image);
-            return image;
-          }
+    });
+
+    const stickersGifsArrayPromise = webContext.imgsOnCanvas.map(
+      ({ xPos, yPos, imgUrl }) => {
+        const stickerBuff = Buffer.from(imgUrl);
+        const stickerImageArray = gifFrames({
+          url: stickerBuff,
+          frames: "all",
+          outputType: "canvas",
+          cumulative: true,
+        }).then((frameData) => {
+          const imageArrayPromise = frameData.map((frame) => {
+            const canvasImage = frame.getImage();
+            const b64 = canvasImage.toDataURL();
+            return b64;
+          });
+          return Promise.all(imageArrayPromise)
+          .then((imageArrayPromise) => {
+            console.log("1gifs", imageArrayPromise);
+            return ({ imgUrl: imageArrayPromise, xPos, yPos });
+          });
         });
-        const stickeredImageArray = Promise.all(stickeredImagesPromise);
-        console.log("3", stickeredImageArray);
-        return stickeredImageArray;
-      })
-      .then((stickeredImageArray) => {
-        return gifshot.createGIF(
-          {
-            gifWidth: gifDimensions,
-            gifHeight: gifDimensions,
-            images: stickeredImageArray,
-          },
-          function (obj) {
-            if (!obj.error) {
-              let finalGIF = obj.image,
-                finalAnimatedImage = document.createElement("img");
-              finalAnimatedImage.src = finalGIF;
-              console.log("final", finalGIF);
-              fetch(finalGIF)
-                .then((res) => res.blob())
-                .then((blob) => {
-                  const formData = new FormData();
-                  const file = new File([blob], "testfile.gif");
-                  formData.append("photo", file);
-                  fetch("/api/posts", {
-                    method: "POST",
-                    headers: {
-                      "x-auth-token": authtoken,
-                    },
-                    body: formData,
-                  })
-                    .then(() => {
-                      console.log("image uploaded successfully");
-                      window.location.href = "/";
-                    })
-                    .catch((err) => console.error(err.response));
-                });
-            }
-          }
-        );
-      })
-      .catch((err) => console.error(err.response));
+        return (stickerImageArray);
+      }
+    );
+  
+    const stickersGifsArray = Promise.all(stickersGifsArrayPromise);
+
+    const allImageArrays = Promise.all([
+      backgroundImageArray,
+      stickersGifsArray,
+    ]);
+    
+    allImageArrays.then(([backgroundImageArray, stickersGifsArray]) => {
+      console.log("back", backgroundImageArray);
+      console.log('stick', stickersGifsArray);
+    });
+
+    // .then((b64ImageArray) => {
+    //   const stickeredImagesPromise = b64ImageArray.map((image, index) => {
+    //     // Background is the webcamscreenshot
+    //     console.log('thisindex', index);
+    //     const background = [{ src: image, x: 0, y: 0 }];
+
+    //     //  If there are any stickers
+    //     if (hasStickers) {
+    //       const stickerPromises = webContext.imgsOnCanvas.map(
+    //         ({ xPos, yPos, imgUrl }) => {
+    //           return resize({ xPos, yPos, imgUrl });
+    //         }
+    //       );
+    //       return Promise.all(stickerPromises).then(stickers => {
+    //         // console.log("1.5", stickers);
+    //         //  Adds the webcamscreenshot as the first image in the array
+    //         const finalArray = background.concat(stickers);
+    //         const stickeredImage = mergeImages(finalArray);
+    //         // console.log("2: sticker", stickeredImage);
+    //         return stickeredImage;
+    //       });
+    //     } else {
+    //       console.log("2: nosticker", image);
+    //       return image;
+    //     }
+    //   });
+    //   const stickeredImageArray = Promise.all(stickeredImagesPromise);
+    //   // console.log("3", stickeredImageArray);
+    //   return stickeredImageArray;
+    // })
+    // .then((stickeredImageArray) => {
+    //   return gifshot.createGIF(
+    //     {
+    //       gifWidth: gifDimensions,
+    //       gifHeight: gifDimensions,
+    //       images: stickeredImageArray,
+    //     },
+    //     function (obj) {
+    //       if (!obj.error) {
+    //         let finalGIF = obj.image,
+    //           finalAnimatedImage = document.createElement("img");
+    //         finalAnimatedImage.src = finalGIF;
+    //         console.log("final", finalGIF);
+    //         fetch(finalGIF)
+    //           .then((res) => res.blob())
+    //           .then((blob) => {
+    //             const formData = new FormData();
+    //             const file = new File([blob], "testfile.gif");
+    //             formData.append("photo", file);
+    //             fetch("/api/posts", {
+    //               method: "POST",
+    //               headers: {
+    //                 "x-auth-token": authtoken,
+    //               },
+    //               body: formData,
+    //             })
+    //               .then(() => {
+    //                 console.log("image uploaded successfully");
+    //                 window.location.href = "/";
+    //               })
+    //               .catch((err) => console.error(err.response));
+    //           });
+    //       }
+    //     }
+    //   );
+    // })
+    // .catch((err) => console.error(err.response));
   };
 
   return (

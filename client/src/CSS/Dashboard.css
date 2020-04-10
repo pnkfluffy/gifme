@@ -223,6 +223,10 @@ h5{
     padding: 0 5px 0 5px;
 }
 
+.menu-wrapper--inner {
+    margin-left: -40px;
+}
+
 .arrow-prev {
     padding-right: 10px;
 }
