@@ -15,7 +15,7 @@ const videoConstraints = {
 
 export const gifDimensions = 400;
 //  each frame is 1/10 seconds
-const gifFrames = 3;
+const gifFrames = 20;
 const timerCountDown = 0.2;
 
 const PhotoDisplay = () => {
