@@ -1,15 +1,14 @@
 import React, { useContext } from "react";
 import FormData from "form-data";
-import StickerCanvas from "./StickerCanvas";
-import StickerSelector from "./StickerSelector";
-import { WebcamContext } from "./WebcamContext";
 import mergeImages from "merge-images";
 import gifFrames from "gif-frames";
 import { Buffer } from "buffer";
 import gifshot from "gifshot";
-import { gifDimensions } from "./Capture";
 
-import { binaryToB64 } from "../../../utils/FetchPosts";
+import StickerCanvas from "./StickerCanvas";
+import StickerSelector from "./StickerSelector";
+import { WebcamContext } from "./WebcamContext";
+import { gifDimensions } from "./Capture";
 import thumbsUp from "../../../resources/thumbs_up_icon.png";
 import dogImg from "../../../resources/superimposable_dog.png";
 //import catImg from "../../../resources/superimposable_cat.png";
@@ -20,7 +19,7 @@ import poopImg from "../../../resources/superimposable_poop.png";
 
 const PhotoEditor = ({ imageSrc, setImg }) => {
   const authtoken = localStorage.getItem("myToken");
-  const imageArray = [dogImg, poopImg, hatImg, fireImg, bananaImg];
+  const stickerArray = [dogImg, poopImg, hatImg, fireImg, bananaImg];
   const webContext = useContext(WebcamContext);
 
   const returnWebcam = () => {
@@ -96,10 +95,10 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
                 return resize({ xPos, yPos, imgUrl });
               }
             );
-            return Promise.all(stickerPromises).then((stickerArray) => {
-              console.log("1.5", stickerArray);
+            return Promise.all(stickerPromises).then(stickers => {
+              console.log("1.5", stickers);
               //  Adds the webcamscreenshot as the first image in the array
-              const finalArray = background.concat(stickerArray);
+              const finalArray = background.concat(stickers);
               const stickeredImage = mergeImages(finalArray);
               console.log("2: sticker", stickeredImage);
               return stickeredImage;
@@ -171,7 +170,8 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
           alt="upload_image"
           required
         />
-        <StickerSelector photoStickers={imageArray} />
+
+        <StickerSelector />
 
         <div className="photobooth_action_btns">
           <input

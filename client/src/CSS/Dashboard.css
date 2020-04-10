@@ -214,6 +214,23 @@ h5{
     justify-content: space-around;
     align-items: center;
 }
+
+.horizontal-menu {
+    width: 95%;
+}
+
+.menu-item-wrapper {
+    padding: 0 5px 0 5px;
+}
+
+.arrow-prev {
+    padding-right: 10px;
+}
+
+.arrow-next {
+    padding-left: 10px;
+}
+
 .draggable_image{
     width: 70px;
 }

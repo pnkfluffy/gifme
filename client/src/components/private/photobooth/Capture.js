@@ -14,6 +14,9 @@ const videoConstraints = {
 };
 
 export const gifDimensions = 400;
+//  each frame is 1/10 seconds
+const gifFrames = 3;
+const timerCountDown = 0.2;
 
 const PhotoDisplay = () => {
   const [timer, setTimer] = useState(null);
@@ -41,7 +44,7 @@ const PhotoDisplay = () => {
         gifHeight: gifDimensions,
         frameDuration: 1,
         interval: 0.1,
-        numFrames: 15,
+        numFrames: gifFrames,
       },
       function (obj) {
         if (!obj.error) {
@@ -101,7 +104,7 @@ const PhotoDisplay = () => {
           <div
             className="photobooth_record_btn"
             onClick={() => {
-              setTimer(1);
+              setTimer(timerCountDown);
             }}
           >
             {timer ? timer : null}

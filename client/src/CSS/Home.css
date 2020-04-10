@@ -263,3 +263,8 @@ img{
 	text-align: center;
 	flex: 1 1 100%;
 }
+.full_image {
+	width: 100%;
+	max-width: 80vh;
+	margin: auto;
+}

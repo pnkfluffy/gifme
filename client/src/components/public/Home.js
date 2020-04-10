@@ -119,6 +119,7 @@ const Home = () => {
         imageData={image}
         isAuth={null}
         addOverlay={imageData => toggleOverlay({ imageData })}
+        key={image.imageID}
       />
     );
   });
