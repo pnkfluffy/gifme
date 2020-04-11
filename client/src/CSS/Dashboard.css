@@ -141,6 +141,18 @@ h5{
     margin-top: 50px;
   }
 
+  .loading_box {
+      width: 400px;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      background: black;
+      color: white;
+      margin-top: -405px;
+  }
+
   .videoSystem {
 	  top: 50px;
   }
@@ -191,11 +203,25 @@ h5{
     background-color: rgb(256, 65, 65);
 }
 
-.photobooth_length_form, .photobooth_action_btns{
-    margin-bottom: 30px;
-    padding: 10px;
-    font-size: 20px;
-    letter-spacing: 10px;
+.gif_length_text {
+    margin-bottom: -25px;
+}
+
+.photobooth_length_time{
+    text-align: center;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.gif_length_numbers {
+    padding-left: 17px;
+    letter-spacing: 17px;
+    display: flex;
+}
+
+.gif_length_form {
+    width: 200px;
+    margin-bottom: 60px;
     display: flex;
 }
 
@@ -224,7 +250,7 @@ h5{
 }
 
 .menu-wrapper--inner {
-    margin-left: -40px;
+    margin-left: -30px;
 }
 
 .arrow-prev {
@@ -238,6 +264,7 @@ h5{
 .draggable_image{
     width: 70px;
 }
+
 .photobooth_accept_btn{
     -webkit-filter: invert(70%) grayscale(100%) brightness(40%) sepia(100%) hue-rotate(50deg) saturate(1000%) contrast(0.8);
 }
@@ -245,4 +272,13 @@ h5{
     cursor: pointer;
     transform: rotate(0.5turn);
     -webkit-filter: invert(70%) grayscale(100%) brightness(40%) sepia(100%) hue-rotate(-50deg) saturate(400%) contrast(2);
+}
+
+.loading_upload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    padding: 50px;
+    text-align: center;
 }

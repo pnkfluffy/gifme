@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Webcam from "react-webcam";
-import { WebcamProvider } from "./WebcamContext";
+import gifshot from "gifshot";
+import ReactSlider from "react-slider";
 
+import { WebcamProvider } from "./WebcamContext";
 import fetchAuth from "../../../utils/FetchAuth";
 import PhotoEditor from "./PhotoEditor";
 import PageError from "../../error/NotValidUser(400)";
-import gifshot from "gifshot";
 
 const videoConstraints = {
   width: 400,
@@ -15,36 +16,26 @@ const videoConstraints = {
 
 export const gifDimensions = 400;
 //  each frame is 1/10 seconds
-const gifFrames = 20;
-const timerCountDown = 0.2;
+const timerCountDown = 5;
 
 const PhotoDisplay = () => {
-  const [timer, setTimer] = useState(null);
+  const [gifLength, setGifLength] = useState(2);
+  const [loading, setLoading] = useState(false);
+  const [upTimer, setUpTimer] = useState(null);
+  const [downTimer, setDownTimer] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
   const [login, setLogin] = useState(true);
 
   const webcamRef = React.useRef(null);
 
-  // const capture = React.useCallback(() => {
-  //   setImageSrc(webcamRef.current.getScreenshot());
-  // }, [webcamRef]);
-
   const recordGif = () => {
-    // const stream = document.getElementById("webcam");
-    // console.log('stream', stream);
-
-    // navigator.mediaDevices.getUserMedia({ video: true })
-    // .then(stream => {
-
-    // })
-
     gifshot.createGIF(
       {
         gifWidth: gifDimensions,
         gifHeight: gifDimensions,
         frameDuration: 1,
         interval: 0.1,
-        numFrames: gifFrames,
+        numFrames: gifLength * 10,
       },
       function (obj) {
         if (!obj.error) {
@@ -52,6 +43,7 @@ const PhotoDisplay = () => {
             animatedImage = document.createElement("img");
           animatedImage.src = image;
           setImageSrc(image);
+          setLoading(false);
         }
       }
     );
@@ -67,20 +59,39 @@ const PhotoDisplay = () => {
   }, []);
 
   useEffect(() => {
-    if (timer < 0) {
+    if (downTimer < 0 || downTimer === 0) {
       recordGif();
-
-      // capture();
-      setTimer(null);
+      setDownTimer(null);
+      setUpTimer(0.01);
     }
-    if (!timer) return;
+    if (!downTimer) return;
     const interval = setInterval(() => {
-      setTimer((timer) => (timer - 0.01).toFixed(2));
-    }, 10);
+      setDownTimer((downTimer) => downTimer - 1);
+    }, 500);
     return () => {
       clearInterval(interval);
     };
-  }, [timer]);
+  }, [downTimer]);
+
+  const countUp = () => {
+    setUpTimer((upTimer) => parseFloat(upTimer + 0.01));
+  };
+
+  useEffect(() => {
+    if (upTimer > gifLength) {
+      setLoading(true);
+      setUpTimer(null);
+    }
+    if (!upTimer) return;
+    const upInterval = setInterval(countUp, 10);
+    return () => {
+      clearInterval(upInterval);
+    };
+  }, [upTimer]);
+
+  const LoadingBox = () => <div className="loading_box">loading...</div>;
+
+  const changeSlider = (e) => setGifLength(e.target.value);
 
   if (!login) {
     return <PageError />;
@@ -98,19 +109,32 @@ const PhotoDisplay = () => {
             videoConstraints={videoConstraints}
             id="webcam"
           />
+          {loading ? <LoadingBox /> : null}
         </div>
         <div className="photobooth_record_box">
-          {/* CHANGE TIMER TO 3 SECONDS */}
           <div
             className="photobooth_record_btn"
             onClick={() => {
-              setTimer(timerCountDown);
+              setDownTimer(timerCountDown);
             }}
           >
-            {timer ? timer : null}
+            {downTimer ? downTimer : null}
+            {upTimer ? upTimer.toFixed(2) : null}
+            {loading ? gifLength : null}
           </div>
         </div>
-        <div className="photobooth_length_form">{"1 2 3 4 5"}</div>
+        <div className="gif_length_text">
+          <div className="photobooth_length_time">gif length (seconds)</div>
+          <div className="gif_length_numbers">1 2 3 4 5</div>
+        </div>
+        <input
+          type="range"
+          className="gif_length_form"
+          min="1"
+          max="5"
+          value={gifLength}
+          onChange={(e) => changeSlider(e)}
+        />
       </div>
     );
   } else {
