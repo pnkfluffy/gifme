@@ -3,12 +3,12 @@ A gif making and sharing app. Users can take photos and/or gifs, apply filters a
 
 
 
-![Gifme Home Page](https://cdn.discordapp.com/attachments/613478885174018084/698392036448927755/unknown.png)
+![Gifme Home Page](https://cdn.discordapp.com/attachments/613478885174018084/698394531565010972/gifme_frontpage.gif)
 
 To Do:
--Make a user-side cache for gifs to reduce strain on the server
--Impliment giphy API to allow an unlimited selection of sticker gifs and filters
--Allow users to delete gif stickers from the photo editing area
--Allow users to resize gif stickers in the photo editing area
--Impliment gif tagging system with a searching system
--Impliment in React Native as an App interface
+* Make a user-side cache for gifs to reduce strain on the server
+* Impliment giphy API to allow an unlimited selection of sticker gifs and filters
+* Allow users to delete gif stickers from the photo editing area
+* Allow users to resize gif stickers in the photo editing area
+* Impliment gif tagging system with a searching system
+* Impliment in React Native as an App interface
