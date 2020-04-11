@@ -3,7 +3,7 @@ A gif making and sharing app. Users can take photos and/or gifs, apply filters a
 
 
 
-![Gifme Home Page](https://cdn.discordapp.com/attachments/613478885174018084/698394531565010972/gifme_frontpage.gif)
+![Gifme Home Page](https://cdn.discordapp.com/attachments/613478885174018084/698394976173686784/gifme_frontpage.gif)
 
 To Do:
 * Make a user-side cache for gifs to reduce strain on the server
