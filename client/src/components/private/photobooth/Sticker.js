@@ -15,6 +15,7 @@ export default class Sticker extends Component {
         <img
           src={this.props.img}
           alt={this.props.title}
+          key={this.props.key}
           style={{
             height: "70px",
             width: "70px"

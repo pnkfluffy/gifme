@@ -106,7 +106,7 @@ const ImageCard = ({ imageData, addOverlay, authInfo }) => {
       )}
       <div className="image_card_name">
         <Link
-          className="image_card_name_text"
+          className={`image_card_name_text${isUsersPost ? '_user' : ''}`}
           to={`/profile/${imageData.userID}`}
         >
           {/* limits the length of usernames so they don't overflow */}

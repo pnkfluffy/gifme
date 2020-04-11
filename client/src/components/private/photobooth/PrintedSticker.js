@@ -149,8 +149,8 @@ class PrintedSticker extends Component {
           position: "absolute",
           bottom: this.props.stickerObject.yPos,
           left: this.props.stickerObject.xPos,
-          height: "70px",
-          width: "70px"
+          height: "100px",
+          width: "100px"
         }}
         onMouseDown={this.handleMouseDown}
         onMouseUp={this.handleMouseUp}

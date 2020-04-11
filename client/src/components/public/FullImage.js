@@ -8,7 +8,7 @@ const FullImage = () => {
   let params = useParams("/image/:imageID");
   const { imageID } = params;
 
-  const getPost = async => {
+  const getPost = () => {
     const post = fetchPost(imageID);
     post
       .then(res => {
@@ -26,7 +26,7 @@ const FullImage = () => {
   //  Here look for the return to work
   return (
     <div>
-      <div>
+      <div className="full_image">
         <img alt="database_image" src={`${imageGallery.image}`} />
       </div>
     </div>

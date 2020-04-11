@@ -5,7 +5,7 @@ const binaryToB64 = (binary) => {
 		new Uint8Array(binary)
 			.reduce((data, byte) => data + String.fromCharCode(byte), '')
 	);
-	const finalImage = `data:image/jpeg;base64,${newImage}`;
+	const finalImage = `data:image/gif;base64,${newImage}`;
 	return (finalImage);
 }
 
@@ -33,4 +33,4 @@ const fetchAllPosts = async (imageIDs) => {
 	return allPosts;
 }
 
-export { fetchAllPosts, fetchPost };
+export { binaryToB64, fetchAllPosts, fetchPost };
