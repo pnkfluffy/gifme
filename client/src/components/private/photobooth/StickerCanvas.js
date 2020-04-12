@@ -21,16 +21,7 @@ export default class StickerCanvas extends Component {
   }
   render() {
     return (
-      <div
-        style={{
-          position: "relative",
-          display: "flex",
-          flexDirection: "row",
-          top: "50px",
-          height: "400px",
-          width: "400px"
-        }}
-      >
+      <div className="sticker_canvas_box">
         <div className="sticker_canvas">{this.placeStickers()}</div>
       </div>
     );

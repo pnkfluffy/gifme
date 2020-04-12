@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import Sticker from "./Sticker";
 import ScrollMenu from "react-horizontal-scrolling-menu";
 
@@ -41,7 +42,7 @@ import fallingstars from "../../../resources/sticker_fallingstars.gif";
 import lights from "../../../resources/sticker_lights.gif";
 import gold from "../../../resources/sticker_gold.gif";
 
-const stickerArray = [
+const defaultStickers = [
   bigStar,
   broke,
   cattrombone,
@@ -79,8 +80,14 @@ const stickerArray = [
   shine,
   fallingstars,
   lights,
-  gold
+  gold,
 ];
+
+const PATH_BASE = "https://api.giphy.com/v1/gifs/search?api_key=";
+const API_KEY = "1EuwKzAcNC4mhc4PhsAya1gwhX5A1fRO";
+const DEFAULT_QUERY = "&q=transparent";
+const PATH_LIMITS = "&limit=25&offset=";
+const PATH_RATING = "&rating=G&lang=en"
 
 const Arrow = ({ text, className }) => {
   return <div className={className}>{text}</div>;
@@ -89,26 +96,67 @@ const Arrow = ({ text, className }) => {
 const ArrowLeft = Arrow({ text: "<", className: "arrow-prev" });
 const ArrowRight = Arrow({ text: ">", className: "arrow-next" });
 
+const GiphySearchForm = () => {
+  const [stickerArray, setStickerArray] = useState(defaultStickers);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [offset, setOffset] = useState(0);
 
+    const setResults = (APIResponse) => {
+        const urlArray = APIResponse.map((gif) => {
+            return (gif.images.downsized_large.url);
+        })
+        setStickerArray(urlArray);
+    }
 
-export default class StickerSelector extends Component {
-  printImages() {
+  const searchGiphy = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    axios(`${PATH_BASE}${API_KEY}${DEFAULT_QUERY} ${searchTerm}${PATH_LIMITS}${offset}${PATH_RATING}`)
+      .then((res) => {
+        setResults(res.data.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const onSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    console.log(searchTerm);
+  };
+
+  const printImages = () => {
     return stickerArray.map((sticker, index) => {
-      return <Sticker img={sticker} key={index}/>;
+      return <Sticker img={sticker} key={index} />;
     });
-  }
+  };
 
-  render() {
-    return (
+  return (
+    <div className="giphy_box">
+      <form onSubmit={(e) => searchGiphy(e)} className="giphy_search_form">
+        <input
+          className="giphy_search_input"
+          name="giphy_search"
+          type="text"
+          value={searchTerm}
+          onChange={(e) => onSearchChange(e)}
+          placeholder="search stickers!"
+          required="required"
+        />
+      </form>
       <div className="sticker_selector">
         <ScrollMenu
           className="scrollmenu"
-          data={this.printImages()}
+          data={printImages()}
           arrowLeft={ArrowLeft}
           arrowRight={ArrowRight}
           // onLastItemVisible=loadmore()
         />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+export default GiphySearchForm;

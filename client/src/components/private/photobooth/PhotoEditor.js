@@ -7,6 +7,7 @@ import gifshot from "gifshot";
 
 import StickerCanvas from "./StickerCanvas";
 import StickerSelector from "./StickerSelector";
+import GiphySearchForm from "./GiphySearchForm";
 import { WebcamContext } from "./WebcamContext";
 import { gifDimensions } from "./Capture";
 import thumbsUp from "../../../resources/thumbs_up_icon.png";
@@ -155,6 +156,7 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
         return stickeredImageArray;
       })
       .then((stickeredImageArray) => {
+        // create final gif and upload to database
         return gifshot.createGIF(
           {
             gifWidth: gifDimensions,
@@ -202,42 +204,42 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
   }
 
   return (
-    <div className="photo_box">
+    <div className="photo_editor">
+      <StickerCanvas />
+      <input
+        className="photobooth_screenshot"
+        type="image"
+        name="gif"
+        value={imageSrc}
+        src={imageSrc}
+        alt="upload_image"
+        required
+      />
+
+      <GiphySearchForm />
+
+      {/* <StickerSelector /> */}
+
       <form
-        className="photobooth_box"
+        className="photobooth_form"
         id="upload_img"
         method="POST"
         enctype="multipart/form-data"
         onSubmit={(e) => onSubmit(e)}
       >
-        <StickerCanvas />
         <input
-          className="photobooth_screenshot"
           type="image"
-          name="gif"
-          value={imageSrc}
-          src={imageSrc}
-          alt="upload_image"
-          required
+          className="photobooth_accept_btn"
+          value="Upload"
+          src={thumbsUp}
+          alt="thumbsUp"
         />
-
-        <StickerSelector />
-
-        <div className="photobooth_action_btns">
-          <input
-            type="image"
-            className="photobooth_accept_btn"
-            value="Upload"
-            src={thumbsUp}
-            alt="thumbsUp"
-          />
-          <img
-            className="photobooth_reject_btn"
-            onClick={returnWebcam}
-            src={thumbsUp}
-            alt="thumbsUp"
-          />
-        </div>
+        <img
+          className="photobooth_reject_btn"
+          onClick={returnWebcam}
+          src={thumbsUp}
+          alt="thumbsUp"
+        />
       </form>
     </div>
   );

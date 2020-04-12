@@ -24,8 +24,7 @@ class WebcamProvider extends Component {
           yPos: 0,
           zPos: this.state.totalImgsOnCanvas,
           imgUrl: newSticker.img,
-          id: newSticker.key,
-          title: newSticker.title
+          id: newSticker.key
         }
       ],
       totalImgsOnCanvas: this.state.totalImgsOnCanvas + 1

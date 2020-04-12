@@ -134,10 +134,19 @@ h5{
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
-.webcam_box, .photobooth_screenshot {
+.photo_editor {
+    width: 600px;
+    height: 800px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.webcam_box {
     margin-top: 50px;
   }
 
@@ -157,20 +166,14 @@ h5{
 	  top: 50px;
   }
 
-  .photobooth_screenshot {
-      position: absolute;
-      width: 400px;
+  .sticker_canvas_box {
+      margin-top: -20px;
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      top: 50px;
       height: 400px;
-  }
-
-  .sticker_canvas {
-	  z-index: 50;
-	  width: 400px;
-	  height: 400px;
-  }
-  
-  .real_canvas {
-	  z-index: 49;
+      width: 400px;
   }
   
 .photobooth_record_box {
@@ -204,7 +207,7 @@ h5{
 }
 
 .gif_length_text {
-    margin-bottom: -25px;
+    margin-bottom: -22px;
 }
 
 .photobooth_length_time{
@@ -225,14 +228,42 @@ h5{
     display: flex;
 }
 
-.photobooth_accept_btn, .photobooth_reject_btn{
-    width: 120px;
-    height: 120px;
+.sticker_canvas {
+    z-index: 50;
+    width: 400px;
+    height: 400px;
+}
+
+.real_canvas {
+    z-index: 49;
+}
+
+.photobooth_screenshot {
+    position: absolute;
+    margin-top: -150px;
+    width: 400px;
+    height: 400px;
+}
+
+.giphy_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.giphy_search_form {
+    margin-bottom: 10px;
+    margin-top: 50px;
+}
+
+.giphy_search_input {
+    border-radius: 6px;
+    text-align: center;
 }
 
 .sticker_selector{
-	margin-top: 50px;
-    width: 80%;
+    width: 500px;
     border: solid 2px black;
     border-radius: 10px;
     height: 120px;
@@ -253,6 +284,12 @@ h5{
     margin-left: -30px;
 }
 
+.scroll-menu-arrow {
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+
 .arrow-prev {
     padding-right: 10px;
 }
@@ -263,6 +300,11 @@ h5{
 
 .draggable_image{
     width: 70px;
+}
+
+.photobooth_accept_btn, .photobooth_reject_btn{
+    width: 120px;
+    height: 120px;
 }
 
 .photobooth_accept_btn{
