@@ -6,6 +6,8 @@ const path = require('path');
 
 connectDB();
 
+app.use(express.static(path.join(__dirname, './client/build')));
+
 //Initialize Middleware
 app.use(express.json({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -27,9 +29,8 @@ app.use('/api/posts', require('./routes/api/posts'));
 const PORT = process.env.PORT || 5000;
 
 //Heroku Scripts
-app.use(express.static(path.join(__dirname, './client/build')));
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+    res.sendFile(path.join(__dirname, '/client/build', 'index.html'))
 })
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

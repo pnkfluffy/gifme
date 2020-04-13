@@ -37,9 +37,7 @@
     "react-draggable": "^4.2.0",
     "react-horizontal-scrolling-menu": "^0.7.7",
     "react-slider": "^1.0.3",
-    "request": "^2.88.2",
-    "concurrently": "^5.1.0",
-    "nodemon": "^2.0.2"
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "concurrently": "^5.1.0",
