@@ -10,7 +10,7 @@ const getEmailData = (to, name, token, template) =>{
     switch(template){
         case "welcome":
             data = {
-                from: "Jonathan Sandler <jsandler.aol@gmail.com",
+                from: "Gifme <noreplygifme@gmail.com",
                 to,
                 subject: `Hello ${name}, welcome to Gifme!`,
                 //html is the template used
@@ -19,7 +19,7 @@ const getEmailData = (to, name, token, template) =>{
             break;
         case "verify account":
             data = {
-                from: "Gifme <jsandler.aol@gmail.com",
+                from: "Gifme <noreplygifme@gmail.com",
                 to,
                 subject: `Gifme - Please verify your account`,
                 html: `<a href="http://localhost:3000/confirm/${token}">click here to validate your account</a>`
@@ -28,7 +28,7 @@ const getEmailData = (to, name, token, template) =>{
             break;
         case "reset password":
             data = {
-                from: "Gifme <jsandler.aol@gmail.com",
+                from: "Gifme <noreplygifme@gmail.com",
                 to,
                 subject: `Gifme - Reset your password`,
                 html: reset_password(token)
@@ -36,7 +36,7 @@ const getEmailData = (to, name, token, template) =>{
             break;
         case "change confirmation":
             data = {
-                from: "Gifme <jsandler.aol@gmail.com",
+                from: "Gifme <noreplygifme@gmail.com",
                 to,
                 subject: `Gifme - Your password has been updated`,
                 html: `Congrats! Your password has been updated successfully`
@@ -45,7 +45,7 @@ const getEmailData = (to, name, token, template) =>{
             break;
         case "goodbye":
             data = {
-                from: "Gifme <jsandler.aol@gmail.com",
+                from: "Gifme <noreplygifme@gmail.com",
                 to,
                 subject: `Gifme - Sad you are gone :(`,
                 html: goodbye()
@@ -61,8 +61,8 @@ const sendEmail = (to, name,token, type) => {
     const smtpTransport = mailer.createTransport({
         service: "Gmail",
         auth:{
-            user: "jsandler.aol@gmail.com",
-            pass: "Ayurveda17."
+            user: "noreplygifme@gmail.com",
+            pass: "gifme2020"
         }
     })
 
