@@ -174,7 +174,7 @@ const GiphySearchForm = () => {
           type="text"
           value={searchTerm}
           onChange={(e) => onSearchChange(e)}
-          placeholder="search stickers!"
+          placeholder="Unlimited Stickers!"
           required="required"
         />
       </form>
