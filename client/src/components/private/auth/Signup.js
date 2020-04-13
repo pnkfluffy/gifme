@@ -59,7 +59,7 @@ const Signup = () => {
          );
          setTimeout(() => {
            window.location.href = "/login";
-         }, 10000);
+         }, 3500);
       } catch (err) {
         if (err.response.data.errors){
           setError(err.response.data.errors);
