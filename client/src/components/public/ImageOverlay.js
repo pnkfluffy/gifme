@@ -161,7 +161,7 @@ const ImageOverlay = ({ data, removeOverlay, authInfo }) => {
     setAllComments(data.comments);
   }, []);
 
-  const shareURL = `https://pnkfluffy.github.io/gifme/image/${data.imageID}`;
+  const shareURL = `https://reactiongifme.herokuapp.com/image/${data.imageID}`;
   const title = 'I made this image using gifme, check it out!'
   const hashtag = '#gifme'
 

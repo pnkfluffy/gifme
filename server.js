@@ -10,9 +10,10 @@ app.use(express.json({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }))
 
 //Heroku Scripts
-app.use(express.static(path.join(__dirname, './client/src')));
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + './client/src/index.js'));
+// app.use(express.static(path.join(__dirname, './client/src')));
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname + './client/src/index.html'))
+// })
 
 app.get('/', (req, res) => res.send('API Running'));
 
