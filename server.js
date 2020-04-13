@@ -1,19 +1,14 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const app = express();
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const path = require('path');
 
 connectDB();
 
 //Initialize Middleware
 app.use(express.json({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }))
-
-//Heroku Scripts
-// app.use(express.static(path.join(__dirname, './client/src')));
-// app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname + './client/src/index.html'))
-// })
 
 app.get('/', (req, res) => res.send('API Running'));
 
@@ -30,4 +25,11 @@ app.use('/favorites/api/auth', require('./routes/api/auth'));
 app.use('/api/posts', require('./routes/api/posts'));
 
 const PORT = process.env.PORT || 5000;
+
+//Heroku Scripts
+app.use(express.static(path.join(__dirname, './client/build')));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+})
+
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
