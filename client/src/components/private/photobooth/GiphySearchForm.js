@@ -87,7 +87,7 @@ const PATH_BASE = "https://api.giphy.com/v1/gifs/search?api_key=";
 const API_KEY = "1EuwKzAcNC4mhc4PhsAya1gwhX5A1fRO";
 const DEFAULT_QUERY = "&q=transparent";
 const PATH_LIMITS = "&limit=25&offset=";
-const PATH_RATING = "&rating=G&lang=en"
+const PATH_RATING = "&rating=G&lang=en";
 
 const Arrow = ({ text, className }) => {
   return <div className={className}>{text}</div>;
@@ -99,21 +99,26 @@ const ArrowRight = Arrow({ text: ">", className: "arrow-next" });
 const GiphySearchForm = () => {
   const [stickerArray, setStickerArray] = useState(defaultStickers);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentSearch, setCurrentSearch] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [offset, setOffset] = useState(0);
 
-    const setResults = (APIResponse) => {
-        const urlArray = APIResponse.map((gif) => {
-            return (gif.images.downsized_large.url);
-        })
-        setStickerArray(urlArray);
-    }
+  const setResults = (APIResponse) => {
+    const urlArray = APIResponse.map((gif) => {
+      return gif.images.downsized_large.url;
+    });
+    setStickerArray(urlArray);
+  };
 
   const searchGiphy = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    // setIsLoading(true);
 
-    axios(`${PATH_BASE}${API_KEY}${DEFAULT_QUERY} ${searchTerm}${PATH_LIMITS}${offset}${PATH_RATING}`)
+    setCurrentSearch(searchTerm);
+    
+    axios(
+      `${PATH_BASE}${API_KEY}${DEFAULT_QUERY} ${searchTerm}${PATH_LIMITS}${offset}${PATH_RATING}`
+    )
       .then((res) => {
         setResults(res.data.data);
       })
@@ -124,8 +129,34 @@ const GiphySearchForm = () => {
 
   const onSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    console.log(searchTerm);
   };
+
+  const updateResults = (APIResponse) => {
+    const oldArray = stickerArray;
+    APIResponse.map((gif) => {
+      oldArray.push(gif.images.downsized_large.url);
+    });
+    setStickerArray(oldArray);
+    setIsLoading(false);
+  };
+
+  const loadMoreStickers = () => {
+    if (!currentSearch || isLoading) {
+      return;
+    }
+    setIsLoading(true);
+    setOffset(offset + 1);
+    axios(
+      `${PATH_BASE}${API_KEY}${DEFAULT_QUERY} ${currentSearch}${PATH_LIMITS}${offset}${PATH_RATING}`
+    )
+      .then((res) => {
+        updateResults(res.data.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
 
   const printImages = () => {
     return stickerArray.map((sticker, index) => {
@@ -152,7 +183,7 @@ const GiphySearchForm = () => {
           data={printImages()}
           arrowLeft={ArrowLeft}
           arrowRight={ArrowRight}
-          // onLastItemVisible=loadmore()
+          onLastItemVisible={() => loadMoreStickers()}
         />
       </div>
     </div>

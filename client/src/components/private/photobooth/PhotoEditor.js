@@ -6,7 +6,6 @@ import { Buffer } from "buffer";
 import gifshot from "gifshot";
 
 import StickerCanvas from "./StickerCanvas";
-import StickerSelector from "./StickerSelector";
 import GiphySearchForm from "./GiphySearchForm";
 import { WebcamContext } from "./WebcamContext";
 import { gifDimensions } from "./Capture";
