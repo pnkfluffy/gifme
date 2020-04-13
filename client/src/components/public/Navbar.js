@@ -6,7 +6,7 @@ import camera_icon from "../../resources/camera_icon_white.png";
 import fetchAuth from "../../utils/FetchAuth";
 
 const Navbar = () => {
-  const [menuState, setMenuState] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(true);
   const [user, setUser] = useState(null);
   const [userId, setUserId] = useState(null);
 
@@ -20,9 +20,13 @@ const Navbar = () => {
     });
   }
 
-  const openMenu = () => {
-    setMenuState(false);
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
   };
+
+  const stateChangeHandler = (newState) => {
+    setMenuOpen(newState.isOpen);
+  }
 
   useEffect(() => {
     setUser(fetchAuth());
@@ -55,14 +59,14 @@ const Navbar = () => {
                   alt="photobooth"
                 ></img>
               </Link>
-              <Menu noOverlay isOpen={menuState} onStateChange={openMenu}>
-                <Link to={`/profile/${userId}`} onClick={openMenu}>
+              <Menu noOverlay isOpen={menuOpen} onStateChange={(state) => stateChangeHandler(state)}>
+                <Link to={`/profile/${userId}`} onClick={toggleMenu}>
                   Profile
                 </Link>
-                <Link to={`/favorites/${userId}`} onClick={openMenu}>
+                <Link to={`/favorites/${userId}`} onClick={toggleMenu}>
                   Favorite posts
                 </Link>
-                <Link to="/Settings" onClick={openMenu}>
+                <Link to="/Settings" onClick={toggleMenu}>
                   Settings
                 </Link>
                 <SwitchPrivacy />
@@ -86,14 +90,14 @@ const Navbar = () => {
 };
 
 const SwitchPrivacy = () => {
-  const V_Token = localStorage.getItem("myToken");
+  const authToken = localStorage.getItem("myToken");
 
   const deleteToken = () => {
     localStorage.removeItem("myToken");
     localStorage.removeItem("myGifmeUserID");
     window.location.href = "/";
   };
-  if (V_Token) {
+  if (authToken) {
     return (
       <div>
         <div className="bm-item" onClick={deleteToken}>
