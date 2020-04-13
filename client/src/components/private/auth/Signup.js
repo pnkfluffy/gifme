@@ -53,13 +53,13 @@ const Signup = () => {
           const myUserID = res.data.userID;
           localStorage.setItem("Token", Token);
           localStorage.setItem("myGifmeUserID", myUserID);
+          setTimeout(() => {
+          setPopMessage(
+            "We have sent you an email, please confirm your account"
+          );
+            window.location.href = "/login";
+          }, 3500);
         });
-         setPopMessage(
-           "We have sent you an email, please confirm your account"
-         );
-         setTimeout(() => {
-           window.location.href = "/login";
-         }, 3500);
       } catch (err) {
         if (err.response.data.errors){
           setError(err.response.data.errors);

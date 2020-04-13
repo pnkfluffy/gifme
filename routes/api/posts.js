@@ -128,7 +128,7 @@ router.get("/meta/:metaID", async (req, res) => {
     let user = await User.findById(post.user);
     if (!user) {
       user = {
-        name: "[deleted]"
+        name: "[ ]"
       };
     }
 
