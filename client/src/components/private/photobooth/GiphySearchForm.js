@@ -43,6 +43,12 @@ import lights from "../../../resources/sticker_lights.gif";
 import gold from "../../../resources/sticker_gold.gif";
 
 const defaultStickers = [
+  love,
+  thirdeye,
+  savage,
+  pretty,
+  notok,
+
   bigStar,
   broke,
   cattrombone,
@@ -51,7 +57,6 @@ const defaultStickers = [
   crybaby,
   diamond,
   disco,
-  love,
   mario,
   memedog,
   pbj,
@@ -62,9 +67,7 @@ const defaultStickers = [
   tooretro,
   gameboy,
   game,
-  thirdeye,
   planet,
-  savage,
   toy,
   dolphins,
   patrick,
@@ -72,8 +75,6 @@ const defaultStickers = [
   car,
   spiderman,
   racoon,
-  pretty,
-  notok,
   pig,
   flash,
   snow,
