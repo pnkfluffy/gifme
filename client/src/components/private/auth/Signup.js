@@ -48,18 +48,22 @@ const Signup = () => {
         //this sets what to send as the 'body' of the request
         const body = JSON.stringify(newUser);
         //here we set the type of request, where to send it and the data
-        await axios.post("/api/users", body, config).then(res => {
+        await axios.post("/api/users", body, config)
+        .then(res => {
+          console.log('first here')
           const Token = res.data.token;
           const myUserID = res.data.userID;
           localStorage.setItem("Token", Token);
           localStorage.setItem("myGifmeUserID", myUserID);
-          setTimeout(() => {
+          console.log('Im here')
           setPopMessage(
             "We have sent you an email, please confirm your account"
           );
+          console.log('Im here too')
+          setTimeout(() => {
             window.location.href = "/login";
           }, 3500);
-        });
+        })
       } catch (err) {
         if (err.response.data.errors){
           setError(err.response.data.errors);

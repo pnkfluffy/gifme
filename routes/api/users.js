@@ -85,8 +85,9 @@ async (req, res) => {
           );
           //sends email with confirmation link
           sendEmail(email, name, token, "verify account");
-
+        console.log('before saving the user')
         await user.save();
+        res.json('ok');
 
         //  Sends response outward
     
