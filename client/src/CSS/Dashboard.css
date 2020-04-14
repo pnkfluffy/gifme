@@ -206,6 +206,11 @@ h5{
     background-color: rgb(256, 65, 65);
 }
 
+.cam_access{
+    font-size: 30px;
+    text-align: center;
+}
+
 .gif_length_text {
     margin-bottom: -22px;
 }

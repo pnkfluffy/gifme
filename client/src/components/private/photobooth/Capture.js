@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import gifshot from "gifshot";
-import ReactSlider from "react-slider";
 
 import { WebcamProvider } from "./WebcamContext";
 import fetchAuth from "../../../utils/FetchAuth";
@@ -25,6 +24,7 @@ const PhotoDisplay = () => {
   const [downTimer, setDownTimer] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
   const [login, setLogin] = useState(true);
+  const [webcamPermissions, setWebcamPermissions] = useState(false);
 
   const webcamRef = React.useRef(null);
 
@@ -89,9 +89,24 @@ const PhotoDisplay = () => {
     };
   }, [upTimer]);
 
+  const changeSlider = (e) => setGifLength(e.target.value);
+  
   const LoadingBox = () => <div className="loading_box">loading...</div>;
 
-  const changeSlider = (e) => setGifLength(e.target.value);
+  const RecordButton = () => (
+    <div
+      className="photobooth_record_btn"
+      onClick={() => {
+        setDownTimer(timerCountDown);
+      }}
+    >
+      {downTimer ? downTimer : null}
+      {upTimer ? upTimer.toFixed(2) : null}
+      {loading ? gifLength : null}
+    </div>
+  );
+
+  const NoCameraAccess = () => <div className="cam_access">please enable camera access</div>
 
   if (!login) {
     return <PageError />;
@@ -104,24 +119,16 @@ const PhotoDisplay = () => {
             audio={false}
             height={400}
             ref={webcamRef}
-            screenshotFormat="image/jpeg"
             width={400}
             videoConstraints={videoConstraints}
             id="webcam"
+            onUserMediaError={() => setWebcamPermissions(false)}
+            onUserMedia={() => setWebcamPermissions(true)}
           />
           {loading ? <LoadingBox /> : null}
         </div>
         <div className="photobooth_record_box">
-          <div
-            className="photobooth_record_btn"
-            onClick={() => {
-              setDownTimer(timerCountDown);
-            }}
-          >
-            {downTimer ? downTimer : null}
-            {upTimer ? upTimer.toFixed(2) : null}
-            {loading ? gifLength : null}
-          </div>
+          {webcamPermissions ? <RecordButton/> : <NoCameraAccess/>}
         </div>
         <div className="gif_length_text">
           <div className="photobooth_length_time">gif length (seconds)</div>

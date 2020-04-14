@@ -86,7 +86,7 @@ const Signup = () => {
                 type="text"
                 value={name}
                 onChange={e => onChange(e)}
-                placeholder="Your name"
+                placeholder="Username"
                 className="input"
               />
 
@@ -95,7 +95,7 @@ const Signup = () => {
                 type="email"
                 value={email}
                 onChange={e => onChange(e)}
-                placeholder="Your email"
+                placeholder="Email"
                 className="input"
               />
 
@@ -104,7 +104,7 @@ const Signup = () => {
                 type="password"
                 value={password}
                 onChange={e => onChange(e)}
-                placeholder="Your password"
+                placeholder="Password"
                 className="input"
               />
 
@@ -113,7 +113,7 @@ const Signup = () => {
                 value={password2}
                 onChange={e => onChange(e)}
                 type="password"
-                placeholder="Confirm your password"
+                placeholder="Verify Password"
                 className="input"
               />
 

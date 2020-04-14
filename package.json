@@ -36,7 +36,6 @@
     "path": "^0.12.7",
     "react-draggable": "^4.2.0",
     "react-horizontal-scrolling-menu": "^0.7.7",
-    "react-slider": "^1.0.3",
     "request": "^2.88.2"
   },
   "devDependencies": {
