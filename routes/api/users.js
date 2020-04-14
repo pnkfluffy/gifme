@@ -1,12 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 //  imports default.json
 const config = require('config');
 const User = require('../../models/Users');
+
+const Post = require("../../models/Post");
+const mongoose = require("mongoose");
+const db = config.get("mongoURI");
+let gfs;
+const conn = mongoose.createConnection(db);
+conn.once("open", () => {
+  gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+    bucketName: 'photos'
+  });
+});
+
 const auth = require('../../middleware/auth');
 const {sendEmail} = require('../../middleware/email');
 
@@ -132,6 +143,8 @@ router.put('/', auth, async (req, res) => {
     // @access  Private
     router.put('/delete', auth, async (req, res) => {
       let user = await User.findById(req.user.id);
+      const post = await Post.find({ user: req.user.id });
+      console.log('allposts:',post)
       const {password_account} = req.body;
       
       if (!user){
@@ -142,7 +155,11 @@ router.put('/', auth, async (req, res) => {
         bcrypt.compare(password_account, user.password, (err, result) =>{
             if (result === true){
             //deletes all data
-              user.remove({});
+            const obj_id = new mongoose.Types.ObjectId(req.user.id);
+            gfs.delete( obj_id );
+
+            post.remove();
+            //user.remove({});
             }else {res.status(404).send('Invalid Password')}
           })
         }else {res.status(401).send('Invalid credentials');}
@@ -151,5 +168,6 @@ router.put('/', auth, async (req, res) => {
         res.status(500).send('Server Error');
     }}
   });
+
 
 module.exports = router;

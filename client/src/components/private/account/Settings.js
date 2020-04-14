@@ -8,6 +8,7 @@ const Account = () => {
   const [trace, setTrace] = useState("");
 
   const V_Token = localStorage.getItem("myToken");
+  
   const onChange = e => {
     setTrace([e.target.name]);
   };
@@ -98,8 +99,8 @@ const ToSwitch = ({ data }) => {
         await axios
           .put("/api/users/delete", body, config)
           .then(
-            localStorage.removeItem("myToken"),
-            (window.location.href = "/")
+            //localStorage.removeItem("myToken"),
+            //(window.location.href = "/")
           );
       } catch (err) {
         setError(err.response.data.toString());
