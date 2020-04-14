@@ -96,9 +96,11 @@ const ToSwitch = ({ data }) => {
         };
         const deleteAccount = { password_account };
         const body = JSON.stringify(deleteAccount);
-        await axios
-          .put("/api/users/delete", body, config)
-          .then(
+        await axios.put("/api/users/check", body, config);
+        await axios.put("/api/users/delete", body, config);
+        console.log('deleting all posts')
+        await axios.put("/api/posts/allposts", body, config)
+            .then(
             //localStorage.removeItem("myToken"),
             //(window.location.href = "/")
           );

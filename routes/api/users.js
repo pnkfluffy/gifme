@@ -141,10 +141,8 @@ router.put('/', auth, async (req, res) => {
     // @route   DELETE api/users/delete
     // @desc    delete user
     // @access  Private
-    router.put('/delete', auth, async (req, res) => {
+    router.put('/check', auth, async (req, res) => {
       let user = await User.findById(req.user.id);
-      const post = await Post.find({ user: req.user.id });
-      console.log('allposts:',post)
       const {password_account} = req.body;
       
       if (!user){
@@ -153,20 +151,32 @@ router.put('/', auth, async (req, res) => {
       try {
         if (user && password_account){
         bcrypt.compare(password_account, user.password, (err, result) =>{
-            if (result === true){
-            //deletes all data
-            const obj_id = new mongoose.Types.ObjectId(req.user.id);
-            gfs.delete( obj_id );
-
-            post.remove();
-            //user.remove({});
-            }else {res.status(404).send('Invalid Password')}
+            if (result === false){
+              res.status(404).send('Invalid Password')
+            } else {res.json('ok')}
           })
         }else {res.status(401).send('Invalid credentials');}
     } catch(err) {
         console.error(err.message);
         res.status(500).send('Server Error');
     }}
+  });
+
+  router.put("/delete", auth, async (req, res) => {
+    try {
+      let user = await User.findById(req.user.id);
+      console.log('user:',user)
+  
+      //deletes user model
+  
+      //user.remove({});
+      //console.log('user:',user)
+  
+      res.json("ok");
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("Server Error");
+    }
   });
 
 

@@ -171,6 +171,28 @@ router.delete("/:imageID", auth, async (req, res) => {
   }
 });
 
+// @route   DELETE api/posts
+// @desc    Delete a post
+// @access  Private
+router.put("/allposts", auth, async (req, res) => {
+  try {
+    const post = await Post.find({ user: req.user.id });
+    console.log('allposts:',post)
+    //deletes all data
+    const obj_id = new mongoose.Types.ObjectId(req.user.id);
+    console.log('obj_id',obj_id)
+    gfs.delete( obj_id );
+    
+    await post.deleteMany({});
+    //await post.forEach(post.remove(justOne))
+
+    res.json("ok");
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // @route   PUT api/posts/like/:id
 // @desc    Like a post
 // @access  Private
