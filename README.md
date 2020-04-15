@@ -9,7 +9,7 @@ You can find the site hosted [right here](https://reactiongifme.herokuapp.com "g
 
 To Do:
 * Make a user-side cache for gifs to reduce strain on the server
-* Enable offset so multiple pages can be
+* Enable offset so images can be pulled in custom batches
 * Allow users to delete gif stickers from the photo editing area
 * Allow users to resize gif stickers in the photo editing area
 * Impliment gif tagging system with a searching system

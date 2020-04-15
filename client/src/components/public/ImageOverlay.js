@@ -49,14 +49,15 @@ const OverlayComment = ({ commentData, userID, imageID, setAllComments }) => {
     <div className="overlay_comment_single">
       <div className="overlay_comment_topbar">
         {/* adds css to change color of username if comment left by logged in user */}
-        <div
+        <Link
           className={
             "overlay_comment_name " +
             (myComment ? "overlay_comment_loggedin" : "")
           }
+          to={`/profile/${userID}`}
         >
           {commentData.name}
-        </div>
+        </Link>
         <div className="overlay_comment_date">{formattedDate}</div>
       </div>
       <div className="overlay_comment_content">{commentData.text}</div>

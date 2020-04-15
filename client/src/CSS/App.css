@@ -218,7 +218,7 @@ h1 {
 
   /*                 EMAIL CONFIRMATION PAGE                    */
   .confirm_box{
-    height: 100px;
+    padding: 40px 0 40px 0;
     background-color: teal;
     text-align: center;
   }

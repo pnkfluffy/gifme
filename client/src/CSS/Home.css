@@ -4,8 +4,8 @@ img{
 	width: 100%;
 }
 .home_imagegallery{
-	padding: 20px 2px 0 2px;
-	max-width: 1200px;
+	padding: 20px 20px 0 20px;
+	max-width: 1020px;
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: row;

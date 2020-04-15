@@ -11,7 +11,7 @@ const reset_password = token => {
             <br/>
             <br/>
             <div>Click in the following link to reset your password</div>
-            <a href="http://localhost:3000/reset/${token}">Reset Password</a>
+            <a href="https://reactiongifme.herokuapp.com/reset/${token}">Reset Password</a>
             <br/>
             <br/>
         </body>
