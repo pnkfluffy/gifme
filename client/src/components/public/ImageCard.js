@@ -73,11 +73,12 @@ const Likes = ({ imageID, hasLiked, setHasLiked }) => {
   );
 };
 
-const ImageCard = ({ imageData, addOverlay, authInfo }) => {
+const ImageCard = ({ imageData, addOverlay, authInfo, whosProfile }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isUsersPost, setIsUsersPost] = useState(false);
   const [hasLiked, setHasLiked] = useState(false);
   const [confirmDeletion, setConfirmDeletion] = useState(false);
+  const [onUsersProfile, setOnUsersProfile] = useState(false);
 
   //  checks if user has liked posts, and updates ui
   useEffect(() => {
@@ -90,6 +91,9 @@ const ImageCard = ({ imageData, addOverlay, authInfo }) => {
         setHasLiked(myLikes);
         if (imageData.userID === res._id) {
           setIsUsersPost(true);
+        }
+        if (whosProfile === res._id) {
+          setOnUsersProfile(true);
         }
       }
       // else, the user is not logged in
@@ -114,7 +118,7 @@ const ImageCard = ({ imageData, addOverlay, authInfo }) => {
           {/* limits the length of usernames so they don't overflow */}
           {imageData.user.length > maxNameLength ? `${imageData.user.substring(0, maxNameLength)}...` : imageData.user }
         </Link>
-        {isUsersPost && (
+        {onUsersProfile && (
           <div className="feature_container">
             <div
               className="image_card_delete"

@@ -116,11 +116,8 @@ const Profile = () => {
   //   }
   // }
 
-
-
   useEffect(() => {
     setAuthInfo(fetchAuth());
-    // setWhosProfile(fetchUserName());
     getPostData();
     axios.get(`api/users/${userID}`)
     .then(res=>{
@@ -139,6 +136,7 @@ const Profile = () => {
         authInfo={authInfo}
         imageData={image}
         addOverlay={imageData => toggleOverlay({ imageData })}
+        whosProfile={userID}
       />
     );
   });
