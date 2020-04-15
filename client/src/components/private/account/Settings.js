@@ -75,6 +75,7 @@ const ToSwitch = ({ data }) => {
     password_account: ""
   });
   const [error, setError] = useState("");
+
   const { name, email, password, password2, password_account } = newData;
   const V_Token = localStorage.getItem("myToken");
 
@@ -96,16 +97,18 @@ const ToSwitch = ({ data }) => {
         };
         const deleteAccount = { password_account };
         const body = JSON.stringify(deleteAccount);
-        await axios.put("/api/users/check", body, config);
         await axios.put("/api/users/delete", body, config);
-        console.log('deleting all posts')
-        await axios.put("/api/posts/allposts", body, config)
-            .then(
+        await axios.get("/api/auth/", config)
+        .then(res =>{axios.get(`/api/post/${res.data._id}`)}) 
+        .then(res => {console.log('res.data', res.data)})
+        //res.data.map(axios.delete(`/api/posts/${res.data.imageID}`, config)
+        //.then(
             //localStorage.removeItem("myToken"),
             //(window.location.href = "/")
-          );
+        //);
       } catch (err) {
-        setError(err.response.data.toString());
+        setError(err.response);
+        //setError(err.response.data.toString());
       }
     } else {
       try {

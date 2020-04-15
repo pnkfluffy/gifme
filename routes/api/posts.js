@@ -50,6 +50,7 @@ router.get("/:userID", async (req, res) => {
     const posts = await Post.find({ user: req.params.userID }).sort({
       date: -1
     });
+    console.log('posts:',posts)
     res.json(posts);
   } catch (err) {
     console.error(err.message);
@@ -156,14 +157,15 @@ router.get("/meta/:metaID", async (req, res) => {
 router.delete("/:imageID", auth, async (req, res) => {
   try {
     const post = await Post.findOne({ image: req.params.imageID });
+    console.log('post', post)
     if (post.user != req.user.id) {
       res.status(401).send("Invalid credentials");
     }
   
     const obj_id = new mongoose.Types.ObjectId(req.params.imageID);
-    gfs.delete( obj_id );
+    //gfs.delete( obj_id );
   
-    await post.remove();
+    //await post.remove();
     res.json("successfully deleted image!");
   } catch (err) {
     console.error(err.message);
@@ -172,19 +174,20 @@ router.delete("/:imageID", auth, async (req, res) => {
 });
 
 // @route   DELETE api/posts
-// @desc    Delete a post
+// @desc    Delete all posts
 // @access  Private
-router.put("/allposts", auth, async (req, res) => {
+router.delete("/delete/:userID", auth, async (req, res) => {
+  //console.log('req.params:',req.params.userID)
   try {
-    const post = await Post.find({ user: req.user.id });
+    const post = await Post.find({ user: req.params.userID });
     console.log('allposts:',post)
     //deletes all data
-    const obj_id = new mongoose.Types.ObjectId(req.user.id);
-    console.log('obj_id',obj_id)
+    const obj_id = new mongoose.Types.ObjectId(req.params.userID);
     gfs.delete( obj_id );
     
-    await post.deleteMany({});
-    //await post.forEach(post.remove(justOne))
+    //await post.deleteMany({});
+    //await post.remove({});
+    //await post.forEach(post.remove())
 
     res.json("ok");
   } catch (err) {
