@@ -77,8 +77,11 @@ const Profile = () => {
   };
 
   var body = document.body;
+
   const toggleOverlay = props => {
-    body.classList.toggle("noscroll");
+    if (document.documentElement.offsetHeight > window.innerHeight) {
+      body.classList.toggle("noscroll");
+    }
     if (props) {
       setOverlayData(props.imageData);
     } else {

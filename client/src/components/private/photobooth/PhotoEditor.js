@@ -45,7 +45,7 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
     });
   } // Use it like : var newDataURI = await resizedataURL('yourDataURIHere', 50, 50);
 
-  //  Resizes the stickers (to 70px x 70px for now) and returns the inversed y coordinate
+  //  Resizes the stickers (to 100px x 100px for now) and returns the inversed y coordinate
   //  due sticker y being fipped
   const resize = async ({ xPos, yPos, imgUrl }) => {
     const resizedImage = await resizedataURL(imgUrl, 100, 100);
@@ -141,6 +141,9 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
                 //  Adds the webcamscreenshot as the first image in the array
                 const finalArray = background.concat(stickers);
                 const stickeredImage = mergeImages(finalArray);
+
+                //  PLUG BACK INTO resize() function to make 200X200 version
+
                 console.log("2: sticker", stickeredImage);
                 return stickeredImage;
               });
