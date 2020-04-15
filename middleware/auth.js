@@ -1,5 +1,8 @@
 const jwt = require('jsonwebtoken');
-const config = require('config');
+const dotenv = require('dotenv');
+dotenv.config();
+
+const jwtSecret = process.env.jwtSecret;
 
 /*
 **  to be used for any private route. finds if user token is valid, and returns
@@ -11,7 +14,7 @@ module.exports = function(req, res, next) {
         return res.status(401).send('No token, authorization denied ');
     }
     try {
-        const decoded = jwt.verify(token, config.get('jwtSecret'));
+        const decoded = jwt.verify(token, jwtSecret);
         req.user = decoded.user;
         next();
     } catch(err) {

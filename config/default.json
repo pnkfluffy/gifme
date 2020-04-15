@@ -1,5 +1,0 @@
-{
-    "mongoURI": "mongodb+srv://jfelty:simplepassword@cluster0-wzspy.mongodb.net/test?retryWrites=true&w=majority",
-    "jwtSecret": "youcansetthistowhateveryouwant",
-    "emailSecret": "emailSecret"
-}

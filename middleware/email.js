@@ -60,6 +60,8 @@ const getEmailData = (to, name, token, template) =>{
 const sendEmail = (to, name,token, type) => {
     const smtpTransport = mailer.createTransport({
         service: "Gmail",
+        host: 'smpt.gmail.com',
+        secure: true,
         auth:{
             user: "noreplygifme@gmail.com",
             pass: "gifme2020"

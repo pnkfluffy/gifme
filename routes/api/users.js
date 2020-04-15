@@ -1,14 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
 const { check, validationResult } = require('express-validator');
 //  imports default.json
-const config = require('config');
 const User = require('../../models/Users');
 const auth = require('../../middleware/auth');
 const {sendEmail} = require('../../middleware/email');
+
+dotenv.config();
+const jwtSecret = process.env.jwtSecret;
 
 
 // @route   GET api/users
@@ -80,7 +82,7 @@ async (req, res) => {
 
         const token = jwt.sign(
           payload,
-          config.get('jwtSecret'),
+          jwtSecret,
           { expiresIn: 900 },
           );
           //sends email with confirmation link

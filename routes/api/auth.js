@@ -2,12 +2,14 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('config');
+const dotenv = require('dotenv');
 const auth = require('../../middleware/auth');
 const User = require('../../models/Users');
 const { check, validationResult } = require('express-validator');
 const {sendEmail} = require('../../middleware/email');
 
+dotenv.config();
+const jwtSecret = process.env.jwtSecret;
 
 // @route   GET api/auth
 // @desc    Test rout
@@ -64,7 +66,7 @@ router.post('/sendEmail', async (req, res) => {
 
         const token = jwt.sign(
           payload,
-          config.get('jwtSecret'),
+          jwtSecret,
           { expiresIn: 9000 },
           );
 
@@ -90,7 +92,7 @@ router.post('/recoveryemail', async (req, res) => {
 
         const token = jwt.sign(
           payload,
-          config.get('jwtSecret'),
+          jwtSecret,
           { expiresIn: 9000 },
           );
  
@@ -158,8 +160,8 @@ async (req, res) => {
         const payload = { user: { id: user.id}};
         jwt.sign(
             payload,
-            config.get('jwtSecret'),
-            { expiresIn: 360000 },
+            jwtSecret,
+            { expiresIn: 36000 },
             (err, token) => {
               if (err) throw err;
               res.json({ userID: user.id, token });
