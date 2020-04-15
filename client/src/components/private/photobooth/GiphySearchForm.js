@@ -122,9 +122,10 @@ const GiphySearchForm = () => {
     menuRef.current.scrollTo('0');
 
     setCurrentSearch(searchTerm);
+    setOffset(0);
 
     axios(
-      `${PATH_BASE}${API_KEY}${DEFAULT_QUERY} ${searchTerm}${PATH_LIMITS}${limit}${PATH_OFFSET}${offset}${PATH_RATING}`
+      `${PATH_BASE}${API_KEY}${DEFAULT_QUERY} ${searchTerm}${PATH_LIMITS}${limit}${PATH_OFFSET}0${PATH_RATING}`
     )
       .then((res) => {
         setResults(res.data.data);

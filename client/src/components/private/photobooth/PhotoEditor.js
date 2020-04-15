@@ -8,10 +8,10 @@ import gifshot from "gifshot";
 import StickerCanvas from "./StickerCanvas";
 import GiphySearchForm from "./GiphySearchForm";
 import { WebcamContext } from "./WebcamContext";
-import { gifDimensions } from "./Capture";
 import thumbsUp from "../../../resources/thumbs_up_icon.png";
 
 const authToken = localStorage.getItem("myToken");
+const gifDimensions = 200;
 
 const PhotoEditor = ({ imageSrc, setImg }) => {
   const [loading, setLoading] = useState(false);
@@ -47,12 +47,12 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
 
   //  Resizes the stickers (to 100px x 100px for now) and returns the inversed y coordinate
   //  due sticker y being fipped
-  const resize = async ({ xPos, yPos, imgUrl }) => {
-    const resizedImage = await resizedataURL(imgUrl, 100, 100);
+  const resize = async ({ xPos, yPos, xLen, yLen, imgUrl }) => {
+    const resizedImage = await resizedataURL(imgUrl, xLen, yLen);
     return {
       src: resizedImage,
       x: xPos,
-      y: 300 - yPos,
+      y: 250 - yPos,
     };
   };
 
@@ -133,6 +133,8 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
                 return resize({
                   xPos: gifdata.xPos,
                   yPos: gifdata.yPos,
+                  xLen: 150,
+                  yLen: 150,
                   imgUrl: b64sticker,
                 });
               });
@@ -141,8 +143,6 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
                 //  Adds the webcamscreenshot as the first image in the array
                 const finalArray = background.concat(stickers);
                 const stickeredImage = mergeImages(finalArray);
-
-                //  PLUG BACK INTO resize() function to make 200X200 version
 
                 console.log("2: sticker", stickeredImage);
                 return stickeredImage;

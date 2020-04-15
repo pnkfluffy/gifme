@@ -13,7 +13,7 @@ const videoConstraints = {
   facingMode: "user",
 };
 
-export const gifDimensions = 400;
+const gifDimensions = 400;
 //  each frame is 1/10 seconds
 const timerCountDown = 5;
 

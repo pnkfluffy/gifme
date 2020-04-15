@@ -59,7 +59,7 @@ class PrintedSticker extends Component {
         this.state.prevX !== 0 &&
         this.state.prevX !== x &&
         this.state.prevX < x &&
-        this.state.myX + (x - this.state.prevX) < 335
+        this.state.myX + (x - this.state.prevX) < 350
       ) {
         console.log("moving right + " + (x - this.state.prevX));
         this.context.moveStickerX(
@@ -86,7 +86,7 @@ class PrintedSticker extends Component {
         this.state.prevX !== 0 &&
         this.state.prevX !== x &&
         this.state.prevX > x &&
-        this.state.myX - (this.state.prevX - x) > 0
+        this.state.myX - (this.state.prevX - x) > -100
       ) {
         console.log("moving right - " + (this.state.prevX - x));
         this.context.moveStickerX(
@@ -103,7 +103,7 @@ class PrintedSticker extends Component {
         this.state.prevY !== 0 &&
         this.state.prevY !== y &&
         this.state.prevY > y &&
-        this.state.myY + (this.state.prevY - y) < 335
+        this.state.myY + (this.state.prevY - y) < 350
       ) {
         this.context.moveStickerY(
           this.props.stickerObject.zPos,
@@ -120,7 +120,7 @@ class PrintedSticker extends Component {
         this.state.prevY !== 0 &&
         this.state.prevY !== y &&
         this.state.prevY < y &&
-        this.state.myY - (y - this.state.prevY) > 0
+        this.state.myY - (y - this.state.prevY) > -100
       ) {
         this.context.moveStickerY(
           this.props.stickerObject.zPos,
@@ -149,8 +149,8 @@ class PrintedSticker extends Component {
           position: "absolute",
           bottom: this.props.stickerObject.yPos,
           left: this.props.stickerObject.xPos,
-          height: "100px",
-          width: "100px"
+          height: "150px",
+          width: "150px"
         }}
         onMouseDown={this.handleMouseDown}
         onMouseUp={this.handleMouseUp}

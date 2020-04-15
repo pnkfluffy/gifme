@@ -74,6 +74,7 @@ const Likes = ({ imageID, hasLiked, setHasLiked }) => {
 };
 
 const ImageCard = ({ imageData, addOverlay, authInfo }) => {
+  const [loggedIn, setLoggedIn] = useState(false);
   const [isUsersPost, setIsUsersPost] = useState(false);
   const [hasLiked, setHasLiked] = useState(false);
   const [confirmDeletion, setConfirmDeletion] = useState(false);
@@ -82,6 +83,7 @@ const ImageCard = ({ imageData, addOverlay, authInfo }) => {
   useEffect(() => {
     authInfo.then(res => {
       if (res) {
+        setLoggedIn(true);
         const myLikes = imageData.likes.some(
           like => like.user.toString() === res._id
         );
@@ -133,11 +135,11 @@ const ImageCard = ({ imageData, addOverlay, authInfo }) => {
         />
       </div>
       <div className="image_card_bottom">
-        <Likes
+        {loggedIn ? <Likes
           imageID={imageData.imageID}
           hasLiked={hasLiked}
           setHasLiked={e => setHasLiked(e)}
-        />
+        /> : null}
       </div>
     </div>
   );
