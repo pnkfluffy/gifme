@@ -22,7 +22,7 @@ const getEmailData = (to, name, token, template) =>{
                 from: "Gifme <noreplygifme@gmail.com",
                 to,
                 subject: `Gifme - Please verify your account`,
-                html: `<a href="https://reactiongifme.herokuapp.com/confirm/${token}">click here to validate your account</a>`
+                html: `Please click <a href="https://reactiongifme.herokuapp.com/confirm/${token}">here</a> to validate your account`
             //    html: verify_account()
             }
             break;
