@@ -74,10 +74,11 @@ router.get("/favorites/:userID", async (req, res) => {
 
 // creates a mongoose connection to stream image data
 const mongoose = require("mongoose");
-const config = require("config");
-const db = config.get("mongoURI");
+const dotenv = require("dotenv");
+dotenv.config();
+const jwtSecret = process.env.jwtSecret;
 let gfs;
-const conn = mongoose.createConnection(db);
+const conn = mongoose.createConnection(jwtSecret);
 conn.once("open", () => {
   gfs = new mongoose.mongo.GridFSBucket(conn.db, {
     bucketName: 'photos'
