@@ -34,7 +34,6 @@ const OverlayComment = ({ commentData, userID, imageID, setAllComments }) => {
     axios
       .delete(`/api/posts/comment/${imageID}/${commentData._id}`, config)
       .then(res => {
-        console.log("comment deleted:", res.data);
         setAllComments(res.data);
       })
       .catch(err => {
@@ -106,7 +105,6 @@ const OverlayCommentBox = ({ data, setAllComments }) => {
     axios
       .post(`api/posts/comment/${data.imageID}`, body, config)
       .then(res => {
-        console.log("comment posted:", res.data);
         setComment("");
         setAllComments(res.data);
       })

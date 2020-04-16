@@ -96,7 +96,6 @@ async (req, res) => {
           );
           //sends email with confirmation link
           sendEmail(email, name, token, "verify account");
-        console.log('before saving the user')
         await user.save();
         res.json('ok');
 
@@ -141,7 +140,7 @@ router.put('/', auth, async (req, res) => {
     // @route   DELETE api/users/delete
     // @desc    delete user
     // @access  Private
-    router.put('/delete', auth, async (req, res) => {
+    router.post('/check', auth, async (req, res) => {
       let user = await User.findById(req.user.id);
       const {password_account} = req.body;
       
@@ -152,9 +151,7 @@ router.put('/', auth, async (req, res) => {
         if (user && password_account){
         bcrypt.compare(password_account, user.password, (err, result) =>{
             if (result === true){
-            //deletes user model
-            //user.remove();
-            res.json("ok");
+            res.json(user);
             } else {res.status(404).send('Invalid Password')}
           })
         }else {res.status(401).send('Invalid credentials');}
@@ -163,5 +160,17 @@ router.put('/', auth, async (req, res) => {
         res.status(500).send('Server Error');
     }}
   });
+
+  router.delete('/:userID', auth, async (req, res) => {
+    try {
+      let user = await User.findById(req.params.userID);
+      //deletes user model
+      await user.remove();
+      res.json("ok");
+  } catch(err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+  }}
+);
 
 module.exports = router;

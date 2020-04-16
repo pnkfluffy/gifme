@@ -97,18 +97,28 @@ const ToSwitch = ({ data }) => {
         };
         const deleteAccount = { password_account };
         const body = JSON.stringify(deleteAccount);
-        await axios.put("/api/users/delete", body, config);
-        await axios.get("/api/auth/", config)
-        .then(res =>{axios.get(`/api/post/${res.data._id}`)}) 
-        .then(res => {console.log('res.data', res.data)})
-        //res.data.map(axios.delete(`/api/posts/${res.data.imageID}`, config)
-        //.then(
-            //localStorage.removeItem("myToken"),
-            //(window.location.href = "/")
-        //);
+        //checks if the user is valid
+        return axios.post("/api/users/check", body, config)
+        //finds and deletes all posts
+        .then((res) => {axios.get("/api/auth", config)
+          .then(user => {axios.get(`/api/posts/${user.data._id}`)
+            .then(allPosts => {
+              const allPostsPromise = allPosts.data.map(
+              (post) => {axios.delete(`/api/posts/${post.image}`, config)})
+              Promise.all(allPostsPromise)
+            })
+            .then(() => {return (user)})
+        })
+        return(res)
+      })
+        //deletes user model
+        .then((user) => {axios.delete(`/api/users/${user.data._id}`, config)
+          .then(() => {
+            localStorage.removeItem("myToken")
+            (window.location.href = "/")})
+      })
       } catch (err) {
         setError(err.response);
-        //setError(err.response.data.toString());
       }
     } else {
       try {
