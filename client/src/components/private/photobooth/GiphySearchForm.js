@@ -140,7 +140,7 @@ const GiphySearchForm = () => {
 
   const updateResults = (APIResponse) => {
     const oldArray = stickerArray;
-    APIResponse.map((gif) => {
+    APIResponse.forEach((gif) => {
       oldArray.push(gif.images.downsized_large.url);
     });
     setStickerArray(oldArray);
@@ -179,7 +179,7 @@ const GiphySearchForm = () => {
           name="giphy_search"
           type="text"
           onChange={(e) => onSearchChange(e)}
-          placeholder="Unlimited Stickers!"
+          placeholder="Search for any stickers (no really, anything)!"
           required="required"
         />
       </form>

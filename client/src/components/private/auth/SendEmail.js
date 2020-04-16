@@ -25,7 +25,6 @@ const SendEmail = () =>{
             setTimeout(() => { window.location.href = '/login';}, 4000);
 
         } catch (err) {
-            console.log(err.response.data);
             setError(err.response.data.toString());
         }
     }

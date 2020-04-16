@@ -170,7 +170,7 @@ const ImageOverlay = ({ data, removeOverlay, authInfo }) => {
         <div className="overlay_pic_frame">
           <Link className="image_card_view_img" to={`/image/${data.imageID}`}>
             <div className="overlay_img_top_right">
-              <img src={newWindow} alt="view image" />
+              <img src={newWindow} alt="view full" />
             </div>
           </Link>
           <img
@@ -181,7 +181,7 @@ const ImageOverlay = ({ data, removeOverlay, authInfo }) => {
         </div>
         <div className="overlay_export_box">
           <div className="overlay_export_btn">
-            <a href={`${data.image}`} download="my_image.gif">
+            <a href={`${data.image}`} download="my_image.">
               <img src={downloadIcon} alt="download"></img>
             </a>
           </div>

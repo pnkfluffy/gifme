@@ -8,10 +8,7 @@ import fetchAuth from "../../../utils/FetchAuth";
 import loader from "../../../utils/loader";
 
 function galleryReducer(state, action) {
-  switch (action.type) {
-    case "add":
-      return [...state, ...action.payload];
-  }
+  return [...state, ...action.payload];
 }
 
 function numLoadedReducer(state, action) {
@@ -23,7 +20,7 @@ const Profile = () => {
   const [overlayData, setOverlayData] = useState(null);
   const [authInfo, setAuthInfo] = useState(null);
 
-  const [whosProfile, setWhosProfile] = useState('');
+  const [whosProfile, setWhosProfile] = useState("");
   const [numLoaded, addNumLoaded] = useReducer(numLoadedReducer, 0);
   const [postsMetaData, setPostsMetaData] = useState([]);
   const [hasMore, setHasMore] = useState(true);
@@ -35,17 +32,17 @@ const Profile = () => {
   const getPostData = () => {
     const finalPosts = axios.get(`/api/posts/${userID}`);
     finalPosts
-      .then(res => {
+      .then((res) => {
         setPostsMetaData(res.data);
         return res.data;
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
     return finalPosts;
   };
 
-  const getPosts = numPosts => {
+  const getPosts = (numPosts) => {
     if (!postsMetaData.length || !hasMore) {
       return;
     }
@@ -56,11 +53,11 @@ const Profile = () => {
       setHasMore(false);
     }
     fetchAllPosts(newArray)
-      .then(res => {
+      .then((res) => {
         setImageGallery({ type: "add", payload: res });
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   };
@@ -77,7 +74,7 @@ const Profile = () => {
 
   var body = document.body;
 
-  const toggleOverlay = props => {
+  const toggleOverlay = (props) => {
     if (document.documentElement.offsetHeight > window.innerHeight) {
       body.classList.toggle("noscroll");
     }
@@ -106,35 +103,27 @@ const Profile = () => {
     }
   }, [imageGallery]);
 
-  // const fetchUserName = async () => {
-  //   try {
-  //     const userID = await axios.get(`api/users/${userID}`);
-  //     return userID.data.name;
-  //   } catch (err) {
-  //     console.log("error: ", err.response);
-  //   }
-  // }
-
   useEffect(() => {
     setAuthInfo(fetchAuth());
     getPostData();
-    axios.get(`api/users/${userID}`)
-    .then(res=>{
-      setWhosProfile(res.data.name);
-    })
-    .catch(err=>{
-      console.error(err.response);
-    })
+    axios
+      .get(`api/users/${userID}`)
+      .then((res) => {
+        setWhosProfile(res.data.name);
+      })
+      .catch((err) => {
+        console.error(err.response);
+      });
   }, []);
-  
+
   let items = [];
 
-  imageGallery.map(image => {
+  imageGallery.forEach((image) => {
     items.push(
       <ImageCard
         authInfo={authInfo}
         imageData={image}
-        addOverlay={imageData => toggleOverlay({ imageData })}
+        addOverlay={(imageData) => toggleOverlay({ imageData })}
         whosProfile={userID}
       />
     );
