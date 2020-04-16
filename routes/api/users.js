@@ -4,12 +4,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const { check, validationResult } = require('express-validator');
-//  imports default.json
 const User = require('../../models/Users');
 
-const Post = require("../../models/Post");
 const mongoose = require("mongoose");
-const db = config.get("mongoURI");
+dotenv.config();
+const jwtSecret = process.env.jwtSecret;
+const db = process.env.mongoURI;
 let gfs;
 const conn = mongoose.createConnection(db);
 conn.once("open", () => {
@@ -21,8 +21,6 @@ conn.once("open", () => {
 const auth = require('../../middleware/auth');
 const {sendEmail} = require('../../middleware/email');
 
-dotenv.config();
-const jwtSecret = process.env.jwtSecret;
 
 // @route   GET api/users
 // @desc    Returns user information
