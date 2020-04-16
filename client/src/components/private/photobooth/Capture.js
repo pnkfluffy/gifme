@@ -5,7 +5,7 @@ import gifshot from "gifshot";
 import { WebcamProvider } from "./WebcamContext";
 import fetchAuth from "../../../utils/FetchAuth";
 import PhotoEditor from "./PhotoEditor";
-import NeedAccountPopup from "../../../utils/NeedAccountPopup";
+import VerificationPopup from "../../../utils/VerificationPopup";
 import PageError from "../../error/NotValidUser(400)";
 
 const videoConstraints = {
@@ -27,7 +27,6 @@ const PhotoDisplay = () => {
   const [login, setLogin] = useState(true);
   const [authOverlay, setAuthOverlay] = useState(false);
   const [webcamPermissions, setWebcamPermissions] = useState(false);
-
 
   const webcamRef = React.useRef(null);
 
@@ -94,7 +93,7 @@ const PhotoDisplay = () => {
   }, [upTimer]);
 
   const changeSlider = (e) => setGifLength(e.target.value);
-  
+
   const LoadingBox = () => <div className="loading_box">loading...</div>;
 
   const RecordButton = () => (
@@ -110,12 +109,31 @@ const PhotoDisplay = () => {
     </div>
   );
 
-  const NoCameraAccess = () => <div className="cam_access">please enable camera access</div>
+  const forwardToRegister = () => {
+    window.location.href = "/Signup";
+  };
+
+  const popupText =
+    "Without an account, you can only test features. Please register to save or upload a GIF.";
+  const leftText = "Thats OK";
+  const rightText = "Sign me up!";
+
+  const NoCameraAccess = () => (
+    <div className="cam_access">please enable camera access</div>
+  );
 
   if (!imageSrc) {
     return (
       <div className="photobooth_box">
-        {authOverlay && (<NeedAccountPopup removePopup={() => setAuthOverlay(false)}/>)}
+        {authOverlay && (
+          <VerificationPopup
+            popupMessage={popupText}
+            leftButtonMessage={leftText}
+            leftButtonFunction={() => setAuthOverlay(false)}
+            rightButtonMessage={rightText}
+            rightButtonFunction={() => forwardToRegister()}
+          />
+        )}
         <div className="webcam_box">
           <Webcam
             audio={false}
@@ -130,7 +148,7 @@ const PhotoDisplay = () => {
           {loading ? <LoadingBox /> : null}
         </div>
         <div className="photobooth_record_box">
-          {webcamPermissions ? <RecordButton/> : <NoCameraAccess/>}
+          {webcamPermissions ? <RecordButton /> : <NoCameraAccess />}
         </div>
         <div className="gif_length_text">
           <div className="photobooth_length_time">gif length (seconds)</div>
@@ -150,7 +168,11 @@ const PhotoDisplay = () => {
     return (
       //	Allows all of PhotoEditor to access a single state
       <WebcamProvider>
-        <PhotoEditor imageSrc={imageSrc} setImg={(img) => setImageSrc(img)} loggedIn={login}/>
+        <PhotoEditor
+          imageSrc={imageSrc}
+          setImg={(img) => setImageSrc(img)}
+          loggedIn={login}
+        />
       </WebcamProvider>
     );
   }
