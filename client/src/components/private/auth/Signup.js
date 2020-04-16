@@ -50,16 +50,13 @@ const Signup = () => {
         //here we set the type of request, where to send it and the data
         await axios.post("/api/users", body, config)
         .then(res => {
-          console.log('first here')
           const Token = res.data.token;
           const myUserID = res.data.userID;
           localStorage.setItem("Token", Token);
           localStorage.setItem("myGifmeUserID", myUserID);
-          console.log('Im here')
           setPopMessage(
             "We have sent you an email, please confirm your account"
           );
-          console.log('Im here too')
           setTimeout(() => {
             window.location.href = "/login";
           }, 3500);

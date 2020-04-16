@@ -6,6 +6,18 @@ const dotenv = require('dotenv');
 const { check, validationResult } = require('express-validator');
 //  imports default.json
 const User = require('../../models/Users');
+
+const Post = require("../../models/Post");
+const mongoose = require("mongoose");
+const db = config.get("mongoURI");
+let gfs;
+const conn = mongoose.createConnection(db);
+conn.once("open", () => {
+  gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+    bucketName: 'photos'
+  });
+});
+
 const auth = require('../../middleware/auth');
 const {sendEmail} = require('../../middleware/email');
 
@@ -86,7 +98,6 @@ async (req, res) => {
           );
           //sends email with confirmation link
           sendEmail(email, name, token, "verify account");
-        console.log('before saving the user')
         await user.save();
         res.json('ok');
 
@@ -131,7 +142,7 @@ router.put('/', auth, async (req, res) => {
     // @route   DELETE api/users/delete
     // @desc    delete user
     // @access  Private
-    router.put('/delete', auth, async (req, res) => {
+    router.post('/check', auth, async (req, res) => {
       let user = await User.findById(req.user.id);
       const {password_account} = req.body;
       
@@ -142,9 +153,8 @@ router.put('/', auth, async (req, res) => {
         if (user && password_account){
         bcrypt.compare(password_account, user.password, (err, result) =>{
             if (result === true){
-            //deletes all data
-              user.remove({});
-            }else {res.status(404).send('Invalid Password')}
+            res.json(user);
+            } else {res.status(404).send('Invalid Password')}
           })
         }else {res.status(401).send('Invalid credentials');}
     } catch(err) {
@@ -152,5 +162,17 @@ router.put('/', auth, async (req, res) => {
         res.status(500).send('Server Error');
     }}
   });
+
+  router.delete('/:userID', auth, async (req, res) => {
+    try {
+      let user = await User.findById(req.params.userID);
+      //deletes user model
+      await user.remove();
+      res.json("ok");
+  } catch(err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+  }}
+);
 
 module.exports = router;

@@ -38,21 +38,7 @@ class PrintedSticker extends Component {
       //  get mouse position in page (means that counts the outside spaces)
       const x = e.pageX;
       const y = e.pageY;
-      console.log("Page X is " + x + " Page Y is " + y);
-      console.log(
-        "\nPrev X is: " +
-          this.state.prevX +
-          " and Prev Y is: " +
-          this.state.prevY
-      );
       //  gets the x and y relative to the stickerCanvas div
-      console.log(
-        "\nThis is MY X: " +
-          this.state.myX +
-          " and this is MY Y: " +
-          this.state.myY
-      );
-      console.log("props\n", this.props);
       //  checks side that mouse is moving and moves in the WebcamContext
       //  RIGHT moves +1 * how much moved. Does not move if out of canvas
       if (
@@ -61,21 +47,12 @@ class PrintedSticker extends Component {
         this.state.prevX < x &&
         this.state.myX + (x - this.state.prevX) < 350
       ) {
-        console.log("moving right + " + (x - this.state.prevX));
         this.context.moveStickerX(
           this.props.stickerObject.zPos,
           x - this.state.prevX
         );
         //  need to change myX and myY to keep the x and ys from the PARENT DIV (the canvas) so the images
         //  cant move to outside of the canvas!!!
-        console.log(
-          "myX = " +
-            this.state.myX +
-            " + " +
-            (x - this.state.prevX) +
-            " = " +
-            (this.state.myX + (x - this.state.prevX))
-        );
         this.setState({
           myX: this.state.myX + (x - this.state.prevX),
           prevX: x
@@ -88,7 +65,6 @@ class PrintedSticker extends Component {
         this.state.prevX > x &&
         this.state.myX - (this.state.prevX - x) > -100
       ) {
-        console.log("moving right - " + (this.state.prevX - x));
         this.context.moveStickerX(
           this.props.stickerObject.zPos,
           -1 * (this.state.prevX - x)

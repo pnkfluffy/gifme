@@ -32,7 +32,6 @@ const Profile = () => {
   const [loading, setLoading] = useState(false);
 
   const authToken = localStorage.getItem("myToken");
-  console.log(authToken);
   let params = useParams("/profile/:userID");
   const { userID } = params;
 
@@ -43,7 +42,6 @@ const Profile = () => {
         //logged user
       }
     };
-    console.log("userID:", userID);
     const isUsersProfile = axios.get(`/api/auth/${userID}`, config);
     isUsersProfile.then(res => {
       setUsersProfile(res.data);
@@ -64,12 +62,10 @@ const Profile = () => {
   };
 
   const getPosts = numPosts => {
-    console.log("postmetadata", postsMetaData, numPosts, numLoaded, hasMore);
     if (!postsMetaData.length || !hasMore) {
       return;
     }
     setLoading(true);
-    console.log("loaded", numLoaded);
     const newArray = postsMetaData.slice(numLoaded, numLoaded + numPosts);
     addNumLoaded(numPosts);
     if (numLoaded > postsMetaData.length) {
