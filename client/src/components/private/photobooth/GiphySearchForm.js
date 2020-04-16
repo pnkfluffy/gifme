@@ -48,7 +48,6 @@ const defaultStickers = [
   savage,
   pretty,
   notok,
-
   bigStar,
   broke,
   cattrombone,
@@ -178,7 +177,7 @@ const GiphySearchForm = () => {
         <input
           className="giphy_search_input"
           name="giphy_search"
-          type="text"oh that 
+          type="text"
           onChange={(e) => onSearchChange(e)}
           placeholder="Unlimited Stickers!"
           required="required"
