@@ -160,7 +160,7 @@ async (req, res) => {
         const payload = { user: { id: user.id}};
         jwt.sign(
             payload,
-            config.get('jwtSecret'),
+            jwtSecret,
             { expiresIn: 7200 },
             (err, token) => {
               if (err) throw err;
