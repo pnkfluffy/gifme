@@ -81,6 +81,7 @@ h1 {
 .photobooth_link{
   z-index: 45;
 }
+
 .gifme_logo, .camera_icon {
   transition: transform 0.2s;
   z-index: 40;

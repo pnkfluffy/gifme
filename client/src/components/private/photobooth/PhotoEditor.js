@@ -13,7 +13,7 @@ import thumbsUp from "../../../resources/thumbs_up_icon.png";
 const authToken = localStorage.getItem("myToken");
 const gifDimensions = 200;
 
-const PhotoEditor = ({ imageSrc, setImg }) => {
+const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
   const [loading, setLoading] = useState(false);
 
   const webContext = useContext(WebcamContext);
@@ -210,8 +210,6 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
 
       <GiphySearchForm />
 
-      {/* <StickerSelector /> */}
-
       <form
         className="photobooth_form"
         id="upload_img"
@@ -219,13 +217,24 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
         enctype="multipart/form-data"
         onSubmit={(e) => onSubmit(e)}
       >
-        <input
-          type="image"
-          className="photobooth_accept_btn"
-          value="Upload"
-          src={thumbsUp}
-          alt="thumbsUp"
-        />
+        {loggedIn ? (
+          <input
+            type="image"
+            className="photobooth_accept_btn"
+            value="Upload"
+            src={thumbsUp}
+            alt="thumbsUp"
+          />
+        ) : (
+          <img
+            className="photobooth_accept_btn"
+            onClick={() => {
+              window.location.href = "/Signup";
+            }}
+            src={thumbsUp}
+            alt="thumbsUp"
+          />
+        )}
         <img
           className="photobooth_reject_btn"
           onClick={returnWebcam}
