@@ -4,10 +4,10 @@ const GridFsStorage = require("multer-gridfs-storage");
 const dotenv = require('dotenv');
 
 dotenv.config();
-const jwtSecret = process.env.jwtSecret;
+const db = process.env.mongoURI;
 
 const storage = new GridFsStorage({
-  url: jwtSecret,
+  url: db,
   options: { useNewUrlParser: true, useUnifiedTopology: true },
   file: (req, file) => {
     return {
