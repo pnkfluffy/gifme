@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import ErrorMessage from "../../../utils/errorMessage";
+import {CheckPass} from "../../../utils/Checkpass";
 
 const Account = () => {
   const [userName, setUserName] = useState("");
@@ -70,13 +71,12 @@ const ToSwitch = ({ data }) => {
   const [newData, setNewData] = useState({
     name: "",
     email: "",
+    newpassword: "",
     password: "",
-    password2: "",
-    password_account: ""
   });
   const [error, setError] = useState("");
 
-  const { name, email, password, password2, password_account } = newData;
+  const { name, email, newpassword, password } = newData;
   const V_Token = localStorage.getItem("myToken");
 
   const onChange = e => {
@@ -85,9 +85,12 @@ const ToSwitch = ({ data }) => {
 
   const onSubmit = async e => {
     e.preventDefault();
-    if (password !== password2) {
-      setError("Passwords do not match");
-    } else if (password_account) {
+    if (newpassword) {
+        const check = CheckPass(V_Token, password)
+        .then(res => {})
+        console.log('check:', check);
+        setError(error.response.data.toString());
+    } else if (password) {
       try {
         const config = {
           headers: {
@@ -95,7 +98,7 @@ const ToSwitch = ({ data }) => {
             "Content-Type": "application/json"
           }
         };
-        const deleteAccount = { password_account };
+        const deleteAccount = { password };
         const body = JSON.stringify(deleteAccount);
         //checks if the user is valid
         return axios.post("/api/users/check", body, config)
@@ -128,7 +131,7 @@ const ToSwitch = ({ data }) => {
             "Content-Type": "application/json"
           }
         };
-        const newUser = { name, email, password };
+        const newUser = { name, email, newpassword };
         const body = JSON.stringify(newUser);
         await axios.put("/api/users", body, config);
         window.location.href = "/Settings";
@@ -151,17 +154,17 @@ const ToSwitch = ({ data }) => {
                 type="password"
                 value={password}
                 onChange={e => onChange(e)}
-                placeholder="Your password"
+                placeholder="Type your current password"
                 required="required"
                 className="edit_button"
               />
 
               <input
-                name="password2"
-                value={password2}
+                name="newpassword"
+                value={newpassword}
                 onChange={e => onChange(e)}
                 type="password"
-                placeholder="Confirm your password"
+                placeholder="Type your new password"
                 required="required"
                 className="edit_button"
               />
@@ -229,9 +232,9 @@ const ToSwitch = ({ data }) => {
 
             <form onSubmit={e => onSubmit(e)} className="edit_form">
               <input
-                name="password_account"
+                name="password"
                 type="password"
-                value={password_account}
+                value={password}
                 onChange={e => onChange(e)}
                 placeholder="Confirm your password"
                 required="required"

@@ -166,29 +166,29 @@ h1 {
 
 /* General sidebar styles */
 .bm-menu {
-  background: #373a47;
+  background: hsl(229, 16%, 43%);
   text-align: center;
   margin:0;
-  padding: 0.5em 1.5em;
-  font-size: 1.15em;
-  width: 200px;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  width: 150px;
 }
 .bm-menu-wrap{
   position: fixed;
-  margin-top: 8px;
+  margin-top: 30px;
   left: 100vw;
-  height: 190px !important;
+  height: 160px !important;
   width: auto !important;
 }
 
 /* Morph shape necessary with bubble or elastic */
 .bm-morph-shape {
-  fill: #373a47;
+  fill: hsl(229, 16%, 43%);
 }
 
 /* Wrapper for item list */
 .bm-item-list {
-  color: #b8b7ad;
+  color: rgb(255, 255, 255);
   height: 100px;
 }
 
@@ -199,7 +199,7 @@ h1 {
   /* Our sidebar item styling */
   text-decoration: none;
   padding: 8px;
-  color: #d1d1d1;
+  color: rgb(255, 255, 255);
   transition: color 0.1s;
   border-bottom: solid 0.1px white;
   width: 90%;
@@ -208,7 +208,7 @@ h1 {
 
 /* Change color on hover */
 .bm-item:hover {
-  color: white;
+  color: lightgrey;
 }
 
 

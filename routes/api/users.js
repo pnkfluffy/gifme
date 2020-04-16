@@ -150,14 +150,14 @@ router.put('/', auth, async (req, res) => {
     // @access  Private
     router.post('/check', auth, async (req, res) => {
       let user = await User.findById(req.user.id);
-      const {password_account} = req.body;
+      const {password} = req.body;
       
       if (!user){
         res.status(401).send('Invalid credentials')
       }else {
       try {
-        if (user && password_account){
-        bcrypt.compare(password_account, user.password, (err, result) =>{
+        if (user && password){
+        bcrypt.compare(password, user.password, (err, result) =>{
             if (result === true){
             res.json(user);
             } else {res.status(404).send('Invalid Password')}
