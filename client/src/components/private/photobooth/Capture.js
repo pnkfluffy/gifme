@@ -5,6 +5,7 @@ import gifshot from "gifshot";
 import { WebcamProvider } from "./WebcamContext";
 import fetchAuth from "../../../utils/FetchAuth";
 import PhotoEditor from "./PhotoEditor";
+import NeedAccountPopup from "../../../utils/NeedAccountPopup";
 import PageError from "../../error/NotValidUser(400)";
 
 const videoConstraints = {
@@ -24,7 +25,9 @@ const PhotoDisplay = () => {
   const [downTimer, setDownTimer] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
   const [login, setLogin] = useState(true);
+  const [authOverlay, setAuthOverlay] = useState(false);
   const [webcamPermissions, setWebcamPermissions] = useState(false);
+
 
   const webcamRef = React.useRef(null);
 
@@ -54,6 +57,7 @@ const PhotoDisplay = () => {
     auth.then((res) => {
       if (!res) {
         setLogin(false);
+        setAuthOverlay(true);
       }
     });
   }, []);
@@ -108,12 +112,10 @@ const PhotoDisplay = () => {
 
   const NoCameraAccess = () => <div className="cam_access">please enable camera access</div>
 
-  if (!login) {
-    return <PageError />;
-  }
   if (!imageSrc) {
     return (
       <div className="photobooth_box">
+        {authOverlay && (<NeedAccountPopup removePopup={() => setAuthOverlay(false)}/>)}
         <div className="webcam_box">
           <Webcam
             audio={false}
@@ -148,7 +150,7 @@ const PhotoDisplay = () => {
     return (
       //	Allows all of PhotoEditor to access a single state
       <WebcamProvider>
-        <PhotoEditor imageSrc={imageSrc} setImg={(img) => setImageSrc(img)} />
+        <PhotoEditor imageSrc={imageSrc} setImg={(img) => setImageSrc(img)} loggedIn={login}/>
       </WebcamProvider>
     );
   }

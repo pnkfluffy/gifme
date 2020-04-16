@@ -12,7 +12,7 @@ const Navbar = () => {
 
   if (user) {
     //get user ID and destructer it
-    user.then(res => {
+    user.then((res) => {
       if (res) {
         setUserId(res._id);
       }
@@ -25,7 +25,7 @@ const Navbar = () => {
 
   const stateChangeHandler = (newState) => {
     setMenuOpen(newState.isOpen);
-  }
+  };
 
   useEffect(() => {
     setUser(fetchAuth());
@@ -36,7 +36,7 @@ const Navbar = () => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   };
 
@@ -50,30 +50,43 @@ const Navbar = () => {
         {/* if userId, then user is logged in */}
         {userId ? (
           <div className="feature_container">
-            <div className="container_camera_icon">
+            <div className="container_camera_icon_auth">
               <Link className="photobooth_link" to="/photobooth">
                 <img
                   className="camera_icon"
                   src={camera_icon}
                   alt="photobooth"
-                ></img>
+                />
               </Link>
-              <Menu noOverlay isOpen={menuOpen} onStateChange={(state) => stateChangeHandler(state)}>
-                <Link to={`/profile/${userId}`} onClick={toggleMenu}>
-                  Profile
-                </Link>
-                <Link to={`/favorites/${userId}`} onClick={toggleMenu}>
-                  Favorite posts
-                </Link>
-                <Link to="/Settings" onClick={toggleMenu}>
-                  Settings
-                </Link>
-                <SwitchPrivacy />
-              </Menu>
             </div>
+            <Menu
+              noOverlay
+              isOpen={menuOpen}
+              onStateChange={(state) => stateChangeHandler(state)}
+            >
+              <Link to={`/profile/${userId}`} onClick={toggleMenu}>
+                Profile
+              </Link>
+              <Link to={`/favorites/${userId}`} onClick={toggleMenu}>
+                Favorite posts
+              </Link>
+              <Link to="/Settings" onClick={toggleMenu}>
+                Settings
+              </Link>
+              <SwitchPrivacy />
+            </Menu>
           </div>
         ) : (
           <div className="feature_container">
+            <div className="container_camera_icon_noauth">
+              <Link className="photobooth_link" to="/photobooth">
+                <img
+                  className="camera_icon"
+                  src={camera_icon}
+                  alt="photobooth"
+                />
+              </Link>
+            </div>
             <Link to="/Signup" className="signup_button">
               Sign up
             </Link>
