@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import gifshot from "gifshot";
+import GIFSlider from './GifLengthSlider';
 
 import { WebcamProvider } from "./WebcamContext";
 import fetchAuth from "../../../utils/FetchAuth";
@@ -91,7 +92,7 @@ const PhotoDisplay = () => {
     };
   }, [upTimer, gifLength]);
 
-  const changeSlider = (e) => setGifLength(e.target.value);
+  const changeSlider = (e, val) => setGifLength(val);
 
   const LoadingBox = () => <div className="loading_box">loading...</div>;
 
@@ -153,14 +154,24 @@ const PhotoDisplay = () => {
           <div className="photobooth_length_time">gif length (seconds)</div>
           <div className="gif_length_numbers">1 2 3 4 5</div>
         </div>
-        <input
+        <div className="gif_length_slider">
+          <GIFSlider
+            type="range"
+            step={1}
+            min={1}
+            max={5}
+            defaultValue={gifLength}
+            onChange={changeSlider}
+          />
+        </div>
+        {/* <input
           type="range"
           className="gif_length_form"
           min="1"
           max="5"
           value={gifLength}
           onChange={(e) => changeSlider(e)}
-        />
+        /> */}
       </div>
     );
   } else {

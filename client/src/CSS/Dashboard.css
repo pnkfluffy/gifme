@@ -167,7 +167,7 @@ h5{
   }
 
   .sticker_canvas_box {
-      margin-top: -20px;
+      margin-top: -14px;
       position: relative;
       display: flex;
       flex-direction: row;
@@ -175,6 +175,14 @@ h5{
       height: 400px;
       width: 400px;
   }
+
+  /* #webcam, .photobooth_screenshot {
+    padding: 1px;
+    border: 3px solid #333333;
+    border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
+    text-transform: uppercase;
+    background: #ffffff;
+  } */
   
 .photobooth_record_box {
     width: 160px;
@@ -222,13 +230,13 @@ h5{
 }
 
 .gif_length_numbers {
-    padding-left: 17px;
+    padding-left: 16px;
     letter-spacing: 17px;
     display: flex;
 }
 
-.gif_length_form {
-    width: 200px;
+.gif_length_slider {
+    width: 190px;
     margin-bottom: 60px;
     display: flex;
 }
