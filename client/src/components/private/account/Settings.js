@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import ErrorMessage from "../../../utils/errorMessage";
-import {CheckPass} from "../../../utils/Checkpass";
+import {CheckPass} from "../../../utils/CheckPass";
+import { UpdateUser } from "../../../utils/UpdateUser";
 
 const Account = () => {
   const [userName, setUserName] = useState("");
@@ -86,10 +87,12 @@ const ToSwitch = ({ data }) => {
   const onSubmit = async e => {
     e.preventDefault();
     if (newpassword) {
-        const check = CheckPass(V_Token, password)
-        .then(res => {})
-        console.log('check:', check);
-        setError(error.response.data.toString());
+        CheckPass(V_Token, password)
+        .then(res => {
+          if(res !== 'ok')
+            setError(res);
+          console.log(res);
+        })
     } else if (password) {
       try {
         const config = {
@@ -124,20 +127,13 @@ const ToSwitch = ({ data }) => {
         setError(err.response);
       }
     } else {
-      try {
-        const config = {
-          headers: {
-            "x-auth-token": V_Token,
-            "Content-Type": "application/json"
-          }
-        };
-        const newUser = { name, email, newpassword };
-        const body = JSON.stringify(newUser);
-        await axios.put("/api/users", body, config);
-        window.location.href = "/Settings";
-      } catch (err) {
-        setError(err.response.data.toString());
-      }
+      UpdateUser(V_Token, newpassword)
+      .then(res => {
+        if(res !== 'ok')
+          setError(res);
+        console.log(res);
+      })
+      window.location.href = "/Settings";
     }
   };
 
