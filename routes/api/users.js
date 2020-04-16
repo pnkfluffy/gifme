@@ -12,7 +12,6 @@ const {sendEmail} = require('../../middleware/email');
 dotenv.config();
 const jwtSecret = process.env.jwtSecret;
 
-
 // @route   GET api/users
 // @desc    Returns user information
 // @access  Private
@@ -61,7 +60,7 @@ async (req, res) => {
     }
 
     const { name, email, password } = req.body;
-    
+
     try {
         //  See if user exists
         let user = await User.findOne({ email });

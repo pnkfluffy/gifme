@@ -163,8 +163,7 @@ const ImageOverlay = ({ data, removeOverlay, authInfo }) => {
   }, []);
 
   const shareURL = `https://reactiongifme.herokuapp.com/image/${data.imageID}`;
-  const title = 'I made this image using gifme, check it out!'
-  const hashtag = '#gifme'
+  const title = 'I made this gif using gifme, check it out!'
 
   return (
     <div className="overlay" onClick={e => removeOverlay(e)}>
@@ -192,13 +191,13 @@ const ImageOverlay = ({ data, removeOverlay, authInfo }) => {
 		  SHARED TO SOCIAL MEDIA. IN ORDER TO SHARE, EACH IMAGE/POST NEEDS ITS
 		  OWN CUSTOM URL AND IT CAN BE SHARED AS A WEBPAGE */}
           <div className="overlay_export_btn">
-            <FacebookShareButton url={shareURL} quote={title} hashtag={hashtag}>
+            <FacebookShareButton url={shareURL} quote={title}>
               {/* <FacebookShareButton url='INSERT IMAGE LINK URL HERE'> */}
               <FacebookIcon size={50} round={true} />
             </FacebookShareButton>
           </div>
           <div className="overlay_export_btn">
-            <TwitterShareButton url={shareURL} title={title} hashtags={hashtag}>
+            <TwitterShareButton url={shareURL} title={title}>
               <TwitterIcon size={50} round={true} />
             </TwitterShareButton>
           </div>
