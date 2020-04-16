@@ -114,21 +114,29 @@ async (req, res) => {
 router.put('/', auth, async (req, res) => {
     try {
       let user = await User.findById(req.user.id);
-      if (user) {res.status(400).send('email already in use');}
     
       const {name, email, password} = req.body;
-    
+
       if (password) {
       const salt = await bcrypt.genSalt(10);
-      newpwd = await bcrypt.hash(password, salt);
+      let newpwd = await bcrypt.hash(password, salt);
       } else {newpwd = '';}
     
     if (name) {
       user.name = name;
     } else if(email) {
-      user.email = email;
+      const foundUser = await User.findOne({email});
+      console.log('foundUser:',foundUser)
+      if (!foundUser)
+        user.email = email;
+      else
+      {
+        res.status(400).send('email already in use');
+        return;
+      }
     } else if (password) {
       user.password = newpwd;
+      return;
     }
     
       await user.save();

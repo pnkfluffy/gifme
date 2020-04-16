@@ -131,7 +131,7 @@ const ToSwitch = ({ data }) => {
         const newUser = { name, email, password };
         const body = JSON.stringify(newUser);
         await axios.put("/api/users", body, config);
-        window.location.href = "/Profile";
+        window.location.href = "/Settings";
       } catch (err) {
         setError(err.response.data.toString());
       }
