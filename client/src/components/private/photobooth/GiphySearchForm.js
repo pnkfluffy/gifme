@@ -179,7 +179,7 @@ const GiphySearchForm = () => {
           name="giphy_search"
           type="text"
           onChange={(e) => onSearchChange(e)}
-          placeholder="Search for any stickers (no really, anything)!"
+          placeholder="Search for stickers (no really, anything!)"
           required="required"
         />
       </form>
