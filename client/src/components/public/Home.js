@@ -46,7 +46,6 @@ const Home = () => {
       return;
     }
     setLoading(true);
-    console.log("loaded", numLoaded);
     const newArray = postsMetaData.slice(numLoaded, numLoaded + numPosts);
     addNumLoaded(numPosts);
     if (numLoaded > postsMetaData.length) {

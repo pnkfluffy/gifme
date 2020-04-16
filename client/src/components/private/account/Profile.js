@@ -46,7 +46,6 @@ const Profile = () => {
   };
 
   const getPosts = numPosts => {
-    console.log("postmetadata", postsMetaData, numPosts, numLoaded, hasMore);
     if (!postsMetaData.length || !hasMore) {
       return;
     }

@@ -152,21 +152,19 @@ router.get("/meta/:metaID", async (req, res) => {
   }
 });
 
-// NEEDS TO BE CREATED TO DELETE MONGODB IMAGE AS WELL AS IMAGE POST
 // @route   DELETE api/posts
 // @desc    Delete a post
 // @access  Private
 router.delete("/:imageID", auth, async (req, res) => {
   try {
     const post = await Post.findOne({ image: req.params.imageID });
-    console.log(post);
     if (post.user != req.user.id) {
       res.status(401).send("Invalid credentials");
     }
   
     const obj_id = new mongoose.Types.ObjectId(req.params.imageID);
     gfs.delete( obj_id );
-  
+
     await post.remove();
     res.json("successfully deleted image!");
   } catch (err) {

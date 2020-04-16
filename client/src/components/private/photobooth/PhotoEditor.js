@@ -96,7 +96,6 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
             return b64;
           });
           return Promise.all(imageArrayPromise).then((imageArrayPromise) => {
-            console.log("1gifs", imageArrayPromise);
             return { imgUrl: imageArrayPromise, xPos, yPos };
           });
         });
@@ -115,8 +114,6 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
 
     allImageArrays
       .then(([backgroundImageArray, stickersGifsArray]) => {
-        console.log("back", backgroundImageArray);
-        console.log("stick", stickersGifsArray);
         // })
         // .then((b64ImageArray) => {
         const stickeredImagesPromise = backgroundImageArray.map(
@@ -139,22 +136,17 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
                 });
               });
               return Promise.all(stickerPromises).then((stickers) => {
-                console.log("1.5", stickers);
                 //  Adds the webcamscreenshot as the first image in the array
                 const finalArray = background.concat(stickers);
                 const stickeredImage = mergeImages(finalArray);
-
-                console.log("2: sticker", stickeredImage);
                 return stickeredImage;
               });
             } else {
-              console.log("2: nosticker", image);
               return image;
             }
           }
         );
         const stickeredImageArray = Promise.all(stickeredImagesPromise);
-        console.log("3", stickeredImageArray);
         return stickeredImageArray;
       })
       .then((stickeredImageArray) => {
@@ -170,7 +162,6 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
               let finalGIF = obj.image,
                 finalAnimatedImage = document.createElement("img");
               finalAnimatedImage.src = finalGIF;
-              console.log("final", finalGIF);
               fetch(finalGIF)
                 .then((res) => res.blob())
                 .then((blob) => {
@@ -185,7 +176,6 @@ const PhotoEditor = ({ imageSrc, setImg }) => {
                     body: formData,
                   })
                     .then(() => {
-                      console.log("image uploaded successfully");
                       window.location.href = "/";
                     })
                     .catch((err) => console.error(err.response));

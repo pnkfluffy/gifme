@@ -11,7 +11,6 @@ const delImage = async (imageID, userID) =>{
             }
           })
         .then((res) => {
-            console.log(res);
             window.location.href = '';
         })
         .catch(err => {

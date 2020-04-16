@@ -12,7 +12,6 @@ const Navbar = () => {
 
   if (user) {
     //get user ID and destructer it
-    console.log(user);
     user.then(res => {
       if (res) {
         setUserId(res._id);
