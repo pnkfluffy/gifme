@@ -11,7 +11,7 @@ const fetchAuth = async () => {
     const userID = await axios.get("api/auth", config);
     return userID.data;
   } catch (err) {
-    console.log("error: ", err.response);
+    console.error("error: ", err.response);
     return null;
   }
 };

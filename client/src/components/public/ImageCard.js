@@ -40,7 +40,7 @@ const Likes = ({ imageID, hasLiked, setHasLiked }) => {
         setHasLiked(false);
       })
       .catch(err => {
-        console.log(err.response);
+        console.error(err.response);
       });
   };
 

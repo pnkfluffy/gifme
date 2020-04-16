@@ -37,7 +37,6 @@ const ResetPassword = () =>{
             setPopMessage('Your password has been updated succesfully');
             setTimeout(() => { window.location.href = '/login';}, 3500);
         } catch (err) {
-            console.log(err.response.data);
             setError(err.response.data.toString());
         }
     }

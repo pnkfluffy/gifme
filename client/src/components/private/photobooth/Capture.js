@@ -6,7 +6,6 @@ import { WebcamProvider } from "./WebcamContext";
 import fetchAuth from "../../../utils/FetchAuth";
 import PhotoEditor from "./PhotoEditor";
 import VerificationPopup from "../../../utils/VerificationPopup";
-import PageError from "../../error/NotValidUser(400)";
 
 const videoConstraints = {
   width: 400,
@@ -90,7 +89,7 @@ const PhotoDisplay = () => {
     return () => {
       clearInterval(upInterval);
     };
-  }, [upTimer]);
+  }, [upTimer, gifLength]);
 
   const changeSlider = (e) => setGifLength(e.target.value);
 
