@@ -4,11 +4,13 @@ import ErrorMessage from "../../../utils/errorMessage";
 import {CheckPass} from "../../../utils/Checkpass";
 import { UpdateUser } from "../../../utils/UpdateUser";
 import { DeleteAccount } from "../../../utils/DeleteAccount";
+import PopUpMessage from "../../../utils/popUpMessage";
 
 const Account = () => {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [trace, setTrace] = useState("");
+  const [popUpText, setPopUpText] = useState("");
 
   const V_Token = localStorage.getItem("myToken");
   
@@ -36,8 +38,15 @@ const Account = () => {
     const UpdateEmail = (email) =>{
       setUserEmail(email);
     }
+    const UpdateTrace = (newTrace) =>{
+      setTrace(newTrace);
+    }
+    const UpdatePopUpText = (popUpText) =>{
+      setPopUpText(popUpText);
+    }
   return (
     <div>
+      <PopUpMessage text={popUpText}/>
       <div className="account_body">
         <div className="Title">Account</div>
         <div className="Container">
@@ -73,13 +82,15 @@ const Account = () => {
         data={trace}
         UpdateName={(name) => UpdateName(name)}
         UpdateEmail={(email) => UpdateEmail(email)}
+        UpdateTrace={(newTrace) => UpdateTrace(newTrace)}
+        UpdatePopUpText={(popUpText) => UpdatePopUpText(popUpText)}
         />
       </div>
     </div>
   );
 };
 
-const ToSwitch = ({ data, UpdateName, UpdateEmail }) => {
+const ToSwitch = ({ data, UpdateName, UpdateEmail, UpdateTrace, UpdatePopUpText }) => {
   const [newData, setNewData] = useState({
     name: "",
     email: "",
@@ -110,7 +121,10 @@ const ToSwitch = ({ data, UpdateName, UpdateEmail }) => {
               .then(res => {
                 if(res.data){
                 UpdateName(res.data.name);
-                UpdateEmail(res.data.email);
+                UpdateEmail(res.data.email)
+                UpdateTrace("");
+                UpdatePopUpText("Changes have been applied to your account");
+                setTimeout(() => {UpdatePopUpText("")}, 3500);
               } else {setError(res);}
               });
               }
@@ -121,14 +135,21 @@ const ToSwitch = ({ data, UpdateName, UpdateEmail }) => {
         if(res !== 'ok')
           setError(res);
       })
+      UpdatePopUpText("Your account has been deleted, you will be redirected shortly")
+      setTimeout(() => {
       localStorage.removeItem("myToken");
       window.location.href = "/";
+      }, 3500);
+      
     } else {
       UpdateUser(V_Token, newpassword, name, email)
       .then(res => {
         if(res.data){
         UpdateName(res.data.name);
         UpdateEmail(res.data.email);
+        UpdateTrace("");
+        UpdatePopUpText("Changes have been applied to your account");
+        setTimeout(() => {UpdatePopUpText("")}, 3500);
       } else {setError(res);}
       });
     }
@@ -162,7 +183,9 @@ const ToSwitch = ({ data, UpdateName, UpdateEmail }) => {
                 className="edit_button"
               />
 
-              <button type="submit" className="edit_sign_button" >
+              <button
+              type="submit"
+              className="edit_sign_button">
                 Change password
               </button>
             </form>
@@ -186,7 +209,9 @@ const ToSwitch = ({ data, UpdateName, UpdateEmail }) => {
                 className="edit_button"
               />
 
-              <button type="submit" className="edit_sign_button" onClick={()=>ToSwitch}>
+              <button
+              type="submit"
+              className="edit_sign_button">
                 Edit name
               </button>
             </form>

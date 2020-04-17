@@ -36,6 +36,18 @@ h1 {
   text-align: center;
 }
 
+.popup_message{
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  width: auto;
+  padding-top: 5px;
+  height: 30px;
+  background-color: white;
+  color: purple;
+  font-size: 18px;
+}
+
 
 
 /*                 NAVIGATION BAR (NavBar)                     */
