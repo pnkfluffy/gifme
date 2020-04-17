@@ -287,7 +287,7 @@ h5 {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: rgba(256,256,256,0.8)
+  background-color: rgba(256, 256, 256, 0.8);
 }
 
 .horizontal-menu {
@@ -319,14 +319,14 @@ h5 {
 }
 
 .scroll_sticker_holder {
-    display: flex;
-    align-items: center;   
+  display: flex;
+  align-items: center;
 }
 
 .menu-wrapper--inner {
   margin-left: -30px;
   display: flex;
-  align-items: center;   
+  align-items: center;
 }
 
 .scroll-menu-arrow {
@@ -343,15 +343,33 @@ h5 {
   padding-left: 10px;
 }
 
-.printed_sticker_holder{
-    display: flex;
-    flex-direction: column;   
+.printed_sticker_holder {
+  display: flex;
+}
+
+.sticker_interact_overlay {
+  display: inline-flex;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  justify-content: space-between;
+}
+
+.sticker_delete,
+.sticker_resize {
+  z-index: 150;
+  margin-top: -15px;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 2px;
+  border-radius: 5px;
 }
 
 .sticker_delete {
-    position: absoulte;
-    color: rgb(189, 67, 67);
-    align-self: flex-end;
+  color: rgba(255, 0, 0, 0.8);
+}
+
+.sticker_resize {
+  color: rgba(256, 256, 256, 0.8);
 }
 
 .photobooth_accept_btn,

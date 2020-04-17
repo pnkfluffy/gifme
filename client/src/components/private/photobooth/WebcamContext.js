@@ -22,11 +22,11 @@ class WebcamProvider extends Component {
     const newHeight = Math.floor(150 * ratio);
     let newZPos;
     if (this.state.imgsOnCanvas.length) {
-      newZPos = (this.state.imgsOnCanvas[this.state.imgsOnCanvas.length - 1].zPos  + 1)
+      newZPos = this.state.imgsOnCanvas.length;
     } else {
-      newZPos = 0;
+    newZPos = 0;
     }
-    console.log('newZ', newZPos);
+    console.log(newZPos);
     this.setState({
       imgsOnCanvas: [
         ...this.state.imgsOnCanvas,
@@ -37,24 +37,31 @@ class WebcamProvider extends Component {
           imgUrl: newSticker.img,
           width: 150,
           height: newHeight,
-          ratio: ratio
-        }
+          ratio: ratio,
+        },
       ],
-      totalImgsOnCanvas: this.state.totalImgsOnCanvas + 1
+      totalImgsOnCanvas: this.state.totalImgsOnCanvas + 1,
     });
-    console.log(this.state.imgsOnCanvas[this.state.imgsOnCanvas.length - 1]);
   };
+  // removes sticker from canvas, sets image index to null
+  // null indexes of the array are removed on gif compilation
   removeSticker = (index) => {
     const newImgsOnCanvas = this.state.imgsOnCanvas.slice();
-    console.log('zPos', index);
-    console.log('spliceInded', index);
     newImgsOnCanvas[index] = null;
-
     this.setState({
       imgsOnCanvas: newImgsOnCanvas,
-      totalImgsOnCanvas: this.state.totalImgsOnCanvas - 1
-    })
-  }
+      totalImgsOnCanvas: this.state.totalImgsOnCanvas - 1,
+    });
+  };
+
+  resizeSticker = (index, side) => {
+    console.log('resizing!');
+    const newImgsOnCanvas = this.state.imgsOnCanvas.slice();
+    const oldWidth = newImgsOnCanvas[index].width;
+    newImgsOnCanvas[index].width = oldWidth + side;
+    this.setState({ imgsOnCanvas: newImgsOnCanvas });
+  };
+
   // move stickers in canvas
   moveStickerX = (index, side) => {
     //copy the array:
@@ -63,7 +70,7 @@ class WebcamProvider extends Component {
     //if move to SIDE right => +1, if move to SIDE left => -1
     newImgsOnCanvas[index].xPos = oldPos + side;
     this.setState({
-      imgsOnCanvas: newImgsOnCanvas
+      imgsOnCanvas: newImgsOnCanvas,
     });
   };
   moveStickerY = (index, side) => {
@@ -73,7 +80,7 @@ class WebcamProvider extends Component {
     //if move to SIDE up => +1, if move to SIDE down => -1
     newImgsOnCanvas[index].yPos = oldPos + side;
     this.setState({
-      imgsOnCanvas: newImgsOnCanvas
+      imgsOnCanvas: newImgsOnCanvas,
     });
   };
 
@@ -88,7 +95,8 @@ class WebcamProvider extends Component {
     addStickerToCanvas: this.addStickerToCanvas,
     removeSticker: this.removeSticker,
     moveStickerX: this.moveStickerX,
-    moveStickerY: this.moveStickerY
+    moveStickerY: this.moveStickerY,
+    resizeSticker: this.resizeSticker,
   };
 
   render() {
