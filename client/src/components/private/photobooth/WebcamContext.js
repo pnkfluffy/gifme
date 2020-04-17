@@ -57,8 +57,10 @@ class WebcamProvider extends Component {
   resizeSticker = (index, side) => {
     console.log('resizing!');
     const newImgsOnCanvas = this.state.imgsOnCanvas.slice();
-    const oldWidth = newImgsOnCanvas[index].width;
-    newImgsOnCanvas[index].width = oldWidth + side;
+    const newWidth = newImgsOnCanvas[index].width + side;
+    const newHeight = Math.floor(newWidth * newImgsOnCanvas[index].ratio)
+    newImgsOnCanvas[index].width = newWidth;
+    newImgsOnCanvas[index].height = newHeight;
     this.setState({ imgsOnCanvas: newImgsOnCanvas });
   };
 
