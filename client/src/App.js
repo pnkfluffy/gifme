@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/public/Navbar";
 import Home from "./components/public/Home";
 import PhotoBooth from "./components/private/photobooth/Capture";
-
-
 import Signup from "./components/private/auth/Signup";
 import Login from "./components/private/auth/Login";
 
@@ -18,11 +16,29 @@ import Profile from "./components/private/account/Profile";
 import FullImage from "./components/public/FullImage";
 import Favorites from "./components/private/account/Favorites";
 
-
 import "./CSS/App.css";
 import "./CSS/Home.css";
 import "./CSS/Dashboard.css";
 import "./CSS/Signup.css";
+
+import GitHubIcon from "@material-ui/icons/GitHub";
+import { withStyles } from "@material-ui/core/styles";
+const StyledGithub = withStyles({
+  root: {
+    background: "linear-gradient(45deg, #FE6B8B 30%, rgb(148, 115, 175) 90%)",
+    borderRadius: 3,
+    border: 0,
+    color: "white",
+    padding: "0",
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+    height: "14px",
+    marginRight: "5px",
+    marginTop: "2px",
+  },
+  label: {
+    textTransform: "capitalize",
+  },
+})(GitHubIcon);
 
 const App = () => (
   <Router>
@@ -41,6 +57,13 @@ const App = () => (
       <Route exact path="/reset/:token" component={ResetPassword} />
       <Route exact path="/photobooth" component={PhotoBooth} />
     </Switch>
+    <footer id="footer">
+      <a href="https://github.com/pnkfluffy/gifme">
+        <StyledGithub />
+      </a>{" "}
+      Created by <a className="footer_github_link"href="https://github.com/pnkfluffy">Jackson</a>and
+      <a className="footer_github_link" href="https://github.com/jsandleraol">Jon</a>
+    </footer>
   </Router>
 );
 

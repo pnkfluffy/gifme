@@ -190,7 +190,7 @@ const PhotoDisplay = () => {
 
 const PhotoBooth = () => {
   return (
-    <div>
+    <div className="inner_body">
       <div id="main">
         <div className="photobooth">
           <PhotoDisplay />

@@ -41,7 +41,7 @@ const Navbar = () => {
   };
 
   return (
-    <div>
+    <div className="navbar">
       <div className="header_relative"></div>
       <div className="header_absolute">
         <Link className="navbar_logo" to="/" onClick={scrollToTop()}>

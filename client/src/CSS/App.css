@@ -1,10 +1,18 @@
 /*                 GENERAL                     */
 
+html, body, #app, #app>div {
+  height: 100vh;
+}
+
+.inner_body {
+  top:0;
+  bottom: 0;
+  height: 100%;
+}
 body {
   background-color: rgb(224, 224, 224);
   padding: 0;
   margin: 0;
-  height: 100%;
   font-family: 'Comfortaa', Arial, sans-serif;
 }
 a {
@@ -17,11 +25,14 @@ a {
   flex: 1;
   max-width: 1600px;
   width: 90%;
-  margin: 20px auto 20px auto;
+  margin: 20px auto 10px auto;
   border-radius: 5px;
   background-color: rgba(256, 256, 256, .4);
 }
 
+#root {
+  min-height: 100vh;
+}
 .noscroll {
   overflow: hidden;
   margin-right: 10px;
@@ -40,7 +51,7 @@ h1 {
 
 /*                 NAVIGATION BAR (NavBar)                     */
 
-.header_relative {
+.header_relative{
   height: 60px;
 }
 
@@ -277,11 +288,34 @@ h1 {
 
 /*                 FOOTER                    */
 
-.footer {
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swapp);
+
+#footer {
   position: fixed;
+  left: 0;
+  right: 0;
   bottom: 0;
-  padding-bottom: 4px;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 15px;
+  background-color: rgb(224,224,224);
+  font-size: 13px;
+  vertical-align: auto;
+  background-image: linear-gradient(rgb(150,150,150, 0.3),rgba(0,0,0,0),rgba(0,0,0,0));
+  font-family: Roboto;
+  letter-spacing: .25px;
+  font-weight: 200;
 }
+
+.footer_github_link {
+  margin-left: 2px;
+  margin-right: 3px;
+  font-weight: 400;
+}
+
 .icon {
   height: 20px;
 }

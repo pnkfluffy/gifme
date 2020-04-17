@@ -93,8 +93,6 @@ const Home = () => {
     }
   }, [imageGallery]);
 
-  // useEffect(() => {}, [imageGallery]);
-
   // toggles overlay by updating the overlayData state
   var body = document.body;
   const toggleOverlay = (props) => {
@@ -123,13 +121,11 @@ const Home = () => {
   });
 
   return (
-    <div>
+    <div className="inner_body">
       <div id="main">
         <div className="home_imagegallery">{items}</div>
         {loading && loader}
       </div>
-      <footer id="footer"></footer>
-      &#169; Jack&Jon all rights reserved.
       {/* if state has imageData, then display overlay. toggleOverlay function 
 			passed in to toggle the overlay off when user clicks out */}
       {overlayData ? (

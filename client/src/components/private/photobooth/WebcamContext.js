@@ -25,7 +25,7 @@ class WebcamProvider extends Component {
           yPos: 0,
           zPos: this.state.totalImgsOnCanvas,
           imgUrl: newSticker.img,
-          id: this.state.totalImgsOnCanvas
+          // id: this.state.totalImgsOnCanvas
         }
       ],
       totalImgsOnCanvas: this.state.totalImgsOnCanvas + 1
@@ -33,10 +33,14 @@ class WebcamProvider extends Component {
   };
   removeSticker = (id) => {
     const newImgsOnCanvas = this.state.imgsOnCanvas.slice();
-    const index = newImgsOnCanvas.findIndex(sticker => sticker.id === id);
+    let index = newImgsOnCanvas.findIndex(sticker => sticker.zPos === id);
     console.log('removeid', id);
     console.log('spliceInded', index);
     newImgsOnCanvas.splice(index, 1);
+    while (index < this.state.totalImgsOnCanvas - 1) {
+      newImgsOnCanvas[index].zPos -= 1;
+      index++;
+    }
     this.setState({
       imgsOnCanvas: newImgsOnCanvas,
       totalImgsOnCanvas: this.state.totalImgsOnCanvas - 1
@@ -46,7 +50,7 @@ class WebcamProvider extends Component {
   moveStickerX = (id, side) => {
     //copy the array:
     const newImgsOnCanvas = this.state.imgsOnCanvas.slice();
-    const index = newImgsOnCanvas.findIndex(sticker => sticker.id === id);
+    const index = newImgsOnCanvas.findIndex(sticker => sticker.zPos === id);
     const oldPos = newImgsOnCanvas[index].xPos;
     //if move to SIDE right => +1, if move to SIDE left => -1
     newImgsOnCanvas[index].xPos = oldPos + side;
@@ -57,7 +61,7 @@ class WebcamProvider extends Component {
   moveStickerY = (id, side) => {
     //copy the array:
     const newImgsOnCanvas = this.state.imgsOnCanvas.slice();
-    const index = newImgsOnCanvas.findIndex(sticker => sticker.id === id);
+    const index = newImgsOnCanvas.findIndex(sticker => sticker.zPos === id);
     const oldPos = newImgsOnCanvas[index].yPos;
     //if move to SIDE up => +1, if move to SIDE down => -1
     newImgsOnCanvas[index].yPos = oldPos + side;
