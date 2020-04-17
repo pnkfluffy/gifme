@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import Sticker from "./Sticker";
 import ScrollMenu from "react-horizontal-scrolling-menu";
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 import bigStar from "../../../resources/sticker_bigstar.gif";
 import broke from "../../../resources/sticker_broke.gif";
@@ -95,8 +97,8 @@ const Arrow = ({ text, className }) => {
   return <div className={className}>{text}</div>;
 };
 
-const ArrowLeft = Arrow({ text: "<", className: "arrow-prev" });
-const ArrowRight = Arrow({ text: ">", className: "arrow-next" });
+const ArrowLeft = Arrow({ text: <ArrowBackIosIcon/>, className: "arrow-prev" });
+const ArrowRight = Arrow({ text: <ArrowForwardIosIcon/>, className: "arrow-next" });
 
 const GiphySearchForm = () => {
   const [stickerArray, setStickerArray] = useState(defaultStickers);

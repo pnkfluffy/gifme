@@ -149,18 +149,18 @@ h5 {
 }
 
 .loading_box {
-    width: 400px;
-    height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    background: black;
-    color: white;
-    margin-top: -412px;
-    border: 3px solid #333333;
-    border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
-  }
+  width: 400px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  background: black;
+  color: white;
+  margin-top: -412px;
+  border: 3px solid #333333;
+  border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
+}
 
 .videoSystem {
   top: 50px;
@@ -287,6 +287,7 @@ h5 {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  background-color: rgba(256,256,256,0.8)
 }
 
 .horizontal-menu {
@@ -295,6 +296,26 @@ h5 {
 
 .menu-item-wrapper {
   padding: 0 5px 0 5px;
+}
+
+.menu-wrapper {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(1, 1, 1, 1),
+    rgba(1, 1, 1, 1),
+    rgba(1, 1, 1, 1),
+    rgba(1, 1, 1, 1),
+    rgba(1, 1, 1, 1),
+    rgba(1, 1, 1, 1),
+    rgba(1, 1, 1, 1),
+    rgba(1, 1, 1, 1),
+    rgba(1, 1, 1, 1),
+    rgba(1, 1, 1, 1),
+    rgba(1, 1, 1, 1),
+    rgba(1, 1, 1, 1),
+    rgba(0, 0, 0, 0)
+  );
 }
 
 .menu-wrapper--inner {
