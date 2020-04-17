@@ -28,8 +28,14 @@ const Account = () => {
     })
     .catch(err => {
       console.error(err.response);
-      window.location.href = "/Settings";
     });
+
+    const UpdateName = (name) =>{
+      setUserName(name);
+    }
+    const UpdateEmail = (email) =>{
+      setUserEmail(email);
+    }
   return (
     <div>
       <div className="account_body">
@@ -65,8 +71,8 @@ const Account = () => {
         </div>
         <ToSwitch
         data={trace}
-        UpdateName={(name) => setUserName(name)}
-        UpdateEmail={(email) => setUserEmail(email)}
+        UpdateName={(name) => UpdateName(name)}
+        UpdateEmail={(email) => UpdateEmail(email)}
         />
       </div>
     </div>
@@ -100,14 +106,13 @@ const ToSwitch = ({ data, UpdateName, UpdateEmail }) => {
             return;
           }
           else {
-            UpdateUser(V_Token, newpassword, null, null)
+            UpdateUser(V_Token, newpassword, name, email)
               .then(res => {
-                if(res !== 'ok'){
-                  setError(res);
-                  return;
-                  }
-                  window.location.href = "/Settings";
-                });
+                if(res.data){
+                UpdateName(res.data.name);
+                UpdateEmail(res.data.email);
+              } else {setError(res);}
+              });
               }
             });
     } else if (password) {
@@ -121,14 +126,11 @@ const ToSwitch = ({ data, UpdateName, UpdateEmail }) => {
     } else {
       UpdateUser(V_Token, newpassword, name, email)
       .then(res => {
-        console.log('last UpdateUser:',res.data)
-
         if(res.data){
         UpdateName(res.data.name);
         UpdateEmail(res.data.email);
       } else {setError(res);}
       });
-      //window.location.href = "/Settings";
     }
   };
 
@@ -160,7 +162,7 @@ const ToSwitch = ({ data, UpdateName, UpdateEmail }) => {
                 className="edit_button"
               />
 
-              <button type="submit" className="edit_sign_button">
+              <button type="submit" className="edit_sign_button" >
                 Change password
               </button>
             </form>
@@ -184,7 +186,7 @@ const ToSwitch = ({ data, UpdateName, UpdateEmail }) => {
                 className="edit_button"
               />
 
-              <button type="submit" className="edit_sign_button">
+              <button type="submit" className="edit_sign_button" onClick={()=>ToSwitch}>
                 Edit name
               </button>
             </form>
