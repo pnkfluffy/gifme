@@ -27,7 +27,7 @@ const {sendEmail} = require('../../middleware/email');
 // @access  Private
 router.get('/', auth, async (req, res) => {
     try {
-        const profile = await User.findOne({ user: req.id });
+        const profile = await User.findOne({ _id: req.user.id });
         if (!profile) {
             return res.status(400).send('There is no profile for this user');
         }

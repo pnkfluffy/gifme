@@ -12,7 +12,7 @@ const UpdateUser = async(V_Token, newpassword, name, email) => {
         const newUser = { name, email, newpassword };
         const body = JSON.stringify(newUser);
         await axios.put("/api/users", body, config);
-        return('ok');
+        return(await axios.get("/api/users", config));
       } catch (err) {
         return(err.response.data.toString());
       }

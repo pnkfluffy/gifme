@@ -3,6 +3,7 @@ import axios from "axios";
 import ErrorMessage from "../../../utils/errorMessage";
 import {CheckPass} from "../../../utils/Checkpass";
 import { UpdateUser } from "../../../utils/UpdateUser";
+import { DeleteAccount } from "../../../utils/DeleteAccount";
 
 const Account = () => {
   const [userName, setUserName] = useState("");
@@ -27,7 +28,7 @@ const Account = () => {
     })
     .catch(err => {
       console.error(err.response);
-      window.location.href = "/profile";
+      window.location.href = "/Settings";
     });
   return (
     <div>
@@ -62,13 +63,17 @@ const Account = () => {
             Delete Account
           </button>
         </div>
-        <ToSwitch data={trace} />
+        <ToSwitch
+        data={trace}
+        UpdateName={(name) => setUserName(name)}
+        UpdateEmail={(email) => setUserEmail(email)}
+        />
       </div>
     </div>
   );
 };
 
-const ToSwitch = ({ data }) => {
+const ToSwitch = ({ data, UpdateName, UpdateEmail }) => {
   const [newData, setNewData] = useState({
     name: "",
     email: "",
@@ -101,50 +106,29 @@ const ToSwitch = ({ data }) => {
                   setError(res);
                   return;
                   }
+                  window.location.href = "/Settings";
                 });
               }
             });
     } else if (password) {
-      try {
-        const config = {
-          headers: {
-            "x-auth-token": V_Token,
-            "Content-Type": "application/json"
-          }
-        };
-        const deleteAccount = { password };
-        const body = JSON.stringify(deleteAccount);
-        //checks if the user is valid
-        return axios.post("/api/users/check", body, config)
-        //finds and deletes all posts
-        .then((res) => {axios.get("/api/auth", config)
-          .then(user => {axios.get(`/api/posts/${user.data._id}`)
-            .then(allPosts => {
-              const allPostsPromise = allPosts.data.map(
-              (post) => {axios.delete(`/api/posts/${post.image}`, config)})
-              Promise.all(allPostsPromise)
-            })
-            .then(() => {return (user)})
-        })
-        return(res)
-      })
-        //deletes user model
-        .then((user) => {axios.delete(`/api/users/${user.data._id}`, config)
-          .then(() => {
-            localStorage.removeItem("myToken")
-            (window.location.href = "/")})
-      })
-      } catch (err) {
-        setError(err.response);
-      }
-    } else {
-      UpdateUser(V_Token, newpassword, name, email)
+      DeleteAccount(V_Token, password)
       .then(res => {
         if(res !== 'ok')
           setError(res);
-        console.log('inside the last UpdateUser:',res);
       })
-      window.location.href = "/Settings";
+      localStorage.removeItem("myToken");
+      window.location.href = "/";
+    } else {
+      UpdateUser(V_Token, newpassword, name, email)
+      .then(res => {
+        console.log('last UpdateUser:',res.data)
+
+        if(res.data){
+        UpdateName(res.data.name);
+        UpdateEmail(res.data.email);
+      } else {setError(res);}
+      });
+      //window.location.href = "/Settings";
     }
   };
 
