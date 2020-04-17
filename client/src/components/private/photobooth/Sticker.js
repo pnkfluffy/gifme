@@ -11,13 +11,14 @@ export default class Sticker extends Component {
 
   render() {
     return (
-      <div>
+      <div className="scroll_sticker_holder">
         <img
           src={this.props.img}
           alt={this.props.title}
           key={this.props.key}
           style={{
-            height: "70px",
+            height: "auto",
+            maxHeight: "80px",
             width: "70px"
           }}
           onClick={this.addSticker}

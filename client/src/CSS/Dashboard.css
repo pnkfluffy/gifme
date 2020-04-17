@@ -318,8 +318,15 @@ h5 {
   );
 }
 
+.scroll_sticker_holder {
+    display: flex;
+    align-items: center;   
+}
+
 .menu-wrapper--inner {
   margin-left: -30px;
+  display: flex;
+  align-items: center;   
 }
 
 .scroll-menu-arrow {
