@@ -160,7 +160,7 @@ const ToSwitch = ({ data, UpdateName, UpdateEmail, UpdateTrace, UpdatePopUpText 
       return (
         <div>
           <div className="Cont_edit">
-            <ErrorMessage text={error} />
+          <ErrorMessage text={error}/>
 
             <form onSubmit={e => onSubmit(e)} className="edit_form">
               <input
@@ -182,12 +182,21 @@ const ToSwitch = ({ data, UpdateName, UpdateEmail, UpdateTrace, UpdatePopUpText 
                 required="required"
                 className="edit_button"
               />
+              <div className="wrapper">
 
               <button
               type="submit"
               className="edit_sign_button">
                 Change password
               </button>
+
+              <button
+              className="edit_sign_button"
+              onClick={()=> UpdateTrace("")}>
+                Cancel
+              </button>
+              </div>
+
             </form>
           </div>
         </div>
@@ -208,12 +217,19 @@ const ToSwitch = ({ data, UpdateName, UpdateEmail, UpdateTrace, UpdatePopUpText 
                 required="required"
                 className="edit_button"
               />
-
+              <div className="wrapper">
               <button
               type="submit"
               className="edit_sign_button">
                 Edit name
               </button>
+
+              <button
+              className="edit_sign_button"
+              onClick={()=> UpdateTrace("")}>
+                Cancel
+              </button>
+              </div>
             </form>
           </div>
         </div>
@@ -234,10 +250,21 @@ const ToSwitch = ({ data, UpdateName, UpdateEmail, UpdateTrace, UpdatePopUpText 
                 required="required"
                 className="edit_button"
               />
+              <div className="wrapper">
 
-              <button type="submit" className="edit_sign_button">
+              <button 
+              type="submit" 
+              className="edit_sign_button">
                 Change email
               </button>
+
+              <button
+              className="edit_sign_button"
+              onClick={()=> UpdateTrace("")}>
+                Cancel
+              </button>
+              </div>
+
             </form>
           </div>
         </div>
@@ -258,10 +285,20 @@ const ToSwitch = ({ data, UpdateName, UpdateEmail, UpdateTrace, UpdatePopUpText 
                 required="required"
                 className="edit_button"
               />
+              <div className="wrapper">
 
-              <button type="submit" className="edit_sign_button">
+              <button
+              type="submit"
+              className="edit_sign_button">
                 Delete Account
               </button>
+
+              <button
+              className="edit_sign_button"
+              onClick={()=> UpdateTrace("")}>
+                Cancel
+              </button>
+              </div>
             </form>
           </div>
         </div>

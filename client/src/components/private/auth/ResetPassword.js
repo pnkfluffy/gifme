@@ -43,31 +43,35 @@ const ResetPassword = () =>{
 }
     return(
         <div>
-            <div className="form">
-            <PopUpMessage text={popMessage}/>
-            <form onSubmit={e => onSubmit(e)} className="form-box">
-                <ErrorMessage text={error}/>
-        
-                <input name="password"
-                type="password"
-                value={password}
-                onChange={e => onChange(e)}
-                placeholder="New Password"
-                className="input"/>
-    
-                <input name="password2"
-                type="password"
-                value={password2}
-                onChange={e => onChange(e)}
-                placeholder="Confirm Password"
-                className="input"/>
-    
-                <input type="submit"
-                value="Reset Password"
-                className="sign-bottom"/>
-                </form>
+            <div className="outside-container">
+                <div className="container-form">
+                    <div className="form">
+                    <PopUpMessage text={popMessage}/>
+                    <form onSubmit={e => onSubmit(e)} className="form-box">
+                        <ErrorMessage text={error}/>
+                
+                        <input name="password"
+                        type="password"
+                        value={password}
+                        onChange={e => onChange(e)}
+                        placeholder="New Password"
+                        className="input"/>
+            
+                        <input name="password2"
+                        type="password"
+                        value={password2}
+                        onChange={e => onChange(e)}
+                        placeholder="Confirm Password"
+                        className="input"/>
+            
+                        <input type="submit"
+                        value="Reset Password"
+                        className="sign-bottom"/>
+                    </form>
+                </div>
             </div>
         </div>
+    </div>
     )
 }
 
