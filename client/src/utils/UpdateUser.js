@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const UpdateUser = async(V_Token, newpassword) => {
+const UpdateUser = async(V_Token, newpassword, name, email) => {
     try {
         const config = {
           headers: {
@@ -14,7 +14,7 @@ const UpdateUser = async(V_Token, newpassword) => {
         await axios.put("/api/users", body, config);
         return('ok');
       } catch (err) {
-        setError(err.response.data.toString());
+        return(err.response.data.toString());
       }
     }
 

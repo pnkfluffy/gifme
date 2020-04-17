@@ -115,18 +115,17 @@ router.put('/', auth, async (req, res) => {
     try {
       let user = await User.findById(req.user.id);
     
-      const {name, email, password} = req.body;
+      const {name, email, newpassword} = req.body;
 
-      if (password) {
+      if (newpassword) {
       const salt = await bcrypt.genSalt(10);
-      let newpwd = await bcrypt.hash(password, salt);
+      newpwd = await bcrypt.hash(newpassword, salt);
       } else {newpwd = '';}
     
     if (name) {
       user.name = name;
     } else if(email) {
       const foundUser = await User.findOne({email});
-      console.log('foundUser:',foundUser)
       if (!foundUser)
         user.email = email;
       else
@@ -134,9 +133,8 @@ router.put('/', auth, async (req, res) => {
         res.status(400).send('email already in use');
         return;
       }
-    } else if (password) {
+    } else if (newpassword) {
       user.password = newpwd;
-      return;
     }
     
       await user.save();

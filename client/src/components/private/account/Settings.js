@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import ErrorMessage from "../../../utils/errorMessage";
-import {CheckPass} from "../../../utils/CheckPass";
+import {CheckPass} from "../../../utils/Checkpass";
 import { UpdateUser } from "../../../utils/UpdateUser";
 
 const Account = () => {
@@ -90,9 +90,20 @@ const ToSwitch = ({ data }) => {
         CheckPass(V_Token, password)
         .then(res => {
           if(res !== 'ok')
+          {
             setError(res);
-          console.log(res);
-        })
+            return;
+          }
+          else {
+            UpdateUser(V_Token, newpassword, null, null)
+              .then(res => {
+                if(res !== 'ok'){
+                  setError(res);
+                  return;
+                  }
+                });
+              }
+            });
     } else if (password) {
       try {
         const config = {
@@ -127,11 +138,11 @@ const ToSwitch = ({ data }) => {
         setError(err.response);
       }
     } else {
-      UpdateUser(V_Token, newpassword)
+      UpdateUser(V_Token, newpassword, name, email)
       .then(res => {
         if(res !== 'ok')
           setError(res);
-        console.log(res);
+        console.log('inside the last UpdateUser:',res);
       })
       window.location.href = "/Settings";
     }
