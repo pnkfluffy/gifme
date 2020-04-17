@@ -5,7 +5,7 @@ This app was built using the MERN stack, folliwing a MVC structure. Stickers are
 
 You can find the site hosted [right here](https://reactiongifme.herokuapp.com "gifme")
 
-![Gifme Home Page](https://cdn.discordapp.com/attachments/613478885174018084/698394976173686784/gifme_frontpage.gif)
+![Gifme Home Page](https://cdn.discordapp.com/attachments/613478885174018084/700461285392777286/gifme_frontpage2.gif)
 
 To Do:
 * Make a user-side cache for gifs to reduce strain on the server

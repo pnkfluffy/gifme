@@ -17,7 +17,7 @@ const delImage = async (imageID, userID) =>{
             console.error(err.response);
         })
 
-    } catch (err) {console.log(err.response.data);}
+    } catch (err) {console.error(err.response.data);}
 }
 
 export {delImage} 

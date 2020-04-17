@@ -263,8 +263,13 @@ h5{
 }
 
 .giphy_search_input {
-    border-radius: 6px;
+    border-radius: 3px;
     text-align: center;
+    width: 300px;
+}
+
+::placeholder {
+    color: rgb(68, 68, 68);
 }
 
 .sticker_selector{

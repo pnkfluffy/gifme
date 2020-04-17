@@ -21,7 +21,7 @@ const FullImage = () => {
 
   useEffect(() => {
     getPost();
-  }, [getPost]);
+  }, []);
 
   //  Here look for the return to work
   return (

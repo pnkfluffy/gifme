@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import noLikeHeart from "../../resources/heart_purple.png";
 import likeHeart from "../../resources/heart_red.png";
 import { delImage } from "../../utils/DeleteImage";
-import ConfirmDelete from "../../utils/ConfirmDelete";
+import VerificationPopup from "../../utils/VerificationPopup";
 
 const Likes = ({ imageID, hasLiked, setHasLiked }) => {
   const authToken = localStorage.getItem("myToken");
@@ -17,8 +17,6 @@ const Likes = ({ imageID, hasLiked, setHasLiked }) => {
       }
     })
       .then(res => {
-        //  ADD A POP UP THAT SAYS 'user must be logged in to like posts'
-        //  'log in?' <--- link to log in page on click
         if (res.status === 401) {
           window.location.href = "/signup";
         }
@@ -42,22 +40,9 @@ const Likes = ({ imageID, hasLiked, setHasLiked }) => {
         setHasLiked(false);
       })
       .catch(err => {
-        console.log(err.response);
+        console.error(err.response);
       });
   };
-
-  // //  checks if user has liked posts, and updates ui
-  // useEffect(() => {
-  //   if (likes.length) {
-  //     authInfo.then(res => {
-  //       if (res) {
-  //         const myLikes = likes.some(like => like.user.toString() === res._id);
-  //         setHasLiked(myLikes);
-  //       }
-  //       // else, the user is not logged in
-  //     });
-  //   }
-  // }, []);
 
   if (hasLiked) {
     return (
@@ -101,13 +86,19 @@ const ImageCard = ({ imageData, addOverlay, authInfo, whosProfile }) => {
   }, []);
 
   const maxNameLength = 18;
+  const popupMessage="Are you sure you want to delete this image?";
+  const yesMessage="DELETE";
+  const noMessage="nevermind";
 
   return (
     <div className="image_card">
       {confirmDeletion && (
-        <ConfirmDelete
-          yesDelete={() => delImage(imageData.imageID, imageData.userID)}
-          plsNoDelete={() => setConfirmDeletion(false)}
+        <VerificationPopup
+          popupMessage={popupMessage}
+          leftButtonMessage={yesMessage}
+          leftButtonFunction={() => delImage(imageData.imageID, imageData.userID)}
+          rightButtonMessage={noMessage}
+          rightButtonFunction={() => setConfirmDeletion(false)}
         />
       )}
       <div className="image_card_name">

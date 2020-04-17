@@ -8,10 +8,7 @@ import fetchAuth from "../../../utils/FetchAuth";
 import loader from "../../../utils/loader";
 
 function galleryReducer(state, action) {
-  switch (action.type) {
-    case "add":
-      return [...state, ...action.payload];
-  }
+  return [...state, ...action.payload];
 }
 
 function numLoadedReducer(state, action) {
@@ -38,12 +35,12 @@ const Profile = () => {
   const isUsersProfile = () => {
     const config = {
       headers: {
-        "x-auth-token": authToken
+        "x-auth-token": authToken,
         //logged user
-      }
+      },
     };
     const isUsersProfile = axios.get(`/api/auth/${userID}`, config);
-    isUsersProfile.then(res => {
+    isUsersProfile.then((res) => {
       setUsersProfile(res.data);
     });
   };
@@ -51,17 +48,17 @@ const Profile = () => {
   const getPostData = () => {
     const finalPosts = axios.get(`/api/posts/favorites/${userID}`);
     finalPosts
-      .then(res => {
+      .then((res) => {
         setPostsMetaData(res.data);
         return res.data;
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
     return finalPosts;
   };
 
-  const getPosts = numPosts => {
+  const getPosts = (numPosts) => {
     if (!postsMetaData.length || !hasMore) {
       return;
     }
@@ -72,11 +69,11 @@ const Profile = () => {
       setHasMore(false);
     }
     fetchAllPosts(newArray)
-      .then(res => {
+      .then((res) => {
         setImageGallery({ type: "add", payload: res });
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   };
@@ -92,7 +89,7 @@ const Profile = () => {
   };
 
   var body = document.body;
-  const toggleOverlay = props => {
+  const toggleOverlay = (props) => {
     if (document.documentElement.offsetHeight > window.innerHeight) {
       body.classList.toggle("noscroll");
     }
@@ -129,12 +126,12 @@ const Profile = () => {
 
   let items = [];
 
-  imageGallery.map(image => {
+  imageGallery.forEach((image) => {
     items.push(
       <ImageCard
         authInfo={authInfo}
         imageData={image}
-        addOverlay={imageData => toggleOverlay({ imageData })}
+        addOverlay={(imageData) => toggleOverlay({ imageData })}
         isUsersProfile={usersProfile}
       />
     );
@@ -142,10 +139,10 @@ const Profile = () => {
 
   return (
     <div>
-        <h1>Favorites</h1>
+      <h1>Favorites</h1>
       <div id="main">
         <div className="home_imagegallery">{items}</div>
-    {loading && loader}
+        {loading && loader}
       </div>
       {overlayData ? (
         <ImageOverlay

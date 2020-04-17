@@ -13,7 +13,7 @@ import thumbsUp from "../../../resources/thumbs_up_icon.png";
 const authToken = localStorage.getItem("myToken");
 const gifDimensions = 200;
 
-const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
+const PhotoEditor = ({ imageSrc, setImg }) => {
   const [loading, setLoading] = useState(false);
 
   const webContext = useContext(WebcamContext);
@@ -115,7 +115,6 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
     allImageArrays
       .then(([backgroundImageArray, stickersGifsArray]) => {
         // })
-        // .then((b64ImageArray) => {
         const stickeredImagesPromise = backgroundImageArray.map(
           (image, backgroundIndex) => {
             // Background is the webcamscreenshot
@@ -126,7 +125,6 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
               const stickerPromises = stickersGifsArray.map((gifdata) => {
                 const stickerIndex = backgroundIndex % gifdata.imgUrl.length;
                 const b64sticker = gifdata.imgUrl[stickerIndex];
-                console.log("frames", backgroundIndex, stickerIndex);
                 return resize({
                   xPos: gifdata.xPos,
                   yPos: gifdata.yPos,
@@ -210,6 +208,8 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
 
       <GiphySearchForm />
 
+      {/* <StickerSelector /> */}
+
       <form
         className="photobooth_form"
         id="upload_img"
@@ -217,24 +217,13 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
         enctype="multipart/form-data"
         onSubmit={(e) => onSubmit(e)}
       >
-        {loggedIn ? (
-          <input
-            type="image"
-            className="photobooth_accept_btn"
-            value="Upload"
-            src={thumbsUp}
-            alt="thumbsUp"
-          />
-        ) : (
-          <img
-            className="photobooth_accept_btn"
-            onClick={() => {
-              window.location.href = "/Signup";
-            }}
-            src={thumbsUp}
-            alt="thumbsUp"
-          />
-        )}
+        <input
+          type="image"
+          className="photobooth_accept_btn"
+          value="Upload"
+          src={thumbsUp}
+          alt="thumbsUp"
+        />
         <img
           className="photobooth_reject_btn"
           onClick={returnWebcam}

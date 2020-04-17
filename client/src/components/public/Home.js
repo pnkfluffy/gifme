@@ -5,13 +5,10 @@ import { fetchAllPosts } from "../../utils/FetchPosts";
 import ImageCard from "./ImageCard";
 import ImageOverlay from "./ImageOverlay";
 import fetchAuth from "../../utils/FetchAuth";
-import loader from '../../utils/loader';
+import loader from "../../utils/loader";
 
 function galleryReducer(state, action) {
-  switch (action.type) {
-    case "add":
-      return [...state, ...action.payload];
-  }
+  return [...state, ...action.payload];
 }
 
 function numLoadedReducer(state, action) {
@@ -31,17 +28,17 @@ const Home = () => {
   const getPostData = () => {
     const finalPosts = axios.get("api/posts/all");
     finalPosts
-      .then(res => {
+      .then((res) => {
         setPostsMetaData(res.data);
         return res.data;
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
     return finalPosts;
   };
 
-  const getPosts = numPosts => {
+  const getPosts = (numPosts) => {
     if (!postsMetaData.length || !hasMore) {
       return;
     }
@@ -52,11 +49,11 @@ const Home = () => {
       setHasMore(false);
     }
     fetchAllPosts(newArray)
-      .then(res => {
+      .then((res) => {
         setImageGallery({ type: "add", payload: res });
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   };
@@ -100,7 +97,7 @@ const Home = () => {
 
   // toggles overlay by updating the overlayData state
   var body = document.body;
-  const toggleOverlay = props => {
+  const toggleOverlay = (props) => {
     if (document.documentElement.offsetHeight > window.innerHeight) {
       body.classList.toggle("noscroll");
     }
@@ -113,13 +110,13 @@ const Home = () => {
 
   let items = [];
 
-  imageGallery.map(image => {
+  imageGallery.forEach((image) => {
     items.push(
       <ImageCard
         authInfo={authInfo}
         imageData={image}
         isAuth={null}
-        addOverlay={imageData => toggleOverlay({ imageData })}
+        addOverlay={(imageData) => toggleOverlay({ imageData })}
         key={image.imageID}
       />
     );

@@ -70,7 +70,7 @@ img{
 	cursor: pointer;
 }
 
-.confirm_delete_popup{
+.verify_popup{
 	position: absolute;
 	z-index: 100;
 	left: calc(50% - 160px);
@@ -85,12 +85,12 @@ img{
 	border-radius: 5px;
 }
 
-.confirm_delete_txt{
+.verify_popup_txt{
 	margin: 20px;
 	text-align: center;
 }
 
-.confirm_delete_btns{
+.verify_popup_btns{
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
