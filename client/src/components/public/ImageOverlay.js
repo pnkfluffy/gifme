@@ -53,7 +53,7 @@ const OverlayComment = ({ commentData, userID, imageID, setAllComments }) => {
             "overlay_comment_name " +
             (myComment ? "overlay_comment_loggedin" : "")
           }
-          to={`/profile/${userID}`}
+          to={`/profile/${commentData.user}`}
         >
           {commentData.name}
         </Link>
