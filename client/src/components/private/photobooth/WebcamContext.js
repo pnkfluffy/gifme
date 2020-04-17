@@ -16,6 +16,7 @@ class WebcamProvider extends Component {
     };
   }
   addStickerToCanvas = newSticker => {
+    console.log('newid', this.state.totalImgsOnCanvas);
     this.setState({
       imgsOnCanvas: [
         ...this.state.imgsOnCanvas,
@@ -24,19 +25,31 @@ class WebcamProvider extends Component {
           yPos: 0,
           zPos: this.state.totalImgsOnCanvas,
           imgUrl: newSticker.img,
-          id: newSticker.key
+          id: this.state.totalImgsOnCanvas
         }
       ],
       totalImgsOnCanvas: this.state.totalImgsOnCanvas + 1
     });
   };
+  removeSticker = (id) => {
+    const newImgsOnCanvas = this.state.imgsOnCanvas.slice();
+    const index = newImgsOnCanvas.findIndex(sticker => sticker.id === id);
+    console.log('removeid', id);
+    console.log('spliceInded', index);
+    newImgsOnCanvas.splice(index, 1);
+    this.setState({
+      imgsOnCanvas: newImgsOnCanvas,
+      totalImgsOnCanvas: this.state.totalImgsOnCanvas - 1
+    })
+  }
   // move stickers in canvas
   moveStickerX = (id, side) => {
     //copy the array:
     const newImgsOnCanvas = this.state.imgsOnCanvas.slice();
-    const oldPos = newImgsOnCanvas[id].xPos;
+    const index = newImgsOnCanvas.findIndex(sticker => sticker.id === id);
+    const oldPos = newImgsOnCanvas[index].xPos;
     //if move to SIDE right => +1, if move to SIDE left => -1
-    newImgsOnCanvas[id].xPos = oldPos + side;
+    newImgsOnCanvas[index].xPos = oldPos + side;
     this.setState({
       imgsOnCanvas: newImgsOnCanvas
     });
@@ -44,9 +57,10 @@ class WebcamProvider extends Component {
   moveStickerY = (id, side) => {
     //copy the array:
     const newImgsOnCanvas = this.state.imgsOnCanvas.slice();
-    const oldPos = newImgsOnCanvas[id].yPos;
+    const index = newImgsOnCanvas.findIndex(sticker => sticker.id === id);
+    const oldPos = newImgsOnCanvas[index].yPos;
     //if move to SIDE up => +1, if move to SIDE down => -1
-    newImgsOnCanvas[id].yPos = oldPos + side;
+    newImgsOnCanvas[index].yPos = oldPos + side;
     this.setState({
       imgsOnCanvas: newImgsOnCanvas
     });
@@ -61,6 +75,7 @@ class WebcamProvider extends Component {
     imgsOnCanvas: [],
     totalImgsOnCanvas: 0,
     addStickerToCanvas: this.addStickerToCanvas,
+    removeSticker: this.removeSticker,
     moveStickerX: this.moveStickerX,
     moveStickerY: this.moveStickerY
   };

@@ -343,8 +343,15 @@ h5 {
   padding-left: 10px;
 }
 
-.draggable_image {
-  width: 70px;
+.printed_sticker_holder{
+    display: flex;
+    flex-direction: column;   
+}
+
+.sticker_delete {
+    position: absoulte;
+    color: rgb(189, 67, 67);
+    align-self: flex-end;
 }
 
 .photobooth_accept_btn,

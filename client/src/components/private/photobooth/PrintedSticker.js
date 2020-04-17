@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { WebcamContext } from "./WebcamContext";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 class PrintedSticker extends Component {
   constructor(props) {
@@ -9,12 +10,13 @@ class PrintedSticker extends Component {
       prevX: 0,
       prevY: 0,
       myX: 0,
-      myY: 0
+      myY: 0,
     };
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
+    this.removeSticker = this.removeSticker.bind(this);
   }
 
   //  mouse handles to move the stickers
@@ -24,7 +26,7 @@ class PrintedSticker extends Component {
     e.stopPropagation();
     //  get mouse start position
     this.setState({
-      clicked: true
+      clicked: true,
     });
   }
   handleMouseUp() {
@@ -55,7 +57,7 @@ class PrintedSticker extends Component {
         //  cant move to outside of the canvas!!!
         this.setState({
           myX: this.state.myX + (x - this.state.prevX),
-          prevX: x
+          prevX: x,
         });
       }
       //  LEFT moves -1 * how much moved
@@ -71,7 +73,7 @@ class PrintedSticker extends Component {
         );
         this.setState({
           myX: this.state.myX - (this.state.prevX - x),
-          prevX: x
+          prevX: x,
         });
       }
       //  UP moves +1 * how much moved
@@ -87,7 +89,7 @@ class PrintedSticker extends Component {
         );
         this.setState({
           myY: this.state.myY + (this.state.prevY - y),
-          prevY: y
+          prevY: y,
         });
       }
 
@@ -104,7 +106,7 @@ class PrintedSticker extends Component {
         );
         this.setState({
           myY: this.state.myY - (y - this.state.prevY),
-          prevY: y
+          prevY: y,
         });
       }
 
@@ -115,24 +117,31 @@ class PrintedSticker extends Component {
   handleMouseOut() {
     this.setState({ clicked: false });
   }
+  removeSticker(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.context.removeSticker(this.props.stickerObject.zPos);
+  }
 
   render() {
     return (
-      <img
-        src={this.props.stickerObject.imgUrl}
-        alt="new"
+      <div
+        className="printed_sticker_holder"
         style={{
           position: "absolute",
           bottom: this.props.stickerObject.yPos,
           left: this.props.stickerObject.xPos,
           height: "150px",
-          width: "150px"
+          width: "150px",
         }}
         onMouseDown={this.handleMouseDown}
         onMouseUp={this.handleMouseUp}
         onMouseMove={this.handleMouseMove}
         onMouseOut={this.handleMouseOut}
-      />
+      >
+        <HighlightOffIcon className="sticker_delete" onClick={this.removeSticker}/>
+        <img src={this.props.stickerObject.imgUrl} alt="new" />
+      </div>
     );
   }
 }
