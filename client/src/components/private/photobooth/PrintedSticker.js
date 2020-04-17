@@ -40,6 +40,15 @@ class PrintedSticker extends Component {
       //  get mouse position in page (means that counts the outside spaces)
       const x = e.pageX;
       const y = e.pageY;
+      console.log(
+        "z, index, x, prevX, y, prevY",
+        this.props.stickerObject.zPos,
+        this.props.stickerObject.id,
+        x,
+        this.state.prevX,
+        y,
+        this.state.prevY
+      );
       //  gets the x and y relative to the stickerCanvas div
       //  checks side that mouse is moving and moves in the WebcamContext
       //  RIGHT moves +1 * how much moved. Does not move if out of canvas
@@ -61,7 +70,7 @@ class PrintedSticker extends Component {
         });
       }
       //  LEFT moves -1 * how much moved
-      else if (
+      if (
         this.state.prevX !== 0 &&
         this.state.prevX !== x &&
         this.state.prevX > x &&
@@ -94,7 +103,7 @@ class PrintedSticker extends Component {
       }
 
       //  DOWN moves -1 * how much moved
-      else if (
+      if (
         this.state.prevY !== 0 &&
         this.state.prevY !== y &&
         this.state.prevY < y &&
@@ -124,25 +133,32 @@ class PrintedSticker extends Component {
   }
 
   render() {
-    return (
-      <div
-        className="printed_sticker_holder"
-        style={{
-          position: "absolute",
-          bottom: this.props.stickerObject.yPos,
-          left: this.props.stickerObject.xPos,
-          height: "150px",
-          width: "150px",
-        }}
-        onMouseDown={this.handleMouseDown}
-        onMouseUp={this.handleMouseUp}
-        onMouseMove={this.handleMouseMove}
-        onMouseOut={this.handleMouseOut}
-      >
-        <HighlightOffIcon className="sticker_delete" onClick={this.removeSticker}/>
-        <img src={this.props.stickerObject.imgUrl} alt="new" />
-      </div>
-    );
+    if (this.props.stickerObject) {
+      return (
+        <div
+          className="printed_sticker_holder"
+          style={{
+            position: "absolute",
+            bottom: this.props.stickerObject.yPos,
+            left: this.props.stickerObject.xPos,
+            height: this.props.stickerObject.height,
+            width: this.props.stickerObject.width,
+          }}
+          onMouseDown={this.handleMouseDown}
+          onMouseUp={this.handleMouseUp}
+          onMouseMove={this.handleMouseMove}
+          onMouseOut={this.handleMouseOut}
+        >
+          <HighlightOffIcon
+            className="sticker_delete"
+            onClick={this.removeSticker}
+          />
+          <img src={this.props.stickerObject.imgUrl} alt="new" />
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 }
 

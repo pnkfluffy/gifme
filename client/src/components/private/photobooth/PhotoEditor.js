@@ -62,7 +62,10 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
 
     e.preventDefault();
 
-    const hasStickers = webContext.imgsOnCanvas.length;
+    const contextStickerArray = webContext.imgsOnCanvas.filter(function (el) {
+      return el != null;
+    })
+    const hasStickers = contextStickerArray.length;
     const buff = Buffer.from(imageSrc);
 
     //  creates an array of background images from the webcam
@@ -81,7 +84,7 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
     });
 
     // creates an array of b64 images out of all the stickers
-    const stickersGifsArrayPromise = webContext.imgsOnCanvas.map(
+    const stickersGifsArrayPromise = contextStickerArray.map(
       ({ xPos, yPos, imgUrl }) => {
         const stickerBuff = Buffer.from(imgUrl);
         const stickerImageArray = gifFrames({
@@ -160,24 +163,25 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
               let finalGIF = obj.image,
                 finalAnimatedImage = document.createElement("img");
               finalAnimatedImage.src = finalGIF;
-              fetch(finalGIF)
-                .then((res) => res.blob())
-                .then((blob) => {
-                  const formData = new FormData();
-                  const file = new File([blob], "testfile.gif");
-                  formData.append("photo", file);
-                  fetch("/api/posts", {
-                    method: "POST",
-                    headers: {
-                      "x-auth-token": authToken,
-                    },
-                    body: formData,
-                  })
-                    .then(() => {
-                      window.location.href = "/";
-                    })
-                    .catch((err) => console.error(err.response));
-                });
+              document.body.appendChild(finalAnimatedImage);
+              // fetch(finalGIF)
+              //   .then((res) => res.blob())
+              //   .then((blob) => {
+              //     const formData = new FormData();
+              //     const file = new File([blob], "testfile.gif");
+              //     formData.append("photo", file);
+              //     fetch("/api/posts", {
+              //       method: "POST",
+              //       headers: {
+              //         "x-auth-token": authToken,
+              //       },
+              //       body: formData,
+              //     })
+              //       .then(() => {
+              //         window.location.href = "/";
+              //       })
+              //       .catch((err) => console.error(err.response));
+              //   });
             }
           }
         );
