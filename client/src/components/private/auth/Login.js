@@ -37,7 +37,9 @@ const Login = () => {
                 window.location.href = '/';
             })
         } catch (err) {
-			setError(err.response.data.toString());
+		if (err.response.data.errors){
+            setError(err.response.data.errors);
+          }else {setError(err.response.data.toString());}
 		}
     }
     return <div>
