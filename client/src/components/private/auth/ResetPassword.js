@@ -42,11 +42,10 @@ const ResetPassword = () =>{
     }
 }
     return(
-        <div>
+        <div>{ popMessage ? <PopUpMessage text={popMessage}/> :
             <div className="outside-container">
                 <div className="container-form">
                     <div className="form">
-                    <PopUpMessage text={popMessage}/>
                     <form onSubmit={e => onSubmit(e)} className="form-box">
                         <ErrorMessage text={error}/>
                 
@@ -71,6 +70,7 @@ const ResetPassword = () =>{
                 </div>
             </div>
         </div>
+        }
     </div>
     )
 }

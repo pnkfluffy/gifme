@@ -97,6 +97,7 @@ router.post('/recoveryemail', async (req, res) => {
           );
  
         sendEmail(user.email, user.name, token, "reset password");
+        res.json('ok')
     } catch (err) {
       res.status(401).send('unexpected email error');
       return;
