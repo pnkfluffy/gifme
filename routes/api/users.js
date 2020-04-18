@@ -27,7 +27,7 @@ const {sendEmail} = require('../../middleware/email');
 // @access  Private
 router.get('/', auth, async (req, res) => {
     try {
-        const profile = await User.findOne({ user: req.id });
+        const profile = await User.findOne({ _id: req.user.id });
         if (!profile) {
             return res.status(400).send('There is no profile for this user');
         }
@@ -114,20 +114,26 @@ async (req, res) => {
 router.put('/', auth, async (req, res) => {
     try {
       let user = await User.findById(req.user.id);
-      if (user) {res.status(400).send('email already in use');}
     
-      const {name, email, password} = req.body;
-    
-      if (password) {
+      const {name, email, newpassword} = req.body;
+
+      if (newpassword) {
       const salt = await bcrypt.genSalt(10);
-      newpwd = await bcrypt.hash(password, salt);
+      newpwd = await bcrypt.hash(newpassword, salt);
       } else {newpwd = '';}
     
     if (name) {
       user.name = name;
     } else if(email) {
-      user.email = email;
-    } else if (password) {
+      const foundUser = await User.findOne({email});
+      if (!foundUser)
+        user.email = email;
+      else
+      {
+        res.status(400).send('email already in use');
+        return;
+      }
+    } else if (newpassword) {
       user.password = newpwd;
     }
     
@@ -142,14 +148,14 @@ router.put('/', auth, async (req, res) => {
     // @access  Private
     router.post('/check', auth, async (req, res) => {
       let user = await User.findById(req.user.id);
-      const {password_account} = req.body;
+      const {password} = req.body;
       
       if (!user){
         res.status(401).send('Invalid credentials')
       }else {
       try {
-        if (user && password_account){
-        bcrypt.compare(password_account, user.password, (err, result) =>{
+        if (user && password){
+        bcrypt.compare(password, user.password, (err, result) =>{
             if (result === true){
             res.json(user);
             } else {res.status(404).send('Invalid Password')}

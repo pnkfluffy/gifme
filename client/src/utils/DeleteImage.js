@@ -10,9 +10,7 @@ const delImage = async (imageID, userID) =>{
               "x-auth-token": auth_token
             }
           })
-        .then((res) => {
-            window.location.href = '';
-        })
+        .then(window.location.href = '/')
         .catch(err => {
             console.error(err.response);
         })

@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 import ErrorMessage from "../../../utils/errorMessage";
+import {CheckPass} from "../../../utils/Checkpass";
+import { UpdateUser } from "../../../utils/UpdateUser";
+import { DeleteAccount } from "../../../utils/DeleteAccount";
+import PopUpMessage from "../../../utils/popUpMessage";
 
 const Account = () => {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [trace, setTrace] = useState("");
+  const [popUpText, setPopUpText] = useState("");
 
   const V_Token = localStorage.getItem("myToken");
   
@@ -25,10 +30,23 @@ const Account = () => {
     })
     .catch(err => {
       console.error(err.response);
-      window.location.href = "/profile";
     });
+
+    const UpdateName = (name) =>{
+      setUserName(name);
+    }
+    const UpdateEmail = (email) =>{
+      setUserEmail(email);
+    }
+    const UpdateTrace = (newTrace) =>{
+      setTrace(newTrace);
+    }
+    const UpdatePopUpText = (popUpText) =>{
+      setPopUpText(popUpText);
+    }
   return (
     <div>
+      <PopUpMessage text={popUpText}/>
       <div className="account_body">
         <div className="Title">Account</div>
         <div className="Container">
@@ -60,23 +78,28 @@ const Account = () => {
             Delete Account
           </button>
         </div>
-        <ToSwitch data={trace} />
+        <ToSwitch
+        data={trace}
+        UpdateName={(name) => UpdateName(name)}
+        UpdateEmail={(email) => UpdateEmail(email)}
+        UpdateTrace={(newTrace) => UpdateTrace(newTrace)}
+        UpdatePopUpText={(popUpText) => UpdatePopUpText(popUpText)}
+        />
       </div>
     </div>
   );
 };
 
-const ToSwitch = ({ data }) => {
+const ToSwitch = ({ data, UpdateName, UpdateEmail, UpdateTrace, UpdatePopUpText }) => {
   const [newData, setNewData] = useState({
     name: "",
     email: "",
+    newpassword: "",
     password: "",
-    password2: "",
-    password_account: ""
   });
   const [error, setError] = useState("");
 
-  const { name, email, password, password2, password_account } = newData;
+  const { name, email, newpassword, password } = newData;
   const V_Token = localStorage.getItem("myToken");
 
   const onChange = e => {
@@ -85,56 +108,50 @@ const ToSwitch = ({ data }) => {
 
   const onSubmit = async e => {
     e.preventDefault();
-    if (password !== password2) {
-      setError("Passwords do not match");
-    } else if (password_account) {
-      try {
-        const config = {
-          headers: {
-            "x-auth-token": V_Token,
-            "Content-Type": "application/json"
+    if (newpassword) {
+        CheckPass(V_Token, password)
+        .then(res => {
+          if(res !== 'ok')
+          {
+            setError(res);
+            return;
           }
-        };
-        const deleteAccount = { password_account };
-        const body = JSON.stringify(deleteAccount);
-        //checks if the user is valid
-        return axios.post("/api/users/check", body, config)
-        //finds and deletes all posts
-        .then((res) => {axios.get("/api/auth", config)
-          .then(user => {axios.get(`/api/posts/${user.data._id}`)
-            .then(allPosts => {
-              const allPostsPromise = allPosts.data.map(
-              (post) => {axios.delete(`/api/posts/${post.image}`, config)})
-              Promise.all(allPostsPromise)
-            })
-            .then(() => {return (user)})
-        })
-        return(res)
+          else {
+            UpdateUser(V_Token, newpassword, name, email)
+              .then(res => {
+                if(res.data){
+                UpdateName(res.data.name);
+                UpdateEmail(res.data.email)
+                UpdateTrace("");
+                UpdatePopUpText("Changes have been applied to your account");
+                setTimeout(() => {UpdatePopUpText("")}, 3500);
+              } else {setError(res);}
+              });
+              }
+            });
+    } else if (password) {
+      DeleteAccount(V_Token, password)
+      .then(res => {
+        if(res !== 'ok')
+          setError(res);
       })
-        //deletes user model
-        .then((user) => {axios.delete(`/api/users/${user.data._id}`, config)
-          .then(() => {
-            localStorage.removeItem("myToken")
-            (window.location.href = "/")})
-      })
-      } catch (err) {
-        setError(err.response);
-      }
+      UpdatePopUpText("Your account has been deleted, you will be redirected shortly")
+      setTimeout(() => {
+      localStorage.removeItem("myToken");
+      window.location.href = "/";
+      }, 3500);
+      
     } else {
-      try {
-        const config = {
-          headers: {
-            "x-auth-token": V_Token,
-            "Content-Type": "application/json"
-          }
-        };
-        const newUser = { name, email, password };
-        const body = JSON.stringify(newUser);
-        await axios.put("/api/users", body, config);
-        window.location.href = "/Profile";
-      } catch (err) {
-        setError(err.response.data.toString());
-      }
+      UpdateUser(V_Token, newpassword, name, email)
+      .then(res => {
+        if(res.data){
+        UpdateName(res.data.name);
+        UpdateEmail(res.data.email);
+        UpdateTrace("");
+        UpdatePopUpText("Changes have been applied to your account");
+        setTimeout(() => {UpdatePopUpText("")}, 3500);
+      } else {setError(res);}
+      });
     }
   };
 
@@ -143,7 +160,7 @@ const ToSwitch = ({ data }) => {
       return (
         <div>
           <div className="Cont_edit">
-            <ErrorMessage text={error} />
+          <ErrorMessage text={error}/>
 
             <form onSubmit={e => onSubmit(e)} className="edit_form">
               <input
@@ -151,24 +168,35 @@ const ToSwitch = ({ data }) => {
                 type="password"
                 value={password}
                 onChange={e => onChange(e)}
-                placeholder="Your password"
+                placeholder="Type your current password"
                 required="required"
                 className="edit_button"
               />
 
               <input
-                name="password2"
-                value={password2}
+                name="newpassword"
+                value={newpassword}
                 onChange={e => onChange(e)}
                 type="password"
-                placeholder="Confirm your password"
+                placeholder="Type your new password"
                 required="required"
                 className="edit_button"
               />
+              <div className="wrapper">
 
-              <button type="submit" className="edit_sign_button">
+              <button
+              type="submit"
+              className="edit_sign_button">
                 Change password
               </button>
+
+              <button
+              className="edit_sign_button"
+              onClick={()=> UpdateTrace("")}>
+                Cancel
+              </button>
+              </div>
+
             </form>
           </div>
         </div>
@@ -189,10 +217,19 @@ const ToSwitch = ({ data }) => {
                 required="required"
                 className="edit_button"
               />
-
-              <button type="submit" className="edit_sign_button">
+              <div className="wrapper">
+              <button
+              type="submit"
+              className="edit_sign_button">
                 Edit name
               </button>
+
+              <button
+              className="edit_sign_button"
+              onClick={()=> UpdateTrace("")}>
+                Cancel
+              </button>
+              </div>
             </form>
           </div>
         </div>
@@ -213,10 +250,21 @@ const ToSwitch = ({ data }) => {
                 required="required"
                 className="edit_button"
               />
+              <div className="wrapper">
 
-              <button type="submit" className="edit_sign_button">
+              <button 
+              type="submit" 
+              className="edit_sign_button">
                 Change email
               </button>
+
+              <button
+              className="edit_sign_button"
+              onClick={()=> UpdateTrace("")}>
+                Cancel
+              </button>
+              </div>
+
             </form>
           </div>
         </div>
@@ -229,18 +277,28 @@ const ToSwitch = ({ data }) => {
 
             <form onSubmit={e => onSubmit(e)} className="edit_form">
               <input
-                name="password_account"
+                name="password"
                 type="password"
-                value={password_account}
+                value={password}
                 onChange={e => onChange(e)}
                 placeholder="Confirm your password"
                 required="required"
                 className="edit_button"
               />
+              <div className="wrapper">
 
-              <button type="submit" className="edit_sign_button">
+              <button
+              type="submit"
+              className="edit_sign_button">
                 Delete Account
               </button>
+
+              <button
+              className="edit_sign_button"
+              onClick={()=> UpdateTrace("")}>
+                Cancel
+              </button>
+              </div>
             </form>
           </div>
         </div>

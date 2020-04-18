@@ -30,24 +30,29 @@ const SendEmail = () =>{
     }
 
 return(
-    <div>
-        <div className="form">
-        <PopUpMessage text={popMessage}/>
-        <form onSubmit={e => onSubmit(e)} className="form-box">
-            <ErrorMessage text={error}/>
+    <div>{ popMessage ? <PopUpMessage text={popMessage}/> :
+        <div className="outside-container">
+            <div className="container-form">
+                <div className="form">
+                
+                <form onSubmit={e => onSubmit(e)} className="form-box">
+                    <ErrorMessage text={error}/>
 
-            <input name="email"
-            type="email"
-            value={email}
-            onChange={e => onChange(e)}
-            placeholder="email"
-            className="input"/>
+                    <input name="email"
+                    type="email"
+                    value={email}
+                    onChange={e => onChange(e)}
+                    placeholder="email"
+                    className="input"/>
 
-            <input type="submit"
-            value="send email"
-            className="sign-bottom"/>
-            </form>
+                    <input type="submit"
+                    value="send email"
+                    className="sign-bottom"/>
+                </form>
+                </div>
+            </div>
         </div>
+        }
     </div>
     )
 }

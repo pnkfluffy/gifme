@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ErrorMessage from "../../../utils/errorMessage";
 import PopUpMessage from "../../../utils/popUpMessage";
+import NoAuthorize from "../../error/NotAuthorize(401)"
+
 //import LinkRegistration from '../../../utils/linkRegistration';
 import axios from "axios";
 
@@ -15,6 +17,26 @@ const Signup = () => {
   });
   const [error, setError] = useState("");
   const [popMessage, setPopMessage] = useState("");
+  const [usersProfile, setUsersProfile] = useState(false);
+
+  const authToken = localStorage.getItem("myToken");
+
+  useEffect(() => {
+    isUsersProfile();
+}, []);
+
+const isUsersProfile = () => {
+const config = {
+  headers: {
+    "x-auth-token": authToken,
+    //logged user
+  },
+};
+const isUsersProfile = axios.get(`/api/users/`, config)
+isUsersProfile.then((res) => {
+    setUsersProfile(res.data);
+  });
+}
 
   const { name, email, password, password2 } = formData;
 
@@ -70,7 +92,7 @@ const Signup = () => {
   };
 
   return (
-    <div>
+    <div> {usersProfile ? <NoAuthorize/> :
       <div className="outside-container">
         <div className="container-form">
           <div className="form">
@@ -121,7 +143,7 @@ const Signup = () => {
             </p>
           </div>
         </div>
-      </div>
+      </div>}
     </div>
   );
 };

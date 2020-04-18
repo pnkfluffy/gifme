@@ -87,10 +87,10 @@ const Navbar = () => {
                 />
               </Link>
             </div>
-            <Link to="/Signup" className="signup_button">
+            <Link to="/signup" className="signup_button">
               Sign up
             </Link>
-            <Link to="/Login" className="login_button">
+            <Link to="/login" className="login_button">
               Log In
             </Link>
           </div>
@@ -120,7 +120,7 @@ const SwitchPrivacy = () => {
   } else {
     return (
       <div>
-        <Link to="/Login" className="bm-item">
+        <Link to="/login" className="bm-item">
           Log in
         </Link>
       </div>

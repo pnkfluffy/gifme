@@ -21,7 +21,7 @@ const RecoveryEmail = () =>{
             }
             const body = JSON.stringify(recoveryEmail);
 
-            await axios.post('/api/auth/recoveryemail', body, config)
+            axios.post('/api/auth/recoveryemail', body, config)
             //this shows the returned value either token or error message
             .then(res=>{
                 setPopMessage('We have sent you an email to reset your password');
@@ -34,10 +34,10 @@ const RecoveryEmail = () =>{
       };
 
   return (
+    <div>{popMessage ? <PopUpMessage text={popMessage}/> :
     <div className="outside-container">
       <div className="container-form">
         <div className="form">
-          <PopUpMessage text={popMessage} />
           <form onSubmit={e => onSubmit(e)} className="form-box">
             <ErrorMessage text={error} />
 
@@ -59,6 +59,8 @@ const RecoveryEmail = () =>{
         </div>
       </div>
     </div>
+    }
+  </div>
   );
 };
 
