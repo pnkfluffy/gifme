@@ -16,6 +16,8 @@ const canvasHeight = 400;
 const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
   const [loading, setLoading] = useState(false);
 
+  const authToken = localStorage.getItem("myToken");
+
   const webContext = useContext(WebcamContext);
 
   const returnWebcam = () => {
@@ -58,7 +60,7 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
 
   //  OH LAWD ITS THE BIG BOI
   const onSubmit = async (e) => {
-    // setLoading(true);
+    setLoading(true);
 
     e.preventDefault();
 
@@ -163,25 +165,27 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
               let finalGIF = obj.image,
                 finalAnimatedImage = document.createElement("img");
               finalAnimatedImage.src = finalGIF;
-              document.body.appendChild(finalAnimatedImage);
-              // fetch(finalGIF)
-              //   .then((res) => res.blob())
-              //   .then((blob) => {
-              //     const formData = new FormData();
-              //     const file = new File([blob], "testfile.gif");
-              //     formData.append("photo", file);
-              //     fetch("/api/posts", {
-              //       method: "POST",
-              //       headers: {
-              //         "x-auth-token": authToken,
-              //       },
-              //       body: formData,
-              //     })
-              //       .then(() => {
-              //         window.location.href = "/";
-              //       })
-              //       .catch((err) => console.error(err.response));
-              //   });
+
+              // FOR TESTING
+              // document.body.appendChild(finalAnimatedImage);
+              fetch(finalGIF)
+                .then((res) => res.blob())
+                .then((blob) => {
+                  const formData = new FormData();
+                  const file = new File([blob], "testfile.gif");
+                  formData.append("photo", file);
+                  fetch("/api/posts", {
+                    method: "POST",
+                    headers: {
+                      "x-auth-token": authToken,
+                    },
+                    body: formData,
+                  })
+                    .then(() => {
+                      window.location.href = "/";
+                    })
+                    .catch((err) => console.error(err.response));
+                });
             }
           }
         );

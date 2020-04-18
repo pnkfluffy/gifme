@@ -55,9 +55,11 @@ class PrintedSticker extends Component {
     const xDelta = x - this.state.prevX;
     const newXPos = this.props.stickerObject.xPos + xDelta;
     const yDelta = this.state.prevY - y;
-    const newYPos = this.props.stickerObject.yPos + yDelta;
+    // y id inverted
+    const newYPos = this.props.stickerObject.yPos - yDelta;
     //  ADD UPBORDER WITH HEIGHT
-    const rightBorder = newXPos + this.props.stickerObject.width;
+    const xBorder = newXPos + this.props.stickerObject.width;
+    const yBorder = newYPos + this.props.stickerObject.width;
 
     let newPrevResizeX;
     if (!this.state.prevResizeX) {
@@ -68,7 +70,7 @@ class PrintedSticker extends Component {
 
     //  Movex X by xDelta. One for left one for right,
     //  so user can always add back into screen
-    if (x > this.state.prevX && rightBorder < 500) {
+    if (x > this.state.prevX && xBorder < 500) {
       this.context.moveStickerX(this.props.stickerObject.zPos, xDelta);
       this.setState({
         prevX: x,
@@ -82,12 +84,12 @@ class PrintedSticker extends Component {
     }
 
     //  UP moves by yDelta
-    if (y > this.state.prevY && newYPos < 400) {
+    if (y < this.state.prevY && yBorder < 500) {
       this.context.moveStickerY(this.props.stickerObject.zPos, yDelta);
       this.setState({
         prevY: y,
       });
-    } else if (y < this.state.prevY && newYPos > -100) {
+    } else if (y > this.state.prevY && newYPos > -100) {
       this.context.moveStickerY(this.props.stickerObject.zPos, yDelta);
       this.setState({
         prevY: y,
@@ -125,18 +127,23 @@ class PrintedSticker extends Component {
     const newResizeX = e.pageX;
     const widthDelta = newResizeX - this.state.prevResizeX;
     // ADD UPBORDER WITH HEIGHT
-    const rightBorder =
+    const xBorder =
       this.props.stickerObject.xPos +
       this.props.stickerObject.width +
       widthDelta;
     const resizedWidth = widthDelta + this.props.stickerObject.width;
+    const resizedHeight = resizedWidth * this.props.stickerObject.ratio;
     //  makes sure size change is within bounds
+
+    if (resizedWidth >= 400 || resizedHeight >= 400) {
+      return;
+    }
 
     //  ADD CHECKS FOR Y DIMENSIONS
     if (
       newResizeX > this.state.prevResizeX &&
       //  checks for out of border
-      rightBorder < 500
+      xBorder < 500
     ) {
       this.context.resizeSticker(this.props.stickerObject.zPos, widthDelta);
       this.setState({ prevResizeX: newResizeX });
@@ -169,7 +176,10 @@ class PrintedSticker extends Component {
   componentDidMount() {
     const stickerCanvas = document.querySelector(".sticker_canvas_box");
 
-    stickerCanvas.addEventListener("mouseup", this.mouseUp);
+    //  checks window for mouseup, for fluidity
+    window.addEventListener("mouseup", this.mouseUp);
+
+    //  checks only canvas for mouse move, so no movement outside of canvas
     stickerCanvas.addEventListener("mousemove", this.mouseMove);
   }
 
