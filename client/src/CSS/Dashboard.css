@@ -42,20 +42,12 @@
     border-left: solid 1px grey;    
 }
 
-.Content{
-    margin: 30px;
-    margin-left: 25%;
-    padding: 0;
-    font-size: 20px;
-    color: purple;
-}
-
 .Content {
   margin: 30px;
   margin-left: 25%;
   padding: 0;
   font-size: 20px;
-  color: rgba(255, 255, 255);
+  color: rgb(70,69,69);
 }
 
 h5 {
