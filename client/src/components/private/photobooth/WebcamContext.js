@@ -24,7 +24,7 @@ class WebcamProvider extends Component {
     if (this.state.imgsOnCanvas.length) {
       newZPos = this.state.imgsOnCanvas.length;
     } else {
-    newZPos = 0;
+      newZPos = 0;
     }
     console.log(newZPos);
     this.setState({
@@ -55,10 +55,17 @@ class WebcamProvider extends Component {
   };
 
   resizeSticker = (index, side) => {
-    console.log('resizing!');
+    console.log("resizing!");
     const newImgsOnCanvas = this.state.imgsOnCanvas.slice();
     const newWidth = newImgsOnCanvas[index].width + side;
-    const newHeight = Math.floor(newWidth * newImgsOnCanvas[index].ratio)
+    const newHeight = Math.floor(newWidth * newImgsOnCanvas[index].ratio);
+    console.log(
+      "xpos, ypos, w, h",
+      newImgsOnCanvas[index].xPos,
+      newImgsOnCanvas[index].yPos,
+      newWidth,
+      newHeight
+    );
     newImgsOnCanvas[index].width = newWidth;
     newImgsOnCanvas[index].height = newHeight;
     this.setState({ imgsOnCanvas: newImgsOnCanvas });
@@ -89,8 +96,8 @@ class WebcamProvider extends Component {
   selectSticker = (index) => {
     this.setState({
       selectedIndex: index,
-    })
-  }
+    });
+  };
 
   state = {
     //	sizes of photo editing area
