@@ -26,22 +26,6 @@
   height: 100vh;
 }
 
-<<<<<<< HEAD
-.Title {
-  margin-top: 30px;
-  padding-left: 10%;
-  background-color: rgb(255, 255, 255, 70%);
-  border: solid 1px lightgrey;
-  font-size: 70px;
-  color: rgb(70, 69, 69);
-}
-
-.Container {
-  float: left;
-  margin-top: 20px;
-  width: 49%;
-  border-left: solid 1px grey;
-=======
 .Title{
     margin-top: 30px;
     padding-left: 10%;
@@ -64,7 +48,6 @@
     padding: 0;
     font-size: 20px;
     color: purple;
->>>>>>> 6aefccd5e44d3e92735a51f0bc208e3fbc417009
 }
 
 .Content {
@@ -97,42 +80,15 @@ h5 {
   background-color: rgb(128, 0, 128, 40%);
 }
 
-<<<<<<< HEAD
-.Cont_edit {
-  margin: 350px 0 0 25%;
-  width: 50%;
-=======
 .Cont_edit{
     margin: 420px 0 0 25%;
     width: 50%;
->>>>>>> 6aefccd5e44d3e92735a51f0bc208e3fbc417009
 }
 
 .edit_form {
   float: left;
   width: 100%;
 }
-<<<<<<< HEAD
-.edit_button {
-  margin: 4px 0 4px 0;
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  font-size: 14px;
-}
-
-.edit_sign_button {
-  margin: 10px 20px 20px 20px;
-  margin-left: 25%;
-  padding: 10px;
-  width: 50%;
-  background-color: purple;
-  color: white;
-  font-size: 15px;
-  font-weight: 500;
-  border-radius: 20px;
-  border: solid 0.5px white;
-=======
 .edit_button{
     margin: 4px 0 4px 0;
     width: 100%;
@@ -154,7 +110,6 @@ h5 {
     font-weight: 500;
     border-radius: 20px;
     border: solid 0.5px white;
->>>>>>> 6aefccd5e44d3e92735a51f0bc208e3fbc417009
 }
 .edit_sign_button:hover {
   background-color: rgb(128, 0, 128, 40%);
