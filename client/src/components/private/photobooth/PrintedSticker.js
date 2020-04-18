@@ -26,12 +26,25 @@ class PrintedSticker extends Component {
     //  stop default browser answer:
     e.preventDefault();
     e.stopPropagation();
+
+    //  sets the mouse location each time mouse is pressed
+    //  down in a new location
+    const newPrevX = e.pageX;
+    const newPrevY = e.pageY;
+    this.setState({
+      prevX: newPrevX,
+      prevY: newPrevY,
+      prevResizeX: newPrevX,
+    });
+
     this.selectSticker();
     //  get mouse start position
     this.setState({
       moveClicked: true,
     });
   }
+
+
   handleMouseMove(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -57,14 +70,13 @@ class PrintedSticker extends Component {
 
     //  Movex X by xDelta. One for left one for right,
     //  so user can always add back into screen
-    if (this.state.prevX !== 0 && x > this.state.prevX && rightBorder < 500) {
+    if (x > this.state.prevX && rightBorder < 500) {
       this.context.moveStickerX(this.props.stickerObject.zPos, xDelta);
       this.setState({
         prevX: x,
         prevResizeX: newPrevResizeX,
       });
     } else if (
-      this.state.prevX !== 0 &&
       x < this.state.prevX &&
       newXPos > -100
     ) {
@@ -77,7 +89,6 @@ class PrintedSticker extends Component {
 
     //  UP moves by yDelta
     if (
-      this.state.prevY !== 0 &&
       y > this.state.prevY &&
       newYPos < 400
     ) {
@@ -86,7 +97,6 @@ class PrintedSticker extends Component {
         prevY: y,
       });
     } else if (
-      this.state.prevY !== 0 &&
       y < this.state.prevY &&
       newYPos > -100
     ) {
@@ -95,9 +105,6 @@ class PrintedSticker extends Component {
         prevY: y,
       });
     }
-
-    if (this.state.prevX === 0) this.setState({ prevX: x });
-    if (this.state.prevY === 0) this.setState({ prevY: y });
   }
   removeSticker(e) {
     e.preventDefault();
