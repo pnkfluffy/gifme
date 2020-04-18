@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Navbar from "./components/public/Navbar";
 import Home from "./components/public/Home";
 import PhotoBooth from "./components/private/photobooth/Capture";
@@ -18,6 +19,7 @@ import Profile from "./components/private/account/Profile";
 import FullImage from "./components/public/FullImage";
 import Favorites from "./components/private/account/Favorites";
 
+import NotFoundPage from "./components/error/PageNotFound(404)"
 
 import "./CSS/App.css";
 import "./CSS/Home.css";
@@ -27,8 +29,8 @@ import "./CSS/Signup.css";
 const App = () => (
   <Router>
     <Navbar />
-    <Route exact path="/" component={Home} />
     <Switch>
+      <Route exact path="/" component={Home} />
       <Route exact path="/signup" component={Signup} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/settings" component={Settings} />
@@ -40,6 +42,7 @@ const App = () => (
       <Route exact path="/recovery-email" component={RecoveryEmail} />
       <Route exact path="/reset/:token" component={ResetPassword} />
       <Route exact path="/photobooth" component={PhotoBooth} />
+      <Route exact path="*" component={NotFoundPage} />
     </Switch>
   </Router>
 );

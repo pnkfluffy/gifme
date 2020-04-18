@@ -71,7 +71,7 @@ const Login = () => {
                 className="sign-bottom"/>
             </form>
             <p>
-                Don't have an account? <Link to='/Signup'>Sign Up</Link> <br/>
+                Don't have an account? <Link to='/signup'>Sign Up</Link> <br/>
                 <Link to='/recovery-email'>Forgot password?</Link> <br/>
                 <Link to='/send-email'>Resend email confirmation</Link>
             </p>
