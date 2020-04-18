@@ -22,7 +22,7 @@ const Profile = () => {
   const [imageGallery, setImageGallery] = useReducer(galleryReducer, []);
   const [overlayData, setOverlayData] = useState(null);
   const [authInfo, setAuthInfo] = useState(null);
-  const [usersProfile, setUsersProfile] = useState(null);
+  const [usersProfile, setUsersProfile] = useState(true);
 
   const [numLoaded, addNumLoaded] = useReducer(numLoadedReducer, 0);
   const [postsMetaData, setPostsMetaData] = useState([]);

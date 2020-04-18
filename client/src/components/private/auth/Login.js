@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ErrorMessage from '../../../utils/errorMessage';
+import NoAuthorize from "../../error/NotAuthorize(401)"
+
 //import LinkRegistration from '../../../utils/linkRegistration';
 
 import '../../../CSS/Signup.css';
@@ -9,8 +11,28 @@ import '../../../CSS/Signup.css';
 const Login = () => {
 	const [formData, setFormData] = useState({email:'', password:''});
     const [error, setError] = useState('');
-//    const [link, setLink] = useState('');
+    const [usersProfile, setUsersProfile] = useState(false);
 
+
+//    const [link, setLink] = useState('');
+    const authToken = localStorage.getItem("myToken");
+
+    useEffect(() => {
+        isUsersProfile();
+    }, []);
+    
+const isUsersProfile = () => {
+    const config = {
+      headers: {
+        "x-auth-token": authToken,
+        //logged user
+      },
+    };
+    const isUsersProfile = axios.get(`/api/users/`, config)
+    isUsersProfile.then((res) => {
+        setUsersProfile(res.data);
+      });
+    }
     const {email, password} = formData;
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value});
     
@@ -42,7 +64,7 @@ const Login = () => {
           }else {setError(err.response.data.toString());}
 		}
     }
-    return <div>
+    return <div> {usersProfile ? <NoAuthorize/> :
         <div className="outside-container">
         <div className="container-form">
         <div className="form">
@@ -78,6 +100,7 @@ const Login = () => {
         </div>
         </div>
     </div>
+    }
     </div>;
 };
 
