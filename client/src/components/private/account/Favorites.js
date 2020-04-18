@@ -6,6 +6,7 @@ import ImageOverlay from "../../public/ImageOverlay";
 import { fetchAllPosts } from "../../../utils/FetchPosts";
 import fetchAuth from "../../../utils/FetchAuth";
 import loader from "../../../utils/loader";
+import NoAuthorize from "../../error/NotAuthorize(401)"
 
 function galleryReducer(state, action) {
   return [...state, ...action.payload];
@@ -139,6 +140,8 @@ const Profile = () => {
 
   return (
     <div>
+      {usersProfile ?
+      <div>
       <h1>Favorites</h1>
       <div id="main">
         <div className="home_imagegallery">{items}</div>
@@ -151,6 +154,8 @@ const Profile = () => {
           removeOverlay={() => toggleOverlay(null)}
         />
       ) : null}
+      </div>
+      : <NoAuthorize/>} 
     </div>
   );
 };
