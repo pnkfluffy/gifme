@@ -10,8 +10,8 @@ import GiphySearchForm from "./GiphySearchForm";
 import { WebcamContext } from "./WebcamContext";
 import thumbsUp from "../../../resources/thumbs_up_icon.png";
 
-const authToken = localStorage.getItem("myToken");
 const gifDimensions = 200;
+const canvasHeight = 400;
 
 const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
   const [loading, setLoading] = useState(false);
@@ -52,19 +52,19 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
     return {
       src: resizedImage,
       x: xPos,
-      y: 250 - yPos,
+      y: canvasHeight - yLen - yPos,
     };
   };
 
   //  OH LAWD ITS THE BIG BOI
   const onSubmit = async (e) => {
-    setLoading(true);
+    // setLoading(true);
 
     e.preventDefault();
 
     const contextStickerArray = webContext.imgsOnCanvas.filter(function (el) {
       return el != null;
-    })
+    });
     const hasStickers = contextStickerArray.length;
     const buff = Buffer.from(imageSrc);
 
@@ -85,7 +85,7 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
 
     // creates an array of b64 images out of all the stickers
     const stickersGifsArrayPromise = contextStickerArray.map(
-      ({ xPos, yPos, imgUrl }) => {
+      ({ xPos, yPos, width, height, imgUrl }) => {
         const stickerBuff = Buffer.from(imgUrl);
         const stickerImageArray = gifFrames({
           url: stickerBuff,
@@ -99,7 +99,7 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
             return b64;
           });
           return Promise.all(imageArrayPromise).then((imageArrayPromise) => {
-            return { imgUrl: imageArrayPromise, xPos, yPos };
+            return { imgUrl: imageArrayPromise, xPos, yPos, width, height };
           });
         });
         return stickerImageArray;
@@ -131,8 +131,8 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
                 return resize({
                   xPos: gifdata.xPos,
                   yPos: gifdata.yPos,
-                  xLen: 150,
-                  yLen: 150,
+                  xLen: gifdata.width,
+                  yLen: gifdata.height,
                   imgUrl: b64sticker,
                 });
               });

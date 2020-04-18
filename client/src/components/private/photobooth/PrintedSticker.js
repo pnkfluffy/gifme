@@ -40,13 +40,20 @@ class PrintedSticker extends Component {
     //  get mouse position in page (means that counts the outside spaces)
     const x = e.pageX;
     const y = e.pageY;
+    console.log('pageX-m', e.pageX);
+    console.log('pageY-m', e.pageY);
+
+
     //  gets the x and y relative to the stickerCanvas div
     //  checks side that mouse is moving and moves in the WebcamContext
 
+    const xMouseDiff = (this.state.prevX - x);
+    const yMouseDiff = (this.state.prevY - y);
+
     const xDelta = x - this.state.prevX;
-    const newXPos = this.state.myX + xDelta;
+    const newXPos = this.state.myX + xDelta + xMouseDiff;
     const yDelta = this.state.prevY - y;
-    const newYPos = this.state.myY + yDelta;
+    const newYPos = this.state.myY + yDelta + yMouseDiff;
     //  ADD UPBORDER WITH HEIGHT
     const rightBorder = newXPos + this.state.myWidth;
     if (
@@ -99,15 +106,24 @@ class PrintedSticker extends Component {
     e.stopPropagation();
 
     //  get mouse position in page based off width and added canvas size
-    const newResizeX = e.pageX - 140;
+    const rightBorder = e.pageX;
+
     const prevResizeX = this.state.myX + this.state.myWidth;
-    const widthDelta = newResizeX - prevResizeX;
+    // const xMouseDiff = (this.state.prevX - newResizeX);
+
+    const widthDelta = rightBorder - prevResizeX;
+
     // ADD UPBORDER WITH HEIGHT
-    const rightBorder = prevResizeX + widthDelta;
     const resizedWidth = widthDelta + this.state.myWidth;
     //  makes sure size change is within bounds
+    
+    console.log(widthDelta, resizedWidth);
+    console.log('limiters', prevResizeX, rightBorder);
+    console.log('<500', rightBorder);
+    console.log('>45', resizedWidth);
+
     if (
-      prevResizeX !== newResizeX &&
+      prevResizeX !== rightBorder &&
       rightBorder < 500 &&
       // limits the smallest size possible
       resizedWidth > 45
