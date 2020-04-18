@@ -34,7 +34,6 @@ class PrintedSticker extends Component {
     this.setState({
       prevX: newPrevX,
       prevY: newPrevY,
-      prevResizeX: newPrevX,
     });
 
     this.selectSticker();
@@ -43,7 +42,6 @@ class PrintedSticker extends Component {
       moveClicked: true,
     });
   }
-
 
   handleMouseMove(e) {
     e.preventDefault();
@@ -76,30 +74,20 @@ class PrintedSticker extends Component {
         prevX: x,
         prevResizeX: newPrevResizeX,
       });
-    } else if (
-      x < this.state.prevX &&
-      newXPos > -100
-    ) {
+    } else if (x < this.state.prevX && newXPos > -100) {
       this.context.moveStickerX(this.props.stickerObject.zPos, xDelta);
       this.setState({
         prevX: x,
-        prevResizeX: newPrevResizeX,
       });
     }
 
     //  UP moves by yDelta
-    if (
-      y > this.state.prevY &&
-      newYPos < 400
-    ) {
+    if (y > this.state.prevY && newYPos < 400) {
       this.context.moveStickerY(this.props.stickerObject.zPos, yDelta);
       this.setState({
         prevY: y,
       });
-    } else if (
-      y < this.state.prevY &&
-      newYPos > -100
-    ) {
+    } else if (y < this.state.prevY && newYPos > -100) {
       this.context.moveStickerY(this.props.stickerObject.zPos, yDelta);
       this.setState({
         prevY: y,
@@ -120,19 +108,22 @@ class PrintedSticker extends Component {
   resizeMouseDown(e) {
     e.preventDefault();
     e.stopPropagation();
+
+    const newPrevX = e.pageX;
+
     this.setState({
       resizeClicked: true,
+      prevResizeX: newPrevX,
     });
   }
+
   resizeMouseMove(e) {
     e.preventDefault();
     e.stopPropagation();
 
     //  get mouse position in page based off width and added canvas size
     const newResizeX = e.pageX;
-    console.log("diff", newResizeX, this.state.prevResizeX);
-    const widthDelta =
-      (newResizeX - this.state.prevResizeX) / this.props.stickerObject.ratio;
+    const widthDelta = newResizeX - this.state.prevResizeX;
     // ADD UPBORDER WITH HEIGHT
     const rightBorder =
       this.props.stickerObject.xPos +
@@ -140,18 +131,23 @@ class PrintedSticker extends Component {
       widthDelta;
     const resizedWidth = widthDelta + this.props.stickerObject.width;
     //  makes sure size change is within bounds
+
+    //  ADD CHECKS FOR Y DIMENSIONS
     if (
-      this.state.prevResizeX !== 0 &&
-      this.state.prevResizeX !== newResizeX &&
-      rightBorder < 500 &&
-      // limits the smallest size possible
-      resizedWidth > 45
-      //ADD CHECKS FOR Y DIMENSION
+      newResizeX > this.state.prevResizeX &&
+      //  checks for out of border
+      rightBorder < 500
     ) {
       this.context.resizeSticker(this.props.stickerObject.zPos, widthDelta);
-    }
-    if (this.state.prevResizeX === 0)
       this.setState({ prevResizeX: newResizeX });
+    } else if (
+      newResizeX < this.state.prevResizeX &&
+      // limits the smallest size possible
+      resizedWidth > 45
+    ) {
+      this.context.resizeSticker(this.props.stickerObject.zPos, widthDelta);
+      this.setState({ prevResizeX: newResizeX });
+    }
   }
 
   mouseMove(e) {
