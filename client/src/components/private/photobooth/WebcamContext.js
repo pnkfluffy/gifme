@@ -86,6 +86,12 @@ class WebcamProvider extends Component {
     });
   };
 
+  selectSticker = (index) => {
+    this.setState({
+      selectedIndex: index,
+    })
+  }
+
   state = {
     //	sizes of photo editing area
     canvasWidth: 400,
@@ -94,6 +100,8 @@ class WebcamProvider extends Component {
     //	holds array of all sticker b64, delta x & delt y
     imgsOnCanvas: [],
     totalImgsOnCanvas: 0,
+    selectedIndex: 0,
+    selectSticker: this.selectSticker,
     addStickerToCanvas: this.addStickerToCanvas,
     removeSticker: this.removeSticker,
     moveStickerX: this.moveStickerX,
