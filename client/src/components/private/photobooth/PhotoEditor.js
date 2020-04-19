@@ -58,6 +58,54 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
     };
   };
 
+
+  //  Some GIFS store frames based on color changes from the last frame
+  //  causing gif-frames to only pull partial images
+  //  This renders each one completely when gifs are transcribed that way
+  const renderCumulativeFrames = (frameData) => {
+    if (frameData.length === 0) {
+      return frameData;
+    }
+    const previous = document.createElement("canvas");
+    const previousContext = previous.getContext("2d");
+    const current = document.createElement("canvas");
+    const currentContext = current.getContext("2d");
+  
+    // Setting the canvas width will clear the canvas
+    const firstFrameCanvas = frameData[0].getImage();
+  
+    previous.width = firstFrameCanvas.width;
+    previous.height = firstFrameCanvas.height;
+    current.width = firstFrameCanvas.width;
+    current.height = firstFrameCanvas.height;
+  
+    for (const frame of frameData) {
+      // Copy the current to the previous.
+      previousContext.clearRect(0, 0, previous.width, previous.height);
+      previousContext.drawImage(current, 0, 0);
+  
+      // Draw the current frame to the cumulative buffer.
+      const canvas = frame.getImage();
+      const context = canvas.getContext("2d");
+      currentContext.drawImage(canvas, 0, 0);
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(current, 0, 0);
+  
+      const {frameInfo} = frame;
+      const {disposal} = frameInfo;
+      // If the disposal method is clear to the background color, then clear the canvas.
+      if (disposal === 2) {
+        currentContext.clearRect(frameInfo.x, frameInfo.y, frameInfo.width, frameInfo.height);
+      // If the disposal method is reset to the previous, then copy the previous over the current.
+      } else if (disposal === 3) {
+        currentContext.clearRect(0, 0, current.width, current.height);
+        currentContext.drawImage(previous, 0, 0);
+      }
+      frame.getImage = () => canvas;
+    }
+    return frameData;
+  };
+
   //  OH LAWD ITS THE BIG BOI
   const onSubmit = async (e) => {
     setLoading(true);
@@ -94,7 +142,9 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
           frames: "all",
           outputType: "canvas",
           cumulative: false,
-        }).then((frameData) => {
+        })
+        .then((frameData) => renderCumulativeFrames(frameData))
+        .then((frameData) => {
           const imageArrayPromise = frameData.map((frame) => {
             const canvasImage = frame.getImage();
             const b64 = canvasImage.toDataURL();
@@ -167,7 +217,7 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
               finalAnimatedImage.src = finalGIF;
 
               // FOR TESTING
-              // document.body.appendChild(finalAnimatedImage);
+              document.body.appendChild(finalAnimatedImage);
               fetch(finalGIF)
                 .then((res) => res.blob())
                 .then((blob) => {
