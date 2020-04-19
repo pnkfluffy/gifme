@@ -66,7 +66,7 @@ const App = () => (
         <StyledGithub />
       </a>{" "}
       Created by <a className="footer_github_link"href="https://github.com/pnkfluffy">Jackson</a>and
-      <a className="footer_github_link" href="https://github.com/jsandleraol">Jon</a>
+      <a className="footer_github_link" href="https://github.com/jsandleraol">Jonathan</a>
     </footer>
   </Router>
 );
