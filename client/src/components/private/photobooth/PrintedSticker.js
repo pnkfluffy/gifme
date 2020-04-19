@@ -56,10 +56,10 @@ class PrintedSticker extends Component {
     const newXPos = this.props.stickerObject.xPos + xDelta;
     const yDelta = this.state.prevY - y;
     // y id inverted
-    const newYPos = this.props.stickerObject.yPos - yDelta;
+    const newYPos = this.props.stickerObject.yPos + yDelta;
     //  ADD UPBORDER WITH HEIGHT
     const xBorder = newXPos + this.props.stickerObject.width;
-    const yBorder = newYPos + this.props.stickerObject.width;
+    const yBorder = newYPos + this.props.stickerObject.height;
 
     let newPrevResizeX;
     if (!this.state.prevResizeX) {
