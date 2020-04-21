@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import Sticker from "./Sticker";
 import ScrollMenu from "react-horizontal-scrolling-menu";
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
 import bigStar from "../../../resources/sticker_bigstar.gif";
 import broke from "../../../resources/sticker_broke.gif";
@@ -97,13 +97,18 @@ const Arrow = ({ text, className }) => {
   return <div className={className}>{text}</div>;
 };
 
-const ArrowLeft = Arrow({ text: <ArrowBackIosIcon/>, className: "arrow-prev" });
-const ArrowRight = Arrow({ text: <ArrowForwardIosIcon/>, className: "arrow-next" });
+const ArrowLeft = Arrow({
+  text: <ArrowBackIosIcon />,
+  className: "arrow-prev",
+});
+const ArrowRight = Arrow({
+  text: <ArrowForwardIosIcon />,
+  className: "arrow-next",
+});
 
 const GiphySearchForm = () => {
   const [stickerArray, setStickerArray] = useState(defaultStickers);
   const [searchTerm, setSearchTerm] = useState("");
-  const [currentSearch, setCurrentSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [offset, setOffset] = useState(0);
 
@@ -116,17 +121,15 @@ const GiphySearchForm = () => {
     setStickerArray(urlArray);
   };
 
-  const searchGiphy = async (e) => {
-    e.preventDefault();
+  const searchGiphy = (value) => {
     // setIsLoading(true);
 
-    menuRef.current.scrollTo('0');
+    menuRef.current.scrollTo("0");
 
-    setCurrentSearch(searchTerm);
     setOffset(0);
 
     axios(
-      `${PATH_BASE}${API_KEY}${DEFAULT_QUERY} ${searchTerm}${PATH_LIMITS}${limit}${PATH_OFFSET}0${PATH_RATING}`
+      `${PATH_BASE}${API_KEY}${DEFAULT_QUERY} ${value}${PATH_LIMITS}${limit}${PATH_OFFSET}0${PATH_RATING}`
     )
       .then((res) => {
         setResults(res.data.data);
@@ -138,6 +141,7 @@ const GiphySearchForm = () => {
 
   const onSearchChange = (e) => {
     setSearchTerm(e.target.value);
+    searchGiphy(e.target.value);
   };
 
   const updateResults = (APIResponse) => {
@@ -150,13 +154,13 @@ const GiphySearchForm = () => {
   };
 
   const loadMoreStickers = () => {
-    if (!currentSearch || isLoading) {
+    if (isLoading) {
       return;
     }
     setIsLoading(true);
     const newOffset = offset + limit;
     axios(
-      `${PATH_BASE}${API_KEY}${DEFAULT_QUERY} ${currentSearch}${PATH_LIMITS}${limit}${PATH_OFFSET}${newOffset}${PATH_RATING}`
+      `${PATH_BASE}${API_KEY}${DEFAULT_QUERY} ${searchTerm}${PATH_LIMITS}${limit}${PATH_OFFSET}${newOffset}${PATH_RATING}`
     )
       .then((res) => {
         setOffset(newOffset);
@@ -175,9 +179,15 @@ const GiphySearchForm = () => {
 
   return (
     <div className="giphy_box">
-      <form onSubmit={(e) => searchGiphy(e)} className="giphy_search_form">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+        className="giphy_search_form"
+      >
         <input
           className="giphy_search_input"
+          autocomplete="off"
           name="giphy_search"
           type="text"
           onChange={(e) => onSearchChange(e)}
