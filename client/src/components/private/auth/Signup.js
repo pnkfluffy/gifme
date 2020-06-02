@@ -4,7 +4,6 @@ import ErrorMessage from "../../../utils/errorMessage";
 import PopUpMessage from "../../../utils/popUpMessage";
 import NoAuthorize from "../../error/NotAuthorize(401)"
 
-//import LinkRegistration from '../../../utils/linkRegistration';
 import axios from "axios";
 
 const Signup = () => {
@@ -72,9 +71,7 @@ isUsersProfile.then((res) => {
         //here we set the type of request, where to send it and the data
         await axios.post("/api/users", body, config)
         .then(res => {
-          const Token = res.data.token;
           const myUserID = res.data.userID;
-          localStorage.setItem("Token", Token);
           localStorage.setItem("myGifmeUserID", myUserID);
           setPopMessage(
             "We have sent you an email, please confirm your account"

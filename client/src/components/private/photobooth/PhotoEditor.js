@@ -216,8 +216,6 @@ const PhotoEditor = ({ imageSrc, setImg, loggedIn }) => {
                 finalAnimatedImage = document.createElement("img");
               finalAnimatedImage.src = finalGIF;
 
-              // FOR TESTING
-              // document.body.appendChild(finalAnimatedImage);
               fetch(finalGIF)
                 .then((res) => res.blob())
                 .then((blob) => {

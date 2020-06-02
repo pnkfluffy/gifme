@@ -79,7 +79,7 @@ async (req, res) => {
           return;
         }
 
-        user = new User({name, email, password, confirmed: false});
+        user = new User({name, email, password, confirmed: true});
 
         //  Encrypt password using bcrypt
         const salt = await bcrypt.genSalt(10);
@@ -89,13 +89,13 @@ async (req, res) => {
 
         //sends email verification and stores emailToken
 
-        const token = jwt.sign(
-          payload,
-          jwtSecret,
-          { expiresIn: 900 },
-          );
+      //  const token = jwt.sign(
+      //    payload,
+      //    jwtSecret,
+      //    { expiresIn: 900 },
+      //    );
           //sends email with confirmation link
-          sendEmail(email, name, token, "verify account");
+      //    sendEmail(email, name, token, "verify account");
         await user.save();
         res.json('ok');
 

@@ -75,7 +75,7 @@ const Home = () => {
     getPostData();
   }, []);
 
-  // loads the first 10 posts once the post metadata is fetched
+  // loads one posts at the time when the post metadata is fetched
   useEffect(() => {
     if (numLoaded === 0) {
       getPosts(1);

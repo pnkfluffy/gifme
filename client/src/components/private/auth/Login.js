@@ -4,8 +4,6 @@ import axios from 'axios';
 import ErrorMessage from '../../../utils/errorMessage';
 import NoAuthorize from "../../error/NotAuthorize(401)"
 
-//import LinkRegistration from '../../../utils/linkRegistration';
-
 import '../../../CSS/Signup.css';
 
 const Login = () => {
@@ -94,8 +92,6 @@ const isUsersProfile = () => {
             </form>
             <p>
                 Don't have an account? <Link to='/signup'>Sign Up</Link> <br/>
-                <Link to='/recovery-email'>Forgot password?</Link> <br/>
-                <Link to='/send-email'>Resend email confirmation</Link>
             </p>
         </div>
         </div>
