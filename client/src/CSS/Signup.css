@@ -1,9 +1,11 @@
 
 .outside-container{
-    padding: 50px 25% 0 25%;
+    padding: 50px;
     height: 100vw;
 }
 .container-form{
+    display: flex;
+	justify-content: center;
     width: 100%;
 }
 .form{
