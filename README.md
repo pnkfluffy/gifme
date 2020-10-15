@@ -3,7 +3,7 @@ A gif making and sharing app. Users can take photos and/or gifs, apply filters a
 
 This app was built using the MERN stack, folliwing a MVC structure. Stickers are pulled dynamicly from the Giphy API. Multer and Mongoose were used for binary data storage on MongoDB, and gifshot and gif-frames were used for deconstruction and reassembly of the GIFs.
 
-You can find the site hosted [right here](https://reactiongifme.herokuapp.com "gifme")
+You can find the site hosted [right here](https://reaction-gifme.herokuapp.com/ "gifme")
 
 ![Gifme Home Page](https://cdn.discordapp.com/attachments/613478885174018084/700461285392777286/gifme_frontpage2.gif)
 
